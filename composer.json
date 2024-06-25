@@ -1,0 +1,33 @@
+{
+    "name": "42dx/whatsapp-laravel-sdk",
+    "description": "A laravel package that abstracts all the whatsapp api integration into an easy-to-use services and facades",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rafael Eduardo Paulin",
+            "email": "rafael@repdesign.com"
+        },
+        {
+            "name": "Igor Borges",
+            "email": "contato@igorborges.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^9.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "The42dx\\Whatsapp\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "The42dx\\Whatsapp\\RouteServiceProvider",
+                "The42dx\\Whatsapp\\WhatsappServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}

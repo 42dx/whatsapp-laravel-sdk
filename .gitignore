@@ -1,0 +1,7 @@
+composer.lock
+coverage.xml
+.env
+
+vendor/
+www/
+.phpunit.cache/

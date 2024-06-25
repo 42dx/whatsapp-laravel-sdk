@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    backupGlobals="false"
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
+>
+    <testsuites>
+        <testsuite name="Full Test Suite">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+        <testsuite name="Api/Integration Test Suite">
+            <directory suffix="Test.php">tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Unit Test Suite">
+            <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature Test Suite">
+            <directory suffix="Test.php">tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="WPP_API_VERSION" value="v19.0"/>
+        <env name="WPP_BUSINESS_ID" value="some-id"/>
+        <env name="WPP_BUSINESS_PHONE_ID" value="000000"/>
+        <env name="WPP_SERVER_URL" value="http://some-server.com"/>
+        <env name="WPP_TOKEN" value="some-token"/>
+        <env name="WPP_WEBHOOK_VERIFY" value="some-token"/>
+    </php>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
+</phpunit>
