@@ -13,12 +13,23 @@
             "email": "contato@igorborges.com"
         }
     ],
+    "scripts": {
+        "commit": "tools/commitizen",
+        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml",
+        "serve": "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve",
+        "test": "XDEBUG_MODE=off phpunit"
+    },
     "require-dev": {
         "orchestra/testbench": "^9.1"
     },
     "autoload": {
         "psr-4": {
             "The42dx\\Whatsapp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "The42dx\\Whatsapp\\Tests\\": "tests/"
         }
     },
     "extra": {

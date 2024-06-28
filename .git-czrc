@@ -1,0 +1,82 @@
+{
+    "message": {
+        "items": [
+            {
+                "name": "type",
+                "desc": "Select the type of change that you're committing:",
+                "form": "select",
+                "options": [
+                    {
+                        "name": "chore",
+                        "desc": "chore:  Changes to the build process or auxiliary tools and libraries such as documentation generation"
+                    },
+                    {
+                        "name": "docs",
+                        "desc": "docs:   Documentation only changes"
+                    },
+                    {
+                        "name": "feat",
+                        "desc": "feat:   A new feature"
+                    },
+                    {
+                        "name": "fix",
+                        "desc": "fix:    A bug fix"
+                    },
+                    {
+                        "name": "perf",
+                        "desc": "perf:   A code change that improves performance"
+                    },
+                    {
+                        "name": "ref",
+                        "desc": "ref:    A code change that neither fixes a bug nor adds a feature"
+                    },
+                    {
+                        "name": "revert",
+                        "desc": "revert: Revert to a commit"
+                    },
+                    {
+                        "name": "style",
+                        "desc": "style:  Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+                    },
+                    {
+                        "name": "test",
+                        "desc": "test:   Adding missing tests"
+                    },
+                    {
+                        "name": "wip",
+                        "desc": "wip:    Work in progress"
+                    }
+                ],
+                "required": true
+            },
+            {
+                "name": "scope",
+                "form": "input",
+                "desc": "What is the scope of this change (e.g. component name, or functionality's domain):"
+            },
+            {
+                "name": "subject",
+                "desc": "Subject. Concise description of the changes. Past tense, imperative, lower case and no final dot:",
+                "form": "input",
+                "required": true
+            },
+            {
+                "name": "issue",
+                "desc": "Issue number. Number of the issue that this commit is about. Integer only (e.g. 123, 456). Input 0 if this commit refers no issue:",
+                "form": "input",
+                "required": true
+            },
+            {
+                "name": "body",
+                "desc": "Body. Motivation for the change and contrast this with previous behavior:",
+                "form": "multiline"
+            },
+            {
+                "name": "footer",
+                "desc": "Footer. Information about Breaking Changes and reference issues that this commit closes:",
+                "form": "multiline"
+            }
+        ],
+        "template": "{{.type}}{{with .scope}}({{.}}){{end}}: {{.subject}} [#{{.issue}}]{{with .body}}\n\n{{.}}{{end}}{{with .footer}}\n\n{{.}}{{end}}"
+    }
+}
