@@ -3,6 +3,7 @@
     "description": "A laravel package that abstracts all the whatsapp api integration into an easy-to-use services and facades",
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Rafael Eduardo Paulin",
