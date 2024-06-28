@@ -35,15 +35,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Clean Up SonarQube Comments
-      #   uses: izhangzhihao/delete-comment@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     delete_user_name: sonarcloud[bot]
-      #     issue_number: ${{ github.event.number }}
+      - name: Clean Up SonarQube Comments
+        uses: izhangzhihao/delete-comment@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          delete_user_name: sonarcloud[bot]
+          issue_number: ${{ github.event.number }}
 
-      # - name: Validate Commit Messages
-      #   run: ./tools/scripts/validate-commit-msgs.sh
+      - name: Validate Commit Messages
+        run: ./tools/scripts/validate-commit-msgs.sh
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -58,24 +58,24 @@ jobs:
       - name: Unit Test
         run: composer coverage
 
-      # - name: PR SonarQube Scan
-      #   uses: sonarsource/sonarqube-scan-action@v2
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-      #   with:
-      #     args: >
-      #       -Dsonar.qualitygate.wait=true
-      #       -Dsonar.pullrequest.branch=${{ github.head_ref }}
-      #       -Dsonar.pullrequest.key=${{ github.event.number }}
-      #       -Dsonar.pullrequest.base=${{ github.base_ref }}
+      - name: PR SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.pullrequest.branch=${{ github.head_ref }}
+            -Dsonar.pullrequest.key=${{ github.event.number }}
+            -Dsonar.pullrequest.base=${{ github.base_ref }}
 
-      # - name: Branch SonarQube Scan
-      #   uses: sonarsource/sonarqube-scan-action@v2
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-      #   with:
-      #     args: >
-      #       -Dsonar.qualitygate.wait=true
-      #       -Dsonar.branch.name=${{ github.ref_name }}
+      - name: Branch SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.branch.name=${{ github.ref_name }}
