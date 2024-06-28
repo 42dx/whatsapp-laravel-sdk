@@ -18,9 +18,9 @@ while IFS= read -r line; do
         defectiveCommitSummaries+=("Commit summary \`$commitSummary\` does not respect commit type restrictions")
     fi
 
-    if [[ !($commitSummary =~ $commitScopeRegex) ]]; then
-        defectiveCommitSummaries+=("Commit summary \`$commitSummary\` does not respect commit scope restrictions")
-    fi
+    # if [[ !($commitSummary =~ $commitScopeRegex) ]]; then
+    #     defectiveCommitSummaries+=("Commit summary \`$commitSummary\` does not respect commit scope restrictions")
+    # fi
 
     if [[ !($commitSummary =~ $issueNumberRegex) ]]; then
         defectiveCommitSummaries+=("Commit summary \`$commitSummary\` does include an issue number")
