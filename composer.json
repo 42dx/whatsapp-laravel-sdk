@@ -3,6 +3,25 @@
     "description": "A laravel package that abstracts all the whatsapp api integration into an easy-to-use services and facades",
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0-beta.1",
+    "funding": [
+        {
+            "url": "https://github.com/sponsors/42dx",
+            "type": "github-sponsors"
+        },
+        {
+            "url": "https://patreon.com/42DeveloperExperience",
+            "type": "patreon"
+        },
+        {
+            "url": "https://polar.sh/42dx",
+            "type": "polar"
+        },
+        {
+            "url": "https://ko-fi.com/42developerexperience",
+            "type": "ko-fi"
+        }
+    ],
     "authors": [
         {
             "name": "Rafael Eduardo Paulin",
@@ -13,12 +32,23 @@
             "email": "contato@igorborges.com"
         }
     ],
+    "scripts": {
+        "commit": "tools/commitizen",
+        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml",
+        "serve": "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve",
+        "test": "XDEBUG_MODE=off phpunit"
+    },
     "require-dev": {
         "orchestra/testbench": "^9.1"
     },
     "autoload": {
         "psr-4": {
             "The42dx\\Whatsapp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "The42dx\\Whatsapp\\Tests\\": "tests/"
         }
     },
     "extra": {

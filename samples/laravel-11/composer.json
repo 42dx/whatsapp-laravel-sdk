@@ -9,11 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "42dx/whatsapp-laravel-sdk": "dev-main",
+        "42dx/whatsapp-laravel-sdk": "dev-beta",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9"
     },
-    "require-dev": {},
     "autoload": {
         "psr-4": {
             "App\\": "app/",
