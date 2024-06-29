@@ -46,6 +46,7 @@ jobs:
           issue_number: ${{ github.event.number }}
 
       - name: Validate Commit Messages
+        if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.draft }}
         run: ./tools/scripts/validate-commit-msgs.sh
 
       - name: Setup cache environment
