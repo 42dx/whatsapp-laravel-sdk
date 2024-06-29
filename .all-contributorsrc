@@ -12,5 +12,6 @@
     "contributors": [],
     "contributorsPerLine": 7,
     "linkToUsage": false,
-    "commitType": "docs"
+    "commitType": "docs",
+    "skipCi": true
 }
