@@ -9,6 +9,8 @@ class WhatsappServiceProvider extends ServiceProvider {
         $this->app->bind('whatsapp', function () {
             // return new Whatsapp();
         });
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/whatsapp.php', 'whatsapp');
     }
 
     public function boot() {
