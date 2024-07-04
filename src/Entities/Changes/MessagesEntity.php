@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Entities\Changes\ContactsEntity;
-use The42dx\Whatsapp\Entities\Messages\MessageEntity;
+use The42dx\Whatsapp\Entities\Message\MessageEntity;
 use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
@@ -31,7 +31,7 @@ class MessagesEntity extends Entity implements ContractsEntity {
      *
      * @var \Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\ContactsEntity
+     * @see \The42dx\Whatsapp\Entities\Message\ContactsEntity
      */
     protected Collection|null $contacts;
 
@@ -42,9 +42,9 @@ class MessagesEntity extends Entity implements ContractsEntity {
      *
      * @var \Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\MessageEntity
+     * @see \The42dx\Whatsapp\Entities\Message\MessageEntity
      */
-    protected Collection $messages;
+    protected Collection|null $messages;
 
     /**
      * waId

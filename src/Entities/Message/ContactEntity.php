@@ -1,12 +1,11 @@
 <?php
 
-namespace The42dx\Whatsapp\Entities\Messages;
+namespace The42dx\Whatsapp\Entities\Message;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Entities\Messages\{
+use The42dx\Whatsapp\Entities\Message\{
     AddressEntity,
     EmailEntity,
     NameEntity,
@@ -33,7 +32,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's addresses
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\AddressEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\AddressEntity|null
     */
     protected AddressEntity $addresses;
 
@@ -53,7 +52,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @var Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\EmailEntity|null
+     * @see \The42dx\Whatsapp\Entities\Message\EmailEntity|null
     */
     protected Collection|null $emails;
 
@@ -62,7 +61,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's name
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\NameEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\NameEntity|null
     */
     protected NameEntity|null $name;
 
@@ -73,7 +72,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @var Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\PhoneEntity
+     * @see \The42dx\Whatsapp\Entities\Message\PhoneEntity
     */
     protected Collection|null $phones;
 
@@ -82,7 +81,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's organization
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\OrgEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\OrgEntity|null
     */
     protected OrgEntity|null $org;
 
@@ -93,7 +92,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @var Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\UrlEntity|null
+     * @see \The42dx\Whatsapp\Entities\Message\UrlEntity|null
     */
     protected UrlEntity|null $urls;
 

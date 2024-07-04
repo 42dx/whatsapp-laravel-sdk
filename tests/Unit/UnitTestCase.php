@@ -8,4 +8,8 @@ class UnitTestCase extends TestCase {
     protected function setUp(): void {
         parent::setUp();
     }
+
+    protected function getJsonFixture(string $filename): array {
+        return json_decode(file_get_contents(__DIR__ . "/../Fixtures/{$filename}.json"), true);
+    }
 }
