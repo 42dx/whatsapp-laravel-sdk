@@ -24,20 +24,20 @@ class EventEntity extends Entity implements ContractsEntity {
      *
      * The object type of the event
      *
-     * @var \The42dx\Whatsapp\Enums\ObjectType
+     * @var \The42dx\Whatsapp\Enums\ObjectType|null
      */
-    protected ObjectType $object;
+    protected ObjectType|null $object;
 
     /**
      * entry
      *
      * The entry entity of the event
      *
-     * @var \Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\EntryEntity
      */
-    protected Collection $entry;
+    protected Collection|null $entry;
 
     /**
      * setAttributes

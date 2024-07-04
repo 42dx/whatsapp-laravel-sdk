@@ -1,12 +1,11 @@
 <?php
 
-namespace The42dx\Whatsapp\Entities\Messages;
+namespace The42dx\Whatsapp\Entities\Message;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Entities\Messages\{
+use The42dx\Whatsapp\Entities\Message\{
     AudioEntity,
     ContactEntity,
     DocumentEntity,
@@ -36,7 +35,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The audio message sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\AudioEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\AudioEntity|null
      */
     protected AudioEntity|null $audio;
 
@@ -47,7 +46,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * @var \Illuminate\Support\Collection|null
      *
-     * @see \The42dx\Whatsapp\Entities\Messages\ContactEntity
+     * @see \The42dx\Whatsapp\Entities\Message\ContactEntity
      */
     protected Collection|null $contacts;
 
@@ -56,7 +55,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The document sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\DocumentEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\DocumentEntity|null
      */
     protected DocumentEntity|null $document;
 
@@ -83,7 +82,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The image sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\ImageEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\ImageEntity|null
      */
     protected ImageEntity|null $image;
 
@@ -92,7 +91,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The location sent to the Whatsapp contact
      *
-     * @var The42dx\Whatsapp\Entities\Messages\LocationEntity|null
+     * @var The42dx\Whatsapp\Entities\Message\LocationEntity|null
      */
     protected LocationEntity|null $location;
 
@@ -101,7 +100,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The reaction to the message sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\ReactionEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\ReactionEntity|null
      */
     protected ReactionEntity|null $reaction;
 
@@ -110,7 +109,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The reply to the message sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\ReplyEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\ReplyEntity|null
      */
     protected ReplyEntity|null $reply;
 
@@ -119,7 +118,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The sticker sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\StickerEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\StickerEntity|null
      */
     protected StickerEntity|null $sticker;
 
@@ -155,7 +154,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * The video sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Messages\VideoEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\VideoEntity|null
      */
     protected VideoEntity|null $video;
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 interface Entity {
     public function __construct(array $attributes = []);
 
-    public function __get(string $key): Collection|Entity|string|int|float|null;
+    public function __get(string $key): mixed;
 
     public function setAttributes(array $attributes = []): self;
 

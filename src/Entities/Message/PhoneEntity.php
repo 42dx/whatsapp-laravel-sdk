@@ -1,8 +1,7 @@
 <?php
 
-namespace The42dx\Whatsapp\Entities\Messages;
+namespace The42dx\Whatsapp\Entities\Message;
 
-use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Enums\ContactPropType;

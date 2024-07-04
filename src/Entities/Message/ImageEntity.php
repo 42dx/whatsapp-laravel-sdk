@@ -1,23 +1,11 @@
 <?php
 
-namespace The42dx\Whatsapp\Entities\Messages;
+namespace The42dx\Whatsapp\Entities\Message;
 
-use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Abstracts\MediaEntity;
 use The42dx\Whatsapp\Contracts\Entity;
 
-/**
- * VideoEntity
- *
- * Entity representing the video sent to the Whatsapp contact
- *
- * @package The42dx\Whatsapp\Entities\Messages
- *
- * @see \The42dx\Whatsapp\Abstracts\MediaEntity
- * @see \The42dx\Whatsapp\Contracts\Entity
- * @see https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object
- */
-class VideoEntity extends MediaEntity implements Entity {
+class ImageEntity extends MediaEntity implements Entity {
     /**
      * caption
      *
@@ -30,7 +18,7 @@ class VideoEntity extends MediaEntity implements Entity {
     /**
      * setAttributes
      *
-     * Set the attributes of the video entity
+     * Set the attributes of the image entity
      *
      * @param array $attributes
      *

@@ -34,12 +34,13 @@
     ],
     "scripts": {
         "commit": "tools/commitizen",
-        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml",
+        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml --coverage-html coverage --colors=always --testdox",
         "serve": "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve",
-        "test": "XDEBUG_MODE=off phpunit"
+        "test": "XDEBUG_MODE=off phpunit --colors=always --testdox"
     },
     "require-dev": {
-        "orchestra/testbench": "^9.1"
+        "orchestra/testbench": "^9.1",
+        "phpunit/phpunit": "^11.2"
     },
     "autoload": {
         "psr-4": {

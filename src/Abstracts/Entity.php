@@ -75,12 +75,12 @@ abstract class Entity implements ContractsEntity {
      * Get the entity attribute
      *
      * @param string $key The entity attribute
-     * @return \Illuminate\Support\Collection|\The42dx\Whatsapp\Contracts\Entity|string|int|float|null The entity attribute
+     * @return mixed The entity attribute value
      *
      * @see \Illuminate\Support\Collection
      * @see \The42dx\Whatsapp\Contracts\Entity
      */
-    public function __get(string $key): Collection|ContractsEntity|string|int|float|null {
+    public function __get(string $key): mixed {
         return $this->$key;
     }
 }

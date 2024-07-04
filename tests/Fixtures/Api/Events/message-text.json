@@ -15,7 +15,7 @@
                         "contacts": [
                             {
                                 "profile": {
-                                    "name": "Over 9 levels deep, aborting normalization"
+                                    "name": "Some Name And Surname"
                                 },
                                 "wa_id": "16315551181"
                             }
@@ -27,7 +27,7 @@
                                 "timestamp": "1504902988",
                                 "type": "text",
                                 "text": {
-                                    "body": "Over 9 levels deep, aborting normalization"
+                                    "body": "Some message"
                                 }
                             }
                         ]
