@@ -40,7 +40,7 @@ class WebhookController extends Controller {
     }
 
     public function handle(ApiEventRequest $request) {
-        Log::debug('Whatsapp event received');
+        Log::debug('Whatsapp event received: ' . json_encode($request->all()), );
 
         $event = new EventEntity($request->all());
     }

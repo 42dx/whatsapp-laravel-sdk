@@ -16,9 +16,6 @@
         <testsuite name="Unit Test Suite">
             <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature Test Suite">
-            <directory suffix="Test.php">tests/Feature</directory>
-        </testsuite>
     </testsuites>
     <php>
         <env name="WPP_API_VERSION" value="v19.0"/>

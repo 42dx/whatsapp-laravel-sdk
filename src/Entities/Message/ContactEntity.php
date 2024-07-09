@@ -34,7 +34,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @var \The42dx\Whatsapp\Entities\Message\AddressEntity|null
     */
-    protected AddressEntity $addresses;
+    protected AddressEntity|null $addresses;
 
     /**
      * birthday
@@ -94,7 +94,7 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @see \The42dx\Whatsapp\Entities\Message\UrlEntity|null
     */
-    protected UrlEntity|null $urls;
+    protected Collection|null $urls;
 
     /**
      * setAttributes
@@ -121,7 +121,7 @@ class ContactEntity extends Entity implements ContractsEntity {
         $this->org       = isset($attributes['org']) ? new OrgEntity($attributes['org']) : (
             isset($this->org) && !is_null($this->org) ? $this->org : null
         );
-        $this->phones    = isset($attributes['phone']) ? EntityCollectionFactory::make(PhoneEntity::class, $attributes['phone']) : (
+        $this->phones    = isset($attributes['phones']) ? EntityCollectionFactory::make(PhoneEntity::class, $attributes['phones']) : (
             isset($this->phones) && !is_null($this->phones) ? $this->phones : null
         );
         $this->urls      = isset($attributes['urls']) ? EntityCollectionFactory::make(UrlEntity::class, $attributes['urls']) : (

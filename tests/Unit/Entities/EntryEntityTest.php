@@ -21,10 +21,8 @@ class EntryEntityTest extends UnitTestCase {
 
         $this->assertIsObject($entry);
 
-        $this->assertNotNull($entry->id);
         $this->assertEquals('123', $entry->id);
 
-        $this->assertNotNull($entry->changes);
         $this->assertInstanceOf(Collection::class, $entry->changes);
         $this->assertEquals(1, $entry->changes->count());
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
@@ -42,10 +40,8 @@ class EntryEntityTest extends UnitTestCase {
             'changes' => [[]]
         ]);
 
-        $this->assertNotNull($entry->id);
         $this->assertEquals($entryId, $entry->id);
 
-        $this->assertNotNull($entry->changes);
         $this->assertInstanceOf(Collection::class, $entry->changes);
         $this->assertEquals(1, $entry->changes->count());
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
