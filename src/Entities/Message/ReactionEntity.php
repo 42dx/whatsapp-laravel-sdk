@@ -27,13 +27,13 @@ class ReactionEntity extends Entity implements ContractsEntity {
     protected string|null $emoji;
 
     /**
-     * repliedId
+     * reactedId
      *
      * The unique identifier of the message that was reacted to
      *
      * @var string|null
      */
-    protected string|null $repliedId;
+    protected string|null $reactedId;
 
     /**
      * setAttributes
@@ -48,8 +48,8 @@ class ReactionEntity extends Entity implements ContractsEntity {
         $this->emoji     = isset($attributes['emoji']) ? $attributes['emoji'] : (
             isset($this->emoji) && !is_null($this->emoji) ? $this->emoji : null
         );
-        $this->repliedId = isset($attributes['message_id']) ? $attributes['message_id'] : (
-            isset($this->repliedId) && !is_null($this->repliedId) ? $this->repliedId : null
+        $this->reactedId = isset($attributes['message_id']) ? $attributes['message_id'] : (
+            isset($this->reactedId) && !is_null($this->reactedId) ? $this->reactedId : null
         );
 
         return $this;

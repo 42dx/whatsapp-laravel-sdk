@@ -36,7 +36,7 @@ class ChangesEntityTest extends UnitTestCase {
         $changes = new ChangesEntity([]);
 
         $this->assertIsObject($changes);
-        $this->assertTrue($changes instanceof Entity);
+        $this->assertInstanceOf(Entity::class, $changes);
     }
 
     #[DataProvider('fieldTypeDataset')]
@@ -48,7 +48,6 @@ class ChangesEntityTest extends UnitTestCase {
 
         $this->assertIsObject($changes);
 
-        $this->assertNotNull($changes->field);
         $this->assertEquals($expectedApiEvent, $changes->field);
 
         if ($expectedValue === null) { // Remove conditional when all events are implemented
@@ -56,7 +55,6 @@ class ChangesEntityTest extends UnitTestCase {
             return;
         }
 
-        $this->assertNotNull($changes->value);
         $this->assertInstanceOf($expectedValue, $changes->value);
     }
 
@@ -71,10 +69,8 @@ class ChangesEntityTest extends UnitTestCase {
             'value' => []
         ]);
 
-        $this->assertNotNull($changes->field);
         $this->assertEquals(ApiEvent::MSGS, $changes->field);
 
-        $this->assertNotNull($changes->value);
-        $this->assertTrue($changes->value instanceof MessagesEntity);
+        $this->assertInstanceOf(MessagesEntity::class, $changes->value);
     }
 }

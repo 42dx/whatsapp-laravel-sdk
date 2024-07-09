@@ -1,0 +1,51 @@
+<?php
+
+namespace The42dx\Whatsapp\Tests\Unit\Entities\Message;
+
+use The42dx\Whatsapp\Contracts\Entity;
+use The42dx\Whatsapp\Entities\Message\ContextEntity;
+use The42dx\Whatsapp\Enums\ContextType;
+use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
+
+class ContextEntityTest extends UnitTestCase {
+    public function test_itShouldBeAnEntryInstanceObject() {
+        $context = new ContextEntity([]);
+
+        $this->assertIsObject($context);
+        $this->assertInstanceOf(Entity::class, $context);
+    }
+
+    public function test_itShouldCreateObjectWithCorrectAttributes() {
+        $contextData = $this->getJsonFixture('Api/Components/context');
+        $context     = new ContextEntity($contextData);
+
+        $this->assertIsObject($context);
+
+        $this->assertEquals('8231jouiwfe9823jr', $context->id);
+        $this->assertEquals('5541999999999', $context->from);
+        $this->assertInstanceOf(ContextType::class, $context->type);
+        $this->assertEquals(ContextType::STD, $context->type);
+    }
+
+    public function test_itShouldUpdateAttributes() {
+        $context = new ContextEntity([]);
+
+        $this->assertIsObject($context);
+
+        $this->assertNull($context->id);
+        $this->assertNull($context->from);
+        $this->assertEquals(ContextType::STD, $context->type);
+
+        $context->setAttributes([
+            'forwarded' => false,
+            'frequently_forwarded' => false,
+            'from' => '5541999999999',
+            'id' => '8231jouiwfe9823jr',
+        ]);
+
+        $this->assertEquals('8231jouiwfe9823jr', $context->id);
+        $this->assertEquals('5541999999999', $context->from);
+        $this->assertInstanceOf(ContextType::class, $context->type);
+        $this->assertEquals(ContextType::STD, $context->type);
+    }
+}

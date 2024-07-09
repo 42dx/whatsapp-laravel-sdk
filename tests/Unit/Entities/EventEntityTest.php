@@ -22,10 +22,8 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertIsObject($event);
 
-        $this->assertNotNull($event->object);
         $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
 
-        $this->assertNotNull($event->entry);
         $this->assertInstanceOf(Collection::class, $event->entry);
         $this->assertEquals(1, $event->entry->count());
         $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
@@ -42,10 +40,8 @@ class EventEntityTest extends UnitTestCase {
             'entry'  => [[]]
         ]);
 
-        $this->assertNotNull($event->object);
         $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
 
-        $this->assertNotNull($event->entry);
         $this->assertInstanceOf(Collection::class, $event->entry);
         $this->assertEquals(1, $event->entry->count());
         $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
