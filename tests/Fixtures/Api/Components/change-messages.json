@@ -1,0 +1,13 @@
+{
+    "messaging_product": "whatsapp",
+    "metadata": {
+        "display_phone_number": "5541987987987",
+        "phone_number_id": "123123123"
+    },
+    "contacts": [
+        {}
+    ],
+    "messages": [
+        {}
+    ]
+}
