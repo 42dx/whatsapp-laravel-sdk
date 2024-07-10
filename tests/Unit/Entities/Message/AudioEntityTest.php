@@ -52,4 +52,30 @@ class AudioEntityTest extends UnitTestCase {
         $this->assertNull($audio->link); // adjust when media link retrieve is implemented
         $this->assertNull($audio->fileSize); // adjust when media link retrieve is implemented
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $audioData = $this->getJsonFixture('Api/Components/media-audio');
+        $audio     = new AudioEntity($audioData);
+        $array     = $audio->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('mimeType', $array);
+        $this->assertArrayHasKey('hash', $array);
+        $this->assertArrayHasKey('link', $array);
+        $this->assertArrayHasKey('fileSize', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $audioData = $this->getJsonFixture('Api/Components/media-audio');
+        $audio     = new AudioEntity($audioData);
+        $json      = $audio->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('mimeType', $json);
+        $this->assertStringContainsString('hash', $json);
+        $this->assertStringContainsString('link', $json);
+        $this->assertStringContainsString('fileSize', $json);
+    }
 }

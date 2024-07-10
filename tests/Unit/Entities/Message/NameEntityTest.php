@@ -56,4 +56,32 @@ class NameEntityTest extends UnitTestCase {
         $this->assertEquals('Mr.', $name->prefix);
         $this->assertEquals('Jr.', $name->suffix);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $nameData = $this->getJsonFixture('Api/Components/name');
+        $name     = new NameEntity($nameData);
+        $array     = $name->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('first', $array);
+        $this->assertArrayHasKey('formatted', $array);
+        $this->assertArrayHasKey('last', $array);
+        $this->assertArrayHasKey('middle', $array);
+        $this->assertArrayHasKey('prefix', $array);
+        $this->assertArrayHasKey('suffix', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $nameData = $this->getJsonFixture('Api/Components/name');
+        $name     = new NameEntity($nameData);
+        $json      = $name->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('first', $json);
+        $this->assertStringContainsString('formatted', $json);
+        $this->assertStringContainsString('last', $json);
+        $this->assertStringContainsString('middle', $json);
+        $this->assertStringContainsString('prefix', $json);
+        $this->assertStringContainsString('suffix', $json);
+    }
 }

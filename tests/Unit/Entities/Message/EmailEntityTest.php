@@ -43,4 +43,24 @@ class EmailEntityTest extends UnitTestCase {
         $this->assertEquals($expectedEmail, $email->email);
         $this->assertEquals(ContactPropType::WORK, $email->type);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $emailData = $this->getJsonFixture('Api/Components/email');
+        $email     = new EmailEntity($emailData);
+        $array     = $email->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('email', $array);
+        $this->assertArrayHasKey('type', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $emailData = $this->getJsonFixture('Api/Components/email');
+        $email     = new EmailEntity($emailData);
+        $json      = $email->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('email', $json);
+        $this->assertStringContainsString('type', $json);
+    }
 }

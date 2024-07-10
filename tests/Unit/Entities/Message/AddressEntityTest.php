@@ -61,4 +61,34 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertEquals(ContactPropType::WORK, $address->type);
         $this->assertEquals('94025', $address->zip);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $addressData = $this->getJsonFixture('Api/Components/address');
+        $address     = new AddressEntity($addressData);
+        $array     = $address->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('city', $array);
+        $this->assertArrayHasKey('countryCode', $array);
+        $this->assertArrayHasKey('country', $array);
+        $this->assertArrayHasKey('state', $array);
+        $this->assertArrayHasKey('street', $array);
+        $this->assertArrayHasKey('type', $array);
+        $this->assertArrayHasKey('zip', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $addressData = $this->getJsonFixture('Api/Components/address');
+        $address     = new AddressEntity($addressData);
+        $json        = $address->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('city', $json);
+        $this->assertStringContainsString('countryCode', $json);
+        $this->assertStringContainsString('country', $json);
+        $this->assertStringContainsString('state', $json);
+        $this->assertStringContainsString('street', $json);
+        $this->assertStringContainsString('type', $json);
+        $this->assertStringContainsString('zip', $json);
+    }
 }

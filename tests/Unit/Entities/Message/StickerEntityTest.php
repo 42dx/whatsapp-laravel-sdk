@@ -58,4 +58,28 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertNull($sticker->link); // adjust when media link retrieve is implemented
         $this->assertNull($sticker->fileSize); // adjust when media link retrieve is implemented
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
+        $sticker     = new StickerEntity($stickerData);
+        $array     = $sticker->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('mimeType', $array);
+        $this->assertArrayHasKey('hash', $array);
+        $this->assertArrayHasKey('type', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
+        $sticker     = new StickerEntity($stickerData);
+        $json        = $sticker->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('mimeType', $json);
+        $this->assertStringContainsString('hash', $json);
+        $this->assertStringContainsString('type', $json);
+    }
 }

@@ -83,4 +83,34 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertInstanceOf(Collection::class, $contact->urls);
         $this->assertInstanceOf(UrlEntity::class, $contact->urls->first());
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $contactData      = $this->getJsonFixture('Api/Components/contact');
+        $contact          = new ContactEntity($contactData);
+        $array            = $contact->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('addresses', $array);
+        $this->assertArrayHasKey('birthday', $array);
+        $this->assertArrayHasKey('emails', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('org', $array);
+        $this->assertArrayHasKey('phones', $array);
+        $this->assertArrayHasKey('urls', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $contactData      = $this->getJsonFixture('Api/Components/contact');
+        $contact          = new ContactEntity($contactData);
+        $json             = $contact->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('addresses', $json);
+        $this->assertStringContainsString('birthday', $json);
+        $this->assertStringContainsString('emails', $json);
+        $this->assertStringContainsString('name', $json);
+        $this->assertStringContainsString('org', $json);
+        $this->assertStringContainsString('phones', $json);
+        $this->assertStringContainsString('urls', $json);
+    }
 }

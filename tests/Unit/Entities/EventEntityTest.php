@@ -46,4 +46,24 @@ class EventEntityTest extends UnitTestCase {
         $this->assertEquals(1, $event->entry->count());
         $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $eventData = $this->getJsonFixture('Api/Components/event');
+        $event     = new EventEntity($eventData);
+        $array     = $event->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('object', $array);
+        $this->assertArrayHasKey('entry', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $eventData = $this->getJsonFixture('Api/Components/event');
+        $event     = new EventEntity($eventData);
+        $json      = $event->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('object', $json);
+        $this->assertStringContainsString('entry', $json);
+    }
 }

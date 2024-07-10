@@ -58,4 +58,34 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertNull($document->link); // adjust when media link retrieve is implemented
         $this->assertNull($document->fileSize); // adjust when media link retrieve is implemented
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $documentData = $this->getJsonFixture('Api/Components/media-document');
+        $document     = new DocumentEntity($documentData);
+        $array        = $document->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('mimeType', $array);
+        $this->assertArrayHasKey('hash', $array);
+        $this->assertArrayHasKey('caption', $array);
+        $this->assertArrayHasKey('filename', $array);
+        $this->assertArrayHasKey('link', $array);
+        $this->assertArrayHasKey('fileSize', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $documentData = $this->getJsonFixture('Api/Components/media-document');
+        $document     = new DocumentEntity($documentData);
+        $json         = $document->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('mimeType', $json);
+        $this->assertStringContainsString('hash', $json);
+        $this->assertStringContainsString('caption', $json);
+        $this->assertStringContainsString('filename', $json);
+        $this->assertStringContainsString('link', $json);
+        $this->assertStringContainsString('fileSize', $json);
+    }
 }

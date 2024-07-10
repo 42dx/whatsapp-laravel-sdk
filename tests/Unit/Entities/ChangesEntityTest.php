@@ -73,4 +73,24 @@ class ChangesEntityTest extends UnitTestCase {
 
         $this->assertInstanceOf(MessagesEntity::class, $changes->value);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $changesData = $this->getJsonFixture('Api/Components/change');
+        $changes     = new ChangesEntity($changesData);
+        $array       = $changes->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('field', $array);
+        $this->assertArrayHasKey('value', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $changesData = $this->getJsonFixture('Api/Components/change');
+        $changes     = new ChangesEntity($changesData);
+        $json        = $changes->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('field', $json);
+        $this->assertStringContainsString('value', $json);
+    }
 }
