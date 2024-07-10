@@ -75,4 +75,28 @@ class MessagesEntityTest extends UnitTestCase {
         $this->assertInstanceOf(MessageEntity::class, $message->messages->first());
         $this->assertNotNull($message->messages->first()->id);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $messageData = $this->getJsonFixture('Api/Components/change-messages');
+        $message     = new MessagesEntity($messageData);
+        $array     = $message->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('waId', $array);
+        $this->assertArrayHasKey('phone', $array);
+        $this->assertArrayHasKey('contacts', $array);
+        $this->assertArrayHasKey('messages', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $messageData = $this->getJsonFixture('Api/Components/change-messages');
+        $message     = new MessagesEntity($messageData);
+        $json        = $message->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('waId', $json);
+        $this->assertStringContainsString('phone', $json);
+        $this->assertStringContainsString('contacts', $json);
+        $this->assertStringContainsString('messages', $json);
+    }
 }

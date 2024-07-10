@@ -41,4 +41,24 @@ class UrlEntityTest extends UnitTestCase {
         $this->assertEquals('https://some.url', $url->url);
         $this->assertEquals(ContactPropType::HOME, $url->type);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $urlData = $this->getJsonFixture('Api/Components/url');
+        $url     = new UrlEntity($urlData);
+        $array   = $url->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('url', $array);
+        $this->assertArrayHasKey('type', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $urlData = $this->getJsonFixture('Api/Components/url');
+        $url     = new UrlEntity($urlData);
+        $json    = $url->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('url', $json);
+        $this->assertStringContainsString('type', $json);
+    }
 }

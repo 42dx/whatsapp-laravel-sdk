@@ -46,4 +46,24 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertEquals(1, $entry->changes->count());
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $entryData = $this->getJsonFixture('Api/Components/entry');
+        $entry     = new EntryEntity($entryData);
+        $array     = $entry->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('changes', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $entryData = $this->getJsonFixture('Api/Components/entry');
+        $entry     = new EntryEntity($entryData);
+        $json      = $entry->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('changes', $json);
+    }
 }

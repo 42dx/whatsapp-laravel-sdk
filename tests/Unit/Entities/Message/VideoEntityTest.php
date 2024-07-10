@@ -55,4 +55,32 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertNull($video->link); // adjust when media link retrieve is implemented
         $this->assertNull($video->fileSize); // adjust when media link retrieve is implemented
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $videoData = $this->getJsonFixture('Api/Components/media-video');
+        $video     = new VideoEntity($videoData);
+        $array     = $video->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('mimeType', $array);
+        $this->assertArrayHasKey('hash', $array);
+        $this->assertArrayHasKey('caption', $array);
+        $this->assertArrayHasKey('link', $array);
+        $this->assertArrayHasKey('fileSize', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $videoData = $this->getJsonFixture('Api/Components/media-video');
+        $video     = new VideoEntity($videoData);
+        $json = $video->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('mimeType', $json);
+        $this->assertStringContainsString('hash', $json);
+        $this->assertStringContainsString('caption', $json);
+        $this->assertStringContainsString('link', $json);
+        $this->assertStringContainsString('fileSize', $json);
+    }
 }

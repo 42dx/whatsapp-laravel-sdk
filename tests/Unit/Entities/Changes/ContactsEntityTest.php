@@ -46,4 +46,24 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertNotNull($contact->waId);
         $this->assertEquals($expectedWaId, $contact->waId);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $contactData = $this->getJsonFixture('Api/Components/change-contact');
+        $contact     = new ContactsEntity($contactData);
+        $array     = $contact->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('waId', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $contactData = $this->getJsonFixture('Api/Components/change-contact');
+        $contact     = new ContactsEntity($contactData);
+        $json        = $contact->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('name', $json);
+        $this->assertStringContainsString('waId', $json);
+    }
 }

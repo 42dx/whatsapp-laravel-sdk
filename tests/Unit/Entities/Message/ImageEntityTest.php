@@ -55,4 +55,28 @@ class ImageEntityTest extends UnitTestCase {
         $this->assertNull($image->link); // adjust when media link retrieve is implemented
         $this->assertNull($image->fileSize); // adjust when media link retrieve is implemented
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $imageData = $this->getJsonFixture('Api/Components/media-image');
+        $image     = new ImageEntity($imageData);
+        $array     = $image->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('mimeType', $array);
+        $this->assertArrayHasKey('hash', $array);
+        $this->assertArrayHasKey('caption', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $imageData = $this->getJsonFixture('Api/Components/media-image');
+        $image     = new ImageEntity($imageData);
+        $json      = $image->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('id', $json);
+        $this->assertStringContainsString('mimeType', $json);
+        $this->assertStringContainsString('hash', $json);
+        $this->assertStringContainsString('caption', $json);
+    }
 }

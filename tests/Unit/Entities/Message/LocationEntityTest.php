@@ -52,4 +52,30 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertEquals('Main Street Beach', $location->name);
         $this->assertEquals('https://foursquare.com/v/4d7031d35b5df7744', $location->url);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $locationData = $this->getJsonFixture('Api/Components/location');
+        $location     = new LocationEntity($locationData);
+        $array     = $location->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('address', $array);
+        $this->assertArrayHasKey('latitude', $array);
+        $this->assertArrayHasKey('longitude', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('url', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $locationData = $this->getJsonFixture('Api/Components/location');
+        $location     = new LocationEntity($locationData);
+        $json         = $location->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('address', $json);
+        $this->assertStringContainsString('latitude', $json);
+        $this->assertStringContainsString('longitude', $json);
+        $this->assertStringContainsString('name', $json);
+        $this->assertStringContainsString('url', $json);
+    }
 }

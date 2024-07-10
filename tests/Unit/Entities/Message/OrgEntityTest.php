@@ -44,4 +44,26 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertEquals('some department', $org->department);
         $this->assertEquals('some title', $org->title);
     }
+
+    public function test_itShouldConvertToArrayCorrectly() {
+        $orgData = $this->getJsonFixture('Api/Components/org');
+        $org     = new OrgEntity($orgData);
+        $array   = $org->toArray();
+
+        $this->assertIsArray($array);
+        $this->assertArrayHasKey('company', $array);
+        $this->assertArrayHasKey('department', $array);
+        $this->assertArrayHasKey('title', $array);
+    }
+
+    public function test_itShouldConvertToJsonCorrectly() {
+        $orgData = $this->getJsonFixture('Api/Components/org');
+        $org     = new OrgEntity($orgData);
+        $json    = $org->toJson();
+
+        $this->assertJson($json);
+        $this->assertStringContainsString('company', $json);
+        $this->assertStringContainsString('department', $json);
+        $this->assertStringContainsString('title', $json);
+    }
 }
