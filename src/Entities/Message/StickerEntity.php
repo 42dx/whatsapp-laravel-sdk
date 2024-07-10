@@ -4,6 +4,7 @@ namespace The42dx\Whatsapp\Entities\Message;
 
 use The42dx\Whatsapp\Abstracts\MediaEntity;
 use The42dx\Whatsapp\Contracts\Entity;
+use The42dx\Whatsapp\Enums\StickerType;
 
 /**
  * StickerEntity
@@ -16,4 +17,34 @@ use The42dx\Whatsapp\Contracts\Entity;
  * @see \The42dx\Whatsapp\Contracts\Entity
  * @see https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object
  */
-class StickerEntity extends MediaEntity implements Entity {}
+class StickerEntity extends MediaEntity implements Entity {
+    /**
+     * type
+     *
+     * The type of the sticker.
+     *
+     * @var StickerType
+     *
+     * @see \The42dx\Whatsapp\Enums\StickerType
+     */
+    protected StickerType $type;
+
+    /**
+     * setAttributes
+     *
+     * Set the attributes of the sticker entity
+     *
+     * @param array $attributes
+     *
+     * @return self
+     */
+    public function setAttributes(array $attributes = []): self {
+        parent::setAttributes($attributes);
+
+        $this->type = isset($attributes['animated']) && $attributes['animated'] ? StickerType::ANIMATED : (
+            isset($this->type) && !is_null($this->type) ? $this->type : StickerType::STATIC
+        );
+
+        return $this;
+    }
+}
