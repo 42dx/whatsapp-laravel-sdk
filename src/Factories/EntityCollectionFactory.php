@@ -24,11 +24,7 @@ class EntityCollectionFactory {
      * @param  class-string<\The42dx\Whatsapp\Contracts\Entity> $entity The entity class to create
      * @param  array  $items  The items to create the collection from
      * @return \Illuminate\Support\Collection The collection of entities
-     * @throws \Exception If the entity class does not exist
      * @throws \Exception If the entity class does not implement the \The42dx\Whatsapp\Contracts\Entity contract
-     *
-     * TODO: Create specific exceptions for each case
-     *
      */
     public static function make(string $entityClass = Entity::class, array $items) {
         /**
@@ -39,6 +35,7 @@ class EntityCollectionFactory {
         $entity = new $entityClass;
 
         if (!($entity instanceof Entity)) {
+            // TODO: Create specific exceptions for each case
             throw new \Exception('Entity class [' . $entity . '] does not implement the [' . Entity::class . '] contract');
         }
 
