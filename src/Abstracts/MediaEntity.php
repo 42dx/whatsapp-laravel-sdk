@@ -17,6 +17,24 @@ use The42dx\Whatsapp\Abstracts\Entity;
  */
 abstract class MediaEntity extends Entity {
     /**
+     * fileSize
+     *
+     * The size of the media file sent
+     *
+     * @var string|null
+     */
+    protected int|null $fileSize;
+
+    /**
+     * hash
+     *
+     * The hash of the audio file
+     *
+     * @var string|null
+     */
+    protected string|null $hash;
+
+    /**
      * id
      *
      * The unique identifier of the media sent
@@ -34,14 +52,52 @@ abstract class MediaEntity extends Entity {
      */
     protected string|null $link;
 
+    /**
+     * mimeType
+     *
+     * The MIME type of the audio file
+     *
+     * @var string|null
+     */
+    protected string|null $mimeType;
+
     public function setAttributes(array $attributes = []): self {
         $this->id   = isset($attributes['id']) ? $attributes['id'] : (
             isset($this->id) && !is_null($this->id) ? $this->id : null
         );
-        $this->link = isset($attributes['link']) ? $attributes['link'] : (
-            isset($this->link) && !is_null($this->link) ? $this->link : null
+        $this->mimeType  = isset($attributes['mime_type']) ? $attributes['mime_type'] : (
+            isset($this->mimeType) && !is_null($this->mimeType) ? $this->mimeType : null
+        );
+        $this->hash  = isset($attributes['sha256']) ? $attributes['sha256'] : (
+            isset($this->hash) && !is_null($this->hash) ? $this->hash : null
         );
 
+        $this->getMediaLink();
+
         return $this;
+    }
+
+    /**
+     * getMediaLink
+     *
+     * Get the media link of the media sent
+     *
+     * @return string
+     */
+    private function getMediaLink(): void {
+        $result = [];
+        // Todo: Implement the logic to get the media link
+        // Request the media link from the Whatsapp API. Below is an example of the response
+        // {
+        //     "url": "https://lookaside.fbsbx.com/whatsapp_business/attachments/?mid=804086435201373&ext=1720570800&hash=ATu_egbaFdMLm9eRdxqTU5Xj4-cFV5L91WhoOeR73SDLDg",
+        //     "mime_type": "audio/ogg",
+        //     "sha256": "fc6e2332bb1181b0845de86db67d11be57ccdc3c3194ca215f867c97c5e69610",
+        //     "file_size": 6393,
+        //     "id": "804086435201373",
+        //     "messaging_product": "whatsapp"
+        // }
+
+        $this->fileSize = isset($result['file_size']) && !is_null($result['file_size']) ? $result['file_size'] : null;
+        $this->link     = isset($result['url']) && !is_null($result['url']) ? $result['url'] : null;
     }
 }

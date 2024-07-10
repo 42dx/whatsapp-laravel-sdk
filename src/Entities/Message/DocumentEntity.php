@@ -4,16 +4,10 @@ namespace The42dx\Whatsapp\Entities\Message;
 
 use The42dx\Whatsapp\Abstracts\MediaEntity;
 use The42dx\Whatsapp\Contracts\Entity;
+use The42dx\Whatsapp\Traits\HasCaption;
 
 class DocumentEntity extends MediaEntity implements Entity {
-    /**
-     * caption
-     *
-     * The caption of the document.
-     *
-     * @var string|null
-     */
-    protected string|null $caption;
+    use HasCaption { setAttributes as protected setCaptionAttributes; }
 
     /**
      * filename
@@ -35,10 +29,8 @@ class DocumentEntity extends MediaEntity implements Entity {
      */
     public function setAttributes(array $attributes = []): self {
         parent::setAttributes($attributes);
+        $this->setCaptionAttributes($attributes);
 
-        $this->caption  = isset($attributes['caption']) ? $attributes['caption'] : (
-            isset($this->caption) && !is_null($this->caption) ? $this->caption : null
-        );
         $this->filename = isset($attributes['filename']) ? $attributes['filename'] : (
             isset($this->filename) && !is_null($this->filename) ? $this->filename : null
         );
