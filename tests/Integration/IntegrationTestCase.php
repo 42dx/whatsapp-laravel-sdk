@@ -1,6 +1,6 @@
 <?php
 
-namespace The42dx\Whatsapp\Tests\Unit;
+namespace The42dx\Whatsapp\Tests\Integration;
 
 use The42dx\Whatsapp\Tests\TestCase;
 

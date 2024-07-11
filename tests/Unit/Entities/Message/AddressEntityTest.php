@@ -8,14 +8,14 @@ use The42dx\Whatsapp\Enums\ContactPropType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class AddressEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $address = new AddressEntity([]);
 
         $this->assertIsObject($address);
         $this->assertInstanceOf(Entity::class, $address);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $addressData = $this->getJsonFixture('Api/Components/address');
         $address     = new AddressEntity($addressData);
 
@@ -30,7 +30,7 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertEquals('94025', $address->zip);
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $address = new AddressEntity([]);
 
         $this->assertIsObject($address);
@@ -62,7 +62,7 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertEquals('94025', $address->zip);
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $addressData = $this->getJsonFixture('Api/Components/address');
         $address     = new AddressEntity($addressData);
         $array     = $address->toArray();
@@ -77,7 +77,7 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('zip', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $addressData = $this->getJsonFixture('Api/Components/address');
         $address     = new AddressEntity($addressData);
         $json        = $address->toJson();

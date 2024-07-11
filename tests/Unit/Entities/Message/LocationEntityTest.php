@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\LocationEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class LocationEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $location = new LocationEntity([]);
 
         $this->assertIsObject($location);
         $this->assertInstanceOf(Entity::class, $location);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $locationData = $this->getJsonFixture('Api/Components/location');
         $location     = new LocationEntity($locationData);
 
@@ -27,7 +27,7 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertEquals('https://foursquare.com/v/4d7031d35b5df7744', $location->url);
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $location = new LocationEntity([]);
 
         $this->assertIsObject($location);
@@ -53,7 +53,7 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertEquals('https://foursquare.com/v/4d7031d35b5df7744', $location->url);
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $locationData = $this->getJsonFixture('Api/Components/location');
         $location     = new LocationEntity($locationData);
         $array     = $location->toArray();
@@ -66,7 +66,7 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('url', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $locationData = $this->getJsonFixture('Api/Components/location');
         $location     = new LocationEntity($locationData);
         $json         = $location->toJson();

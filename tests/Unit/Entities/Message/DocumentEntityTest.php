@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\DocumentEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class DocumentEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $document = new DocumentEntity([]);
 
         $this->assertIsObject($document);
         $this->assertInstanceOf(Entity::class, $document);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
         $document     = new DocumentEntity($documentData);
 
@@ -30,7 +30,7 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertNull($document->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $document = new DocumentEntity([]);
 
         $this->assertIsObject($document);
@@ -59,7 +59,7 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertNull($document->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
         $document     = new DocumentEntity($documentData);
         $array        = $document->toArray();
@@ -74,7 +74,7 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('fileSize', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
         $document     = new DocumentEntity($documentData);
         $json         = $document->toJson();

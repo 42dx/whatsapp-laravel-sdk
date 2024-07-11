@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\ImageEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ImageEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $image = new ImageEntity([]);
 
         $this->assertIsObject($image);
         $this->assertInstanceOf(Entity::class, $image);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $imageData = $this->getJsonFixture('Api/Components/media-image');
         $image     = new ImageEntity($imageData);
 
@@ -29,7 +29,7 @@ class ImageEntityTest extends UnitTestCase {
         $this->assertNull($image->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $image = new ImageEntity([]);
 
         $this->assertIsObject($image);
@@ -56,7 +56,7 @@ class ImageEntityTest extends UnitTestCase {
         $this->assertNull($image->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $imageData = $this->getJsonFixture('Api/Components/media-image');
         $image     = new ImageEntity($imageData);
         $array     = $image->toArray();
@@ -68,7 +68,7 @@ class ImageEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('caption', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $imageData = $this->getJsonFixture('Api/Components/media-image');
         $image     = new ImageEntity($imageData);
         $json      = $image->toJson();
