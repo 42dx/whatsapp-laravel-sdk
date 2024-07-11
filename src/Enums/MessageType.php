@@ -2,6 +2,13 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+/**
+ * enum MessageType
+ *
+ * Represents the type of message sent to/from the Whatsapp Business API
+ *
+ * @package The42dx\Whatsapp\Enums
+ */
 enum MessageType: string {
     case AUDIO       = 'audio';
     case CONTACTS    = 'contacts';

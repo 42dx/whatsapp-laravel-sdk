@@ -16,9 +16,6 @@ use The42dx\Whatsapp\Factories\EntityCollectionFactory;
  *
  * @package The42dx\Whatsapp\Entities\Changes
  *
- * @property \Illuminate\Support\Collection $contacts The Whatsapp contacts the message was sent to
- * @property \Illuminate\Support\Collection $messages The messages sent to the Whatsapp contacts
- *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
  * @see https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages
