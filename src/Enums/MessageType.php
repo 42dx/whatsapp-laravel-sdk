@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum MessageType
  *
@@ -9,7 +11,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum MessageType: string {
+enum MessageType: string implements Enum {
     case AUDIO       = 'audio';
     case CONTACTS    = 'contacts';
     case DOCUMENT    = 'document';

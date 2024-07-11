@@ -44,13 +44,9 @@ class ReactionEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->emoji     = isset($attributes['emoji']) ? $attributes['emoji'] : (
-            isset($this->emoji) && !is_null($this->emoji) ? $this->emoji : null
-        );
-        $this->reactedId = isset($attributes['message_id']) ? $attributes['message_id'] : (
-            isset($this->reactedId) && !is_null($this->reactedId) ? $this->reactedId : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('emoji', 'emoji', $attributes);
+        $this->setOrUpdateAttribute('reactedId', 'message_id', $attributes);
 
         return $this;
     }

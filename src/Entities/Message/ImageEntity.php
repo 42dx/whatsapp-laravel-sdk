@@ -19,5 +19,21 @@ use The42dx\Whatsapp\Traits\HasCaption;
  * @see https://developers.facebook.com/docs/whatsapp/on-premises/reference/messages#media-object
  */
 class ImageEntity extends MediaEntity implements Entity {
-    use HasCaption;
+    use HasCaption { setAttributes as protected setCaptionAttributes; }
+
+    /**
+     * setAttributes
+     *
+     * Set the attributes of the video entity
+     *
+     * @param array $attributes
+     *
+     * @return self
+     */
+    public function setAttributes(?array $attributes = []): self {
+        parent::setAttributes($attributes);
+        $this->setCaptionAttributes($attributes);
+
+        return $this;
+    }
 }

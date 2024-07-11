@@ -170,49 +170,21 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->audio       = isset($attributes['audio']) ? new AudioEntity($attributes['audio']) : (
-            isset($this->audio) && !is_null($this->audio) ? $this->audio : null
-        );
-        $this->contacts    = isset($attributes['contacts']) ? EntityCollectionFactory::make(ContactEntity::class, $attributes['contacts']) : (
-            isset($this->contacts) && !is_null($this->contacts) ? $this->contacts : null
-        );
-        $this->document    = isset($attributes['document']) ? new DocumentEntity($attributes['document']) : (
-            isset($this->document) && !is_null($this->document) ? $this->document : null
-        );
-        $this->from        = isset($attributes['from']) ? $attributes['from'] : (
-            isset($this->from) && !is_null($this->from) ? $this->from : null
-        );
-        $this->id          = isset($attributes['id']) ? $attributes['id'] : (
-            isset($this->id) && !is_null($this->id) ? $this->id : null
-        );
-        $this->image       = isset($attributes['image']) ? new ImageEntity($attributes['image']) : (
-            isset($this->image) && !is_null($this->image) ? $this->image : null
-        );
-        $this->location    = isset($attributes['location']) ? new LocationEntity($attributes['location']) : (
-            isset($this->location) && !is_null($this->location) ? $this->location : null
-        );
-        $this->reaction    = isset($attributes['reaction']) ? new ReactionEntity($attributes['reaction']) : (
-            isset($this->reaction) && !is_null($this->reaction) ? $this->reaction : null
-        );
-        $this->context       = isset($attributes['context']) ? new ContextEntity($attributes['context']) : (
-            isset($this->context) && !is_null($this->context) ? $this->context : null
-        );
-        $this->sticker     = isset($attributes['sticker']) ? new StickerEntity($attributes['sticker']) : (
-            isset($this->sticker) && !is_null($this->sticker) ? $this->sticker : null
-        );
-        $this->text        = isset($attributes['text']) && $attributes['text']['body'] ? $attributes['text']['body'] : (
-            isset($this->text) && !is_null($this->text) ? $this->text : null
-        );
-        $this->timestamp   = isset($attributes['timestamp']) ? $attributes['timestamp'] : (
-            isset($this->timestamp) && !is_null($this->timestamp) ? $this->timestamp : null
-        );
-        $this->type        = isset($attributes['type']) ? MessageType::from($attributes['type']) : (
-            isset($this->type) && !is_null($this->type) ? $this->type : null
-        );
-        $this->video       = isset($attributes['video']) ? new VideoEntity($attributes['video']) : (
-            isset($this->video) && !is_null($this->video) ? $this->video : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('audio', 'audio', $attributes, AudioEntity::class);
+        $this->setOrUpdateAttribute('contacts', 'contacts', $attributes, ContactEntity::class, true);
+        $this->setOrUpdateAttribute('document', 'document', $attributes, DocumentEntity::class);
+        $this->setOrUpdateAttribute('from', 'from', $attributes);
+        $this->setOrUpdateAttribute('id', 'id', $attributes);
+        $this->setOrUpdateAttribute('image', 'image', $attributes, ImageEntity::class);
+        $this->setOrUpdateAttribute('location', 'location', $attributes, LocationEntity::class);
+        $this->setOrUpdateAttribute('reaction', 'reaction', $attributes, ReactionEntity::class);
+        $this->setOrUpdateAttribute('context', 'context', $attributes, ContextEntity::class);
+        $this->setOrUpdateAttribute('sticker', 'sticker', $attributes, StickerEntity::class);
+        $this->setOrUpdateAttribute('text', 'text.body', $attributes);
+        $this->setOrUpdateAttribute('timestamp', 'timestamp', $attributes);
+        $this->setOrUpdateAttribute('type', 'type', $attributes, MessageType::class);
+        $this->setOrUpdateAttribute('video', 'video', $attributes, VideoEntity::class);
 
         $this->template    = null;
         $this->interactive = null;

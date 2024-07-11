@@ -43,13 +43,9 @@ class ContactsEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->name = isset($attributes['profile']) && isset($attributes['profile']['name']) ? $attributes['profile']['name'] : (
-            isset($this->name) && !is_null($this->name) ? $this->name : null
-        );
-        $this->waId = isset($attributes['wa_id']) ? $attributes['wa_id'] : (
-            isset($this->waId) && !is_null($this->waId) ? $this->name : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('name', 'profile.name', $attributes);
+        $this->setOrUpdateAttribute('waId', 'wa_id', $attributes);
 
         return $this;
     }

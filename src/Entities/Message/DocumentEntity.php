@@ -39,13 +39,11 @@ class DocumentEntity extends MediaEntity implements Entity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
+    public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);
         $this->setCaptionAttributes($attributes);
 
-        $this->filename = isset($attributes['filename']) ? $attributes['filename'] : (
-            isset($this->filename) && !is_null($this->filename) ? $this->filename : null
-        );
+        $this->setOrUpdateAttribute('filename', 'filename', $attributes);
 
         return $this;
     }

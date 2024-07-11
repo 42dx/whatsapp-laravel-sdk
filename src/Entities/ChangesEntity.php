@@ -45,15 +45,15 @@ class ChangesEntity extends Entity implements ContractsEntity {
      * Get the field that was changed.
      *
      * @param array $value The value of the field
-     * @return \The42dx\Whatsapp\Enums\ApiEvent The field that was changed
+     * @return string|null The field that was changed
      *
      * @see \The42dx\Whatsapp\Enums\ApiEvent
      * @see \The42dx\Whatsapp\Entities\Changes\MessagesEntity
      */
-    private function getChangeValue(array $value): ?Entity {
+    private function getChangeValue(): ?string {
         switch ($this->field) {
             case ApiEvent::MSGS:
-                return new MessagesEntity($value);
+                return MessagesEntity::class;
             case ApiEvent::ACC_ALERTS:
             case ApiEvent::ACC_REVIEW_UPDATE:
             case ApiEvent::ACC_UPDT:
@@ -89,13 +89,9 @@ class ChangesEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->field = isset($attributes['field']) ? ApiEvent::from($attributes['field']) : (
-            isset($this->field) && !is_null($this->field) ? $this->field : null
-        );
-        $this->value = isset($attributes['value']) ? $this->getChangeValue($attributes['value']) : (
-            isset($this->value) && !is_null($this->value) ? $this->value : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('field', 'field', $attributes, ApiEvent::class);
+        $this->setOrUpdateAttribute('value', 'value', $attributes, $this->getChangeValue());
 
         return $this;
     }

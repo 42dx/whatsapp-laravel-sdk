@@ -90,28 +90,14 @@ class AddressEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->city        = isset($attributes['city']) ? $attributes['city'] : (
-            isset($this->city) && !is_null($this->city) ? $this->city : null
-        );
-        $this->countryCode = isset($attributes['country_code']) ? $attributes['country_code'] : (
-            isset($this->countryCode) && !is_null($this->countryCode) ? $this->countryCode : null
-        );
-        $this->country     = isset($attributes['country']) ? $attributes['country'] : (
-            isset($this->country) && !is_null($this->country) ? $this->country : null
-        );
-        $this->state       = isset($attributes['state']) ? $attributes['state'] : (
-            isset($this->state) && !is_null($this->state) ? $this->state : null
-        );
-        $this->street      = isset($attributes['street']) ? $attributes['street'] : (
-            isset($this->street) && !is_null($this->street) ? $this->street : null
-        );
-        $this->type        = isset($attributes['type']) ? ContactPropType::from($attributes['type']) : (
-            isset($this->type) && !is_null($this->type) ? $this->type : null
-        );
-        $this->zip         = isset($attributes['zip']) ? $attributes['zip'] : (
-            isset($this->zip) && !is_null($this->zip) ? $this->zip : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('city', 'city', $attributes);
+        $this->setOrUpdateAttribute('countryCode', 'country_code', $attributes);
+        $this->setOrUpdateAttribute('country', 'country', $attributes);
+        $this->setOrUpdateAttribute('state', 'state', $attributes);
+        $this->setOrUpdateAttribute('street', 'street', $attributes);
+        $this->setOrUpdateAttribute('type', 'type', $attributes, ContactPropType::class);
+        $this->setOrUpdateAttribute('zip', 'zip', $attributes);
 
         return $this;
     }

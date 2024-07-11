@@ -6,8 +6,15 @@
     "emails": [
         {}
     ],
-    "name": {},
-    "org": {},
+    "name": {
+        "first_name": "Kerry",
+        "formatted_name": "Kerry Fisher",
+        "last_name": "Fisher"
+    },
+    "org": {
+        "company": "Meta",
+        "department": "WhatsApp"
+    },
     "phones": [
         {}
     ],

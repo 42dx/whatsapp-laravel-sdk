@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Entities\ChangesEntity;
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
  * EntryEntity
@@ -49,13 +48,9 @@ class EntryEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->id      = isset($attributes['id']) ? $attributes['id'] : (
-            isset($this->id) && !is_null($this->id) ? $this->id : null
-        );
-        $this->changes = isset($attributes['changes']) ? EntityCollectionFactory::make(ChangesEntity::class, $attributes['changes']) : (
-            isset($this->changes) && !is_null($this->changes) ? $this->changes : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('id', 'id', $attributes);
+        $this->setOrUpdateAttribute('changes', 'changes', $attributes, ChangesEntity::class, true);
 
         return $this;
     }

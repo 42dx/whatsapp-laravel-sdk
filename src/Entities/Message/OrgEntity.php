@@ -53,16 +53,10 @@ class OrgEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->company    = isset($attributes['company']) ? $attributes['company'] : (
-            isset($this->company) && !is_null($this->company) ? $this->company : null
-        );
-        $this->department = isset($attributes['department']) ? $attributes['department'] : (
-            isset($this->department) && !is_null($this->department) ? $this->department : null
-        );
-        $this->title      = isset($attributes['title']) ? $attributes['title'] : (
-            isset($this->title) && !is_null($this->title) ? $this->title : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('company', 'company', $attributes);
+        $this->setOrUpdateAttribute('department', 'department', $attributes);
+        $this->setOrUpdateAttribute('title', 'title', $attributes);
 
         return $this;
     }

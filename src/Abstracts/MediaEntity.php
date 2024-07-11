@@ -61,16 +61,10 @@ abstract class MediaEntity extends Entity {
      */
     protected string|null $mimeType;
 
-    public function setAttributes(array $attributes = []): self {
-        $this->id   = isset($attributes['id']) ? $attributes['id'] : (
-            isset($this->id) && !is_null($this->id) ? $this->id : null
-        );
-        $this->mimeType  = isset($attributes['mime_type']) ? $attributes['mime_type'] : (
-            isset($this->mimeType) && !is_null($this->mimeType) ? $this->mimeType : null
-        );
-        $this->hash  = isset($attributes['sha256']) ? $attributes['sha256'] : (
-            isset($this->hash) && !is_null($this->hash) ? $this->hash : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('id', 'id', $attributes);
+        $this->setOrUpdateAttribute('mimeType', 'mime_type', $attributes);
+        $this->setOrUpdateAttribute('hash', 'sha256', $attributes);
 
         $this->getMediaLink();
 

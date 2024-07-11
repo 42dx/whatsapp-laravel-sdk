@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum StickerType
  *
@@ -9,7 +11,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum StickerType: string {
+enum StickerType: string implements Enum {
     case STATIC   = 'STATIC';
     case ANIMATED = 'ANIMATED';
 }

@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum ContactPropType
  *
@@ -9,7 +11,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum ContactPropType: string {
+enum ContactPropType: string implements Enum {
     case CELL   = 'CELL';
     case HOME   = 'HOME';
     case IPHONE = 'IPHONE';

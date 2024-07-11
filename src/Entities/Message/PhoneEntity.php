@@ -54,16 +54,10 @@ class PhoneEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->number = isset($attributes['phone']) ? $attributes['phone'] : (
-            isset($this->number) && !is_null($this->number) ? $this->number : null
-        );
-        $this->type   = isset($attributes['type']) ? ContactPropType::from($attributes['type']) : (
-            isset($this->type) && !is_null($this->type) ? $this->type : null
-        );
-        $this->waId   = isset($attributes['wa_id']) ? $attributes['wa_id'] : (
-            isset($this->waId) && !is_null($this->waId) ? $this->waId : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('number', 'phone', $attributes);
+        $this->setOrUpdateAttribute('type', 'type', $attributes, ContactPropType::class);
+        $this->setOrUpdateAttribute('waId', 'wa_id', $attributes);
 
         return $this;
     }
