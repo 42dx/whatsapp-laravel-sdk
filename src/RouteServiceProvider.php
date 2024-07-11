@@ -10,6 +10,6 @@ class RouteServiceProvider extends ServiceProvider {
 
     public function map() {
         Route::namespace($this->namespace)
-             ->group(__DIR__.'/../routes/api.php');
+             ->group(__DIR__ . '/../routes/api.php');
     }
 }
