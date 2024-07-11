@@ -30,20 +30,4 @@ class ApiEventRequest extends FormRequest {
             'entry.*.changes' => 'required|array|min:1',
         ];
     }
-
-    /**
-     * The error messages the request will return in case of failure.
-     *
-     * @return array
-     */
-    public function messages() {
-        return [
-            'entry.required'           => 'The \'entry\' field is required',
-            'entry.array'              => 'The \'entry\' field must be an array',
-            'entry.min'                => 'The \'entry\' field must have at least :min items',
-            'entry.*.changes.required' => 'The \'entry.changes\' field is required',
-            'entry.*.changes.array'    => 'The \'entry.changes\' field must be an array',
-            'entry.*.changes.min'      => 'The \'entry.changes\' field must have at least :min items',
-        ];
-    }
 }
