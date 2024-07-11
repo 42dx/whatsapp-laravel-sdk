@@ -38,12 +38,10 @@ class StickerEntity extends MediaEntity implements Entity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
+    public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);
 
-        $this->type = isset($attributes['animated']) && $attributes['animated'] ? StickerType::ANIMATED : (
-            isset($this->type) && !is_null($this->type) ? $this->type : StickerType::STATIC
-        );
+        $this->type = isset($attributes['animated']) && ((bool) $attributes['animated']) ? StickerType::ANIMATED : StickerType::STATIC;
 
         return $this;
     }

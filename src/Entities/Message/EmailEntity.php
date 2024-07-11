@@ -45,13 +45,9 @@ class EmailEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->email = isset($attributes['email']) ? $attributes['email'] : (
-            isset($this->email) && !is_null($this->email) ? $this->email : null
-        );
-        $this->type  = isset($attributes['type']) ? ContactPropType::from($attributes['type']) : (
-            isset($this->type) && !is_null($this->type) ? $this->type : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('email', 'email', $attributes);
+        $this->setOrUpdateAttribute('type', 'type', $attributes, ContactPropType::class);
 
         return $this;
     }

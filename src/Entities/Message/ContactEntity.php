@@ -32,9 +32,9 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's addresses
      *
-     * @var \The42dx\Whatsapp\Entities\Message\AddressEntity|null
+     * @var Illuminate\Support\Collection|null
     */
-    protected AddressEntity|null $addresses;
+    protected Collection|null $addresses;
 
     /**
      * birthday
@@ -105,28 +105,14 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->addresses = isset($attributes['addresses']) ? new AddressEntity($attributes['addresses']) : (
-            isset($this->addresses) && !is_null($this->addresses) ? $this->addresses : null
-        );
-        $this->birthday  = isset($attributes['birthday']) ? $attributes['birthday'] : (
-            isset($this->birthday) && !is_null($this->birthday) ? $this->birthday : null
-        );
-        $this->emails    = isset($attributes['emails']) ? EntityCollectionFactory::make(EmailEntity::class, $attributes['emails']) : (
-            isset($this->emails) && !is_null($this->emails) ? $this->emails : null
-        );
-        $this->name      = isset($attributes['name']) ? new NameEntity($attributes['name']) : (
-            isset($this->name) && !is_null($this->name) ? $this->name : null
-        );
-        $this->org       = isset($attributes['org']) ? new OrgEntity($attributes['org']) : (
-            isset($this->org) && !is_null($this->org) ? $this->org : null
-        );
-        $this->phones    = isset($attributes['phones']) ? EntityCollectionFactory::make(PhoneEntity::class, $attributes['phones']) : (
-            isset($this->phones) && !is_null($this->phones) ? $this->phones : null
-        );
-        $this->urls      = isset($attributes['urls']) ? EntityCollectionFactory::make(UrlEntity::class, $attributes['urls']) : (
-            isset($this->urls) && !is_null($this->urls) ? $this->urls : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('addresses', 'addresses', $attributes, AddressEntity::class, true);
+        $this->setOrUpdateAttribute('birthday', 'birthday', $attributes);
+        $this->setOrUpdateAttribute('emails', 'emails', $attributes, EmailEntity::class, true);
+        $this->setOrUpdateAttribute('name', 'name', $attributes, NameEntity::class);
+        $this->setOrUpdateAttribute('org', 'org', $attributes, OrgEntity::class);
+        $this->setOrUpdateAttribute('phones', 'phones', $attributes, PhoneEntity::class, true);
+        $this->setOrUpdateAttribute('urls', 'urls', $attributes, UrlEntity::class, true);
 
         return $this;
     }

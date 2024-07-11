@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum ApiEvent
  *
@@ -9,7 +11,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum ApiEvent: string {
+enum ApiEvent: string implements Enum {
     case ACC_ALERTS                = 'account_alerts';
     case ACC_REVIEW_UPDATE         = 'account_review_update';
     case ACC_UPDT                  = 'account_update';

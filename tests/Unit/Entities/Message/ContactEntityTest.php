@@ -28,7 +28,8 @@ class ContactEntityTest extends UnitTestCase {
 
         $this->assertIsObject($contact);
 
-        $this->assertInstanceOf(AddressEntity::class, $contact->addresses);
+        $this->assertInstanceOf(Collection::class, $contact->addresses);
+        $this->assertInstanceOf(AddressEntity::class, $contact->addresses->first());
         $this->assertEquals($expectedBirthday, $contact->birthday);
         $this->assertInstanceOf(Collection::class, $contact->emails);
         $this->assertInstanceOf(EmailEntity::class, $contact->emails->first());
@@ -45,6 +46,7 @@ class ContactEntityTest extends UnitTestCase {
         $contact = new ContactEntity([]);
 
         $this->assertIsObject($contact);
+
 
         $this->assertNull($contact->addresses);
         $this->assertNull($contact->birthday);
@@ -72,7 +74,8 @@ class ContactEntityTest extends UnitTestCase {
             ]
         ]);
 
-        $this->assertInstanceOf(AddressEntity::class, $contact->addresses);
+        $this->assertInstanceOf(Collection::class, $contact->addresses);
+        $this->assertInstanceOf(AddressEntity::class, $contact->addresses->first());
         $this->assertEquals($expectedBirthday, $contact->birthday);
         $this->assertInstanceOf(Collection::class, $contact->emails);
         $this->assertInstanceOf(EmailEntity::class, $contact->emails->first());

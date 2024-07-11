@@ -70,19 +70,11 @@ class MessagesEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->waId     = isset($attributes['metadata']) && $attributes['metadata']['phone_number_id'] ? $attributes['metadata']['phone_number_id'] : (
-            isset($this->waId) && !is_null($this->waId) ? $this->waId : null
-        );
-        $this->phone    = isset($attributes['metadata']) && $attributes['metadata']['display_phone_number'] ? $attributes['metadata']['display_phone_number'] : (
-            isset($this->phone) && !is_null($this->phone) ? $this->phone : null
-        );
-        $this->contacts = isset($attributes['contacts']) ? EntityCollectionFactory::make(ContactsEntity::class, $attributes['contacts']) : (
-            isset($this->contacts) && !is_null($this->contacts) ? $this->contacts : null
-        );
-        $this->messages = isset($attributes['messages']) ? EntityCollectionFactory::make(MessageEntity::class, $attributes['messages']) : (
-            isset($this->messages) && !is_null($this->messages) ? $this->messages : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('waId', 'metadata.phone_number_id', $attributes);
+        $this->setOrUpdateAttribute('phone', 'metadata.display_phone_number', $attributes);
+        $this->setOrUpdateAttribute('contacts', 'contacts', $attributes, ContactsEntity::class, true);
+        $this->setOrUpdateAttribute('messages', 'messages', $attributes, MessageEntity::class, true);
 
         return $this;
     }

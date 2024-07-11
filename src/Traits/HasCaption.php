@@ -21,12 +21,10 @@ trait HasCaption {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
+    public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);
 
-        $this->caption = isset($attributes['caption']) ? $attributes['caption'] : (
-            isset($this->caption) && !is_null($this->caption) ? $this->caption : null
-        );
+        $this->setOrUpdateAttribute('caption', 'caption', $attributes);
 
         return $this;
     }

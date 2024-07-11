@@ -54,13 +54,9 @@ class ContextEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->id   = isset($attributes['id']) ? $attributes['id'] : (
-            isset($this->id) && !is_null($this->id) ? $this->id : null
-        );
-        $this->from = isset($attributes['from']) ? $attributes['from'] : (
-            isset($this->from) && !is_null($this->from) ? $this->from : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('id', 'id', $attributes);
+        $this->setOrUpdateAttribute('from', 'from', $attributes);
 
         $this->type = $this->getContextType($attributes);
 
@@ -78,7 +74,7 @@ class ContextEntity extends Entity implements ContractsEntity {
      *
      * @see \The42dx\Whatsapp\Enums\ContextType
      */
-    private function getContextType(array $attributes): ContextType {
+    private function getContextType(?array $attributes = []): ContextType {
         $isForwarded           = isset($attributes['forwarded']) && $attributes['forwarded'] ? ContextType::FWD : null;
         $isFrequentlyForwarded = isset($attributes['frequently_forwarded']) && $attributes['frequently_forwarded'] ? ContextType::F_FWD : null;
         $isAlreadySet          = isset($this->type) && !is_null($this->type) ? $this->type : null;

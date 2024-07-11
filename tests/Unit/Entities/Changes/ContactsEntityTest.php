@@ -1,5 +1,7 @@
 <?php
 
+namespace The42dx\Whatsapp\Tests\Unit\Entities\Changes;
+
 use The42dx\Whatsapp\Contracts\Entity;
 use The42dx\Whatsapp\Entities\Changes\ContactsEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;

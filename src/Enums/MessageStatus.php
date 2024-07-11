@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum MessageStatus
  *
@@ -9,7 +11,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum MessageStatus: string {
+enum MessageStatus: string implements Enum {
     case DELETED   = 'deleted';
     case DELIVERED = 'delivered';
     case FAILED    = 'failed';

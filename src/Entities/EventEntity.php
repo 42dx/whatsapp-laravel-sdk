@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Enums\ObjectType;
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
  * EventEntity
@@ -15,8 +14,8 @@ use The42dx\Whatsapp\Factories\EntityCollectionFactory;
  *
  * @package The42dx\Whatsapp\Entities
  *
- * @see \The42dx\Whatsapp\Entities\EntryEntity
- * @see \The42dx\Whatsapp\Enums\ObjectType
+ * @see \The42dx\Whatsapp\Abstracts\Entity
+ * @see \The42dx\Whatsapp\Contracts\Entity
  */
 class EventEntity extends Entity implements ContractsEntity {
     /**
@@ -48,13 +47,9 @@ class EventEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->object = isset($attributes['object']) ? ObjectType::from($attributes['object']) : (
-            isset($this->object) && !is_null($this->object) ? $this->object : null
-        );
-        $this->entry  = isset($attributes['entry']) ? EntityCollectionFactory::make(EntryEntity::class, $attributes['entry']) : (
-            isset($this->entry) && !is_null($this->entry) ? $this->entry : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('object', 'object', $attributes, ObjectType::class);
+        $this->setOrUpdateAttribute('entry', 'entry', $attributes, EntryEntity::class, true);
 
         return $this;
     }

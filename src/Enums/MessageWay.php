@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+use The42dx\Whatsapp\Contracts\Enum;
+
 /**
  * enum MessageWay
  *
@@ -10,7 +12,7 @@ namespace The42dx\Whatsapp\Enums;
  *
  * @package The42dx\Whatsapp\Enums
  */
-enum MessageWay: string {
+enum MessageWay: string implements Enum {
     case INBOUND = 'inbound';
     case OUTBOUND = 'outbound';
 }

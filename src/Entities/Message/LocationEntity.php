@@ -71,22 +71,12 @@ class LocationEntity extends Entity implements ContractsEntity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
-        $this->address   = isset($attributes['address']) ? $attributes['address'] : (
-            isset($this->address) && !is_null($this->address) ? $this->address : null
-        );
-        $this->latitude  = isset($attributes['latitude']) ? $attributes['latitude'] : (
-            isset($this->latitude) && !is_null($this->latitude) ? $this->latitude : null
-        );
-        $this->longitude = isset($attributes['longitude']) ? $attributes['longitude'] : (
-            isset($this->longitude) && !is_null($this->longitude) ? $this->longitude : null
-        );
-        $this->name      = isset($attributes['name']) ? $attributes['name'] : (
-            isset($this->name) && !is_null($this->name) ? $this->name : null
-        );
-        $this->url       = isset($attributes['url']) ? $attributes['url'] : (
-            isset($this->url) && !is_null($this->url) ? $this->url : null
-        );
+    public function setAttributes(?array $attributes = []): self {
+        $this->setOrUpdateAttribute('address', 'address', $attributes);
+        $this->setOrUpdateAttribute('latitude', 'latitude', $attributes);
+        $this->setOrUpdateAttribute('longitude', 'longitude', $attributes);
+        $this->setOrUpdateAttribute('name', 'name', $attributes);
+        $this->setOrUpdateAttribute('url', 'url', $attributes);
 
         return $this;
     }

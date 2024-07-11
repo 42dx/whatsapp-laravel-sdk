@@ -3,7 +3,6 @@
 namespace The42dx\Whatsapp\Factories;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Contracts\Entity;
 
 /**
@@ -26,7 +25,7 @@ class EntityCollectionFactory {
      * @return \Illuminate\Support\Collection The collection of entities
      * @throws \Exception If the entity class does not implement the \The42dx\Whatsapp\Contracts\Entity contract
      */
-    public static function make(string $entityClass = Entity::class, array $items) {
+    public static function make(string $entityClass = Entity::class, ?array $items = null): ?Collection {
         /**
          * entry
          *
@@ -40,6 +39,10 @@ class EntityCollectionFactory {
         }
 
         $collection = new Collection();
+
+        if (is_null($items) || empty($items)) {
+            return null;
+        }
 
         foreach ($items as $item) {
             $collection->add($entity->setAttributes($item));

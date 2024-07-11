@@ -4,6 +4,7 @@ namespace The42dx\Whatsapp\Entities\Message;
 
 use The42dx\Whatsapp\Abstracts\MediaEntity;
 use The42dx\Whatsapp\Contracts\Entity;
+use The42dx\Whatsapp\Traits\HasCaption;
 
 /**
  * VideoEntity
@@ -17,14 +18,7 @@ use The42dx\Whatsapp\Contracts\Entity;
  * @see https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object
  */
 class VideoEntity extends MediaEntity implements Entity {
-    /**
-     * caption
-     *
-     * The caption of the document.
-     *
-     * @var string|null
-     */
-    protected string|null $caption;
+    use HasCaption { setAttributes as protected setCaptionAttributes; }
 
     /**
      * setAttributes
@@ -35,12 +29,9 @@ class VideoEntity extends MediaEntity implements Entity {
      *
      * @return self
      */
-    public function setAttributes(array $attributes = []): self {
+    public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);
-
-        $this->caption = isset($attributes['caption']) ? $attributes['caption'] : (
-            isset($this->caption) && !is_null($this->caption) ? $this->caption : null
-        );
+        $this->setCaptionAttributes($attributes);
 
         return $this;
     }
