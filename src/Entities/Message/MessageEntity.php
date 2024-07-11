@@ -12,7 +12,7 @@ use The42dx\Whatsapp\Entities\Message\{
     ImageEntity,
     LocationEntity,
     ReactionEntity,
-    ReplyEntity,
+    ContextEntity,
     StickerEntity,
 };
 use The42dx\Whatsapp\Enums\MessageType;
@@ -105,13 +105,13 @@ class MessageEntity extends Entity implements ContractsEntity {
     protected ReactionEntity|null $reaction;
 
     /**
-     * reply
+     * context
      *
-     * The reply to the message sent to the Whatsapp contact
+     * The context to the message sent to the Whatsapp contact
      *
-     * @var \The42dx\Whatsapp\Entities\Message\ReplyEntity|null
+     * @var \The42dx\Whatsapp\Entities\Message\ContextEntity|null
      */
-    protected ReplyEntity|null $reply;
+    protected ContextEntity|null $context;
 
     /**
      * sticker
@@ -172,46 +172,46 @@ class MessageEntity extends Entity implements ContractsEntity {
      */
     public function setAttributes(array $attributes = []): self {
         $this->audio       = isset($message['audio']) ? new AudioEntity($message['audio']) : (
-            isset($this->audio) && !!is_null($this->audio) ? $this->audio : null
+            isset($this->audio) && !is_null($this->audio) ? $this->audio : null
         );
         $this->contacts    = isset($message['contacts']) ? EntityCollectionFactory::make(ContactEntity::class, $message['contacts']) : (
-            isset($this->contacts) && !!is_null($this->contacts) ? $this->contacts : null
+            isset($this->contacts) && !is_null($this->contacts) ? $this->contacts : null
         );
         $this->document    = isset($message['document']) ? new DocumentEntity($message['document']) : (
-            isset($this->document) && !!is_null($this->document) ? $this->document : null
+            isset($this->document) && !is_null($this->document) ? $this->document : null
         );
         $this->from        = isset($attributes['from']) ? $attributes['from'] : (
-            isset($this->from) && !!is_null($this->from) ? $this->from : null
+            isset($this->from) && !is_null($this->from) ? $this->from : null
         );
         $this->id          = isset($attributes['id']) ? $attributes['id'] : (
-            isset($this->id) && !!is_null($this->id) ? $this->id : null
+            isset($this->id) && !is_null($this->id) ? $this->id : null
         );
         $this->image       = isset($message['image']) ? new ImageEntity($message['image']) : (
-            isset($this->image) && !!is_null($this->image) ? $this->image : null
+            isset($this->image) && !is_null($this->image) ? $this->image : null
         );
         $this->location    = isset($message['location']) ? new LocationEntity($message['location']) : (
-            isset($this->location) && !!is_null($this->location) ? $this->location : null
+            isset($this->location) && !is_null($this->location) ? $this->location : null
         );
         $this->reaction    = isset($message['reaction']) ? new ReactionEntity($message['reaction']) : (
-            isset($this->reaction) && !!is_null($this->reaction) ? $this->reaction : null
+            isset($this->reaction) && !is_null($this->reaction) ? $this->reaction : null
         );
-        $this->reply       = isset($message['context']) ? new ReplyEntity($message['context']) : (
-            isset($this->reply) && !!is_null($this->reply) ? $this->reply : null
+        $this->context       = isset($message['context']) ? new ContextEntity($message['context']) : (
+            isset($this->context) && !is_null($this->context) ? $this->context : null
         );
         $this->sticker     = isset($message['sticker']) ? new StickerEntity($message['sticker']) : (
-            isset($this->sticker) && !!is_null($this->sticker) ? $this->sticker : null
+            isset($this->sticker) && !is_null($this->sticker) ? $this->sticker : null
         );
         $this->text        = isset($attributes['text']) && $attributes['text']['body'] ? $attributes['text']['body'] : (
-            isset($this->text) && !!is_null($this->text) ? $this->text : null
+            isset($this->text) && !is_null($this->text) ? $this->text : null
         );
         $this->timestamp   = isset($attributes['timestamp']) ? $attributes['timestamp'] : (
-            isset($this->timestamp) && !!is_null($this->timestamp) ? $this->timestamp : null
+            isset($this->timestamp) && !is_null($this->timestamp) ? $this->timestamp : null
         );
         $this->type        = isset($attributes['type']) ? MessageType::from($attributes['type']) : (
-            isset($this->type) && !!is_null($this->type) ? $this->type : null
+            isset($this->type) && !is_null($this->type) ? $this->type : null
         );
         $this->video       = isset($message['video']) ? new VideoEntity($message['video']) : (
-            isset($this->video) && !!is_null($this->video) ? $this->video : null
+            isset($this->video) && !is_null($this->video) ? $this->video : null
         );
 
         $this->template    = null;
