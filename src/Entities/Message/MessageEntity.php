@@ -171,13 +171,13 @@ class MessageEntity extends Entity implements ContractsEntity {
      * @return self
      */
     public function setAttributes(array $attributes = []): self {
-        $this->audio       = isset($message['audio']) ? new AudioEntity($message['audio']) : (
+        $this->audio       = isset($attributes['audio']) ? new AudioEntity($attributes['audio']) : (
             isset($this->audio) && !is_null($this->audio) ? $this->audio : null
         );
-        $this->contacts    = isset($message['contacts']) ? EntityCollectionFactory::make(ContactEntity::class, $message['contacts']) : (
+        $this->contacts    = isset($attributes['contacts']) ? EntityCollectionFactory::make(ContactEntity::class, $attributes['contacts']) : (
             isset($this->contacts) && !is_null($this->contacts) ? $this->contacts : null
         );
-        $this->document    = isset($message['document']) ? new DocumentEntity($message['document']) : (
+        $this->document    = isset($attributes['document']) ? new DocumentEntity($attributes['document']) : (
             isset($this->document) && !is_null($this->document) ? $this->document : null
         );
         $this->from        = isset($attributes['from']) ? $attributes['from'] : (
@@ -186,19 +186,19 @@ class MessageEntity extends Entity implements ContractsEntity {
         $this->id          = isset($attributes['id']) ? $attributes['id'] : (
             isset($this->id) && !is_null($this->id) ? $this->id : null
         );
-        $this->image       = isset($message['image']) ? new ImageEntity($message['image']) : (
+        $this->image       = isset($attributes['image']) ? new ImageEntity($attributes['image']) : (
             isset($this->image) && !is_null($this->image) ? $this->image : null
         );
-        $this->location    = isset($message['location']) ? new LocationEntity($message['location']) : (
+        $this->location    = isset($attributes['location']) ? new LocationEntity($attributes['location']) : (
             isset($this->location) && !is_null($this->location) ? $this->location : null
         );
-        $this->reaction    = isset($message['reaction']) ? new ReactionEntity($message['reaction']) : (
+        $this->reaction    = isset($attributes['reaction']) ? new ReactionEntity($attributes['reaction']) : (
             isset($this->reaction) && !is_null($this->reaction) ? $this->reaction : null
         );
-        $this->context       = isset($message['context']) ? new ContextEntity($message['context']) : (
+        $this->context       = isset($attributes['context']) ? new ContextEntity($attributes['context']) : (
             isset($this->context) && !is_null($this->context) ? $this->context : null
         );
-        $this->sticker     = isset($message['sticker']) ? new StickerEntity($message['sticker']) : (
+        $this->sticker     = isset($attributes['sticker']) ? new StickerEntity($attributes['sticker']) : (
             isset($this->sticker) && !is_null($this->sticker) ? $this->sticker : null
         );
         $this->text        = isset($attributes['text']) && $attributes['text']['body'] ? $attributes['text']['body'] : (
@@ -210,7 +210,7 @@ class MessageEntity extends Entity implements ContractsEntity {
         $this->type        = isset($attributes['type']) ? MessageType::from($attributes['type']) : (
             isset($this->type) && !is_null($this->type) ? $this->type : null
         );
-        $this->video       = isset($message['video']) ? new VideoEntity($message['video']) : (
+        $this->video       = isset($attributes['video']) ? new VideoEntity($attributes['video']) : (
             isset($this->video) && !is_null($this->video) ? $this->video : null
         );
 
