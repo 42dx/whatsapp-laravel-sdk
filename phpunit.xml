@@ -23,7 +23,7 @@
         <env name="WPP_BUSINESS_PHONE_ID" value="000000"/>
         <env name="WPP_SERVER_URL" value="http://some-server.com"/>
         <env name="WPP_TOKEN" value="some-token"/>
-        <env name="WPP_WEBHOOK_VERIFY" value="some-token"/>
+        <env name="WPP_WEBHOOK_VERIFY" value="some-verify"/>
     </php>
     <source>
         <include>

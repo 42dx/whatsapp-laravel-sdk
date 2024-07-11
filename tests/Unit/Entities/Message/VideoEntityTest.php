@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\VideoEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class VideoEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $video = new VideoEntity([]);
 
         $this->assertIsObject($video);
         $this->assertInstanceOf(Entity::class, $video);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
         $video     = new VideoEntity($videoData);
 
@@ -29,7 +29,7 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertNull($video->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $video = new VideoEntity([]);
 
         $this->assertIsObject($video);
@@ -56,7 +56,7 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertNull($video->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
         $video     = new VideoEntity($videoData);
         $array     = $video->toArray();
@@ -70,7 +70,7 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('fileSize', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
         $video     = new VideoEntity($videoData);
         $json = $video->toJson();

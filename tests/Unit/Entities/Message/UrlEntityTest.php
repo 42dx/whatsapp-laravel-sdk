@@ -8,14 +8,14 @@ use The42dx\Whatsapp\Enums\ContactPropType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class UrlEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $url = new UrlEntity([]);
 
         $this->assertIsObject($url);
         $this->assertInstanceOf(Entity::class, $url);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $urlData = $this->getJsonFixture('Api/Components/url');
         $url     = new UrlEntity($urlData);
 
@@ -25,7 +25,7 @@ class UrlEntityTest extends UnitTestCase {
         $this->assertEquals(ContactPropType::WORK, $url->type);
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $url = new UrlEntity([]);
 
         $this->assertIsObject($url);
@@ -42,7 +42,7 @@ class UrlEntityTest extends UnitTestCase {
         $this->assertEquals(ContactPropType::HOME, $url->type);
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $urlData = $this->getJsonFixture('Api/Components/url');
         $url     = new UrlEntity($urlData);
         $array   = $url->toArray();
@@ -52,7 +52,7 @@ class UrlEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $urlData = $this->getJsonFixture('Api/Components/url');
         $url     = new UrlEntity($urlData);
         $json    = $url->toJson();

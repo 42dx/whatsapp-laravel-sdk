@@ -12,7 +12,7 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertTrue($changes instanceof Entity);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
         $contact     = new ContactsEntity($contactData);
 
@@ -25,7 +25,7 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertEquals('123123123123', $contact->waId);
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $expectedName = 'Some Interesting Name';
         $expectedWaId = '098876654';
         $contact = new ContactsEntity([]);
@@ -47,7 +47,7 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertEquals($expectedWaId, $contact->waId);
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
         $contact     = new ContactsEntity($contactData);
         $array     = $contact->toArray();
@@ -57,7 +57,7 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('waId', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
         $contact     = new ContactsEntity($contactData);
         $json        = $contact->toJson();

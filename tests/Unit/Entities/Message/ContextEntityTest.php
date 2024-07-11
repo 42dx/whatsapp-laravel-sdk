@@ -8,14 +8,14 @@ use The42dx\Whatsapp\Enums\ContextType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ContextEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
         $this->assertInstanceOf(Entity::class, $context);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $contextData = $this->getJsonFixture('Api/Components/context');
         $context     = new ContextEntity($contextData);
 
@@ -27,7 +27,7 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertEquals(ContextType::STD, $context->type);
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
@@ -49,7 +49,7 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertEquals(ContextType::STD, $context->type);
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $contextData = $this->getJsonFixture('Api/Components/context');
         $context     = new ContextEntity($contextData);
         $array     = $context->toArray();
@@ -60,7 +60,7 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $contextData = $this->getJsonFixture('Api/Components/context');
         $context     = new ContextEntity($contextData);
         $json        = $context->toJson();

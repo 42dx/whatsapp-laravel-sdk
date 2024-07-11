@@ -14,14 +14,14 @@ use The42dx\Whatsapp\Entities\Message\UrlEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ContactEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntryInstanceObject() {
+    public function test__construct_it_should_be_an_entity_instance_object() {
         $contact = new ContactEntity([]);
 
         $this->assertIsObject($contact);
         $this->assertInstanceOf(Entity::class, $contact);
     }
 
-    public function test_itShouldCreateObjectWithCorrectAttributes() {
+    public function test__construct_it_should_create_object_with_correct_attributes() {
         $expectedBirthday = '2012-08-18';
         $contactData      = $this->getJsonFixture('Api/Components/contact');
         $contact          = new ContactEntity($contactData);
@@ -40,7 +40,7 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertInstanceOf(UrlEntity::class, $contact->urls->first());
     }
 
-    public function test_itShouldUpdateAttributes() {
+    public function test__setAttributes_it_should_update_attributes() {
         $expectedBirthday = '2012-08-18';
         $contact = new ContactEntity([]);
 
@@ -84,7 +84,7 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertInstanceOf(UrlEntity::class, $contact->urls->first());
     }
 
-    public function test_itShouldConvertToArrayCorrectly() {
+    public function test__toArray_it_should_convert_to_array_correctly() {
         $contactData      = $this->getJsonFixture('Api/Components/contact');
         $contact          = new ContactEntity($contactData);
         $array            = $contact->toArray();
@@ -99,7 +99,7 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('urls', $array);
     }
 
-    public function test_itShouldConvertToJsonCorrectly() {
+    public function test__toJson_it_should_convert_to_json_correctly() {
         $contactData      = $this->getJsonFixture('Api/Components/contact');
         $contact          = new ContactEntity($contactData);
         $json             = $contact->toJson();
