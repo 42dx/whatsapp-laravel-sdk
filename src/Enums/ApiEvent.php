@@ -2,6 +2,13 @@
 
 namespace The42dx\Whatsapp\Enums;
 
+/**
+ * enum ApiEvent
+ *
+ * Represents the event type of the API event sent
+ *
+ * @package The42dx\Whatsapp\Enums
+ */
 enum ApiEvent: string {
     case ACC_ALERTS                = 'account_alerts';
     case ACC_REVIEW_UPDATE         = 'account_review_update';
