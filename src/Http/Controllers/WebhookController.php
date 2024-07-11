@@ -45,5 +45,7 @@ class WebhookController extends Controller {
         $event = new EventEntity($request->all());
     }
 
-    private function hookRoute() {}
+    private function hookRoute() {
+        throw new \Exception('Not implemented');
+    }
 }

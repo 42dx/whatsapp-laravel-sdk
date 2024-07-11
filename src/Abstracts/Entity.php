@@ -115,7 +115,7 @@ abstract class Entity implements ContractsEntity {
                 return;
             }
 
-            if (((new $class) instanceof ContractsEntity) ) {
+            if ((new $class) instanceof ContractsEntity) {
                 $this->{$attrName} = new $class($value);
 
                 return;
