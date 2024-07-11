@@ -31,7 +31,9 @@
     "scripts": {
         "commit": "tools/commitizen",
         "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml --coverage-html coverage --colors=always --testdox",
-        "serve": "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve",
+        "start": "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve",
+        "setup": "cd samples/laravel-11 && composer install && cd ../..",
+        "serve": "ssh -R 80:localhost:8000 serveo.net",
         "test": "XDEBUG_MODE=off phpunit --colors=always --testdox"
     },
     "require-dev": {
