@@ -8,14 +8,14 @@ use The42dx\Whatsapp\Entities\{ChangesEntity, EntryEntity};
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class EntryEntityTest extends UnitTestCase {
-    public function test__construct_it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object() {
         $entry = new EntryEntity([]);
 
         $this->assertIsObject($entry);
         $this->assertInstanceOf(Entity::class, $entry);
     }
 
-    public function test__construct_it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes() {
         $entryData = $this->getJsonFixture('Api/Components/entry');
         $entry     = new EntryEntity($entryData);
 
@@ -28,7 +28,7 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
     }
 
-    public function test__setAttributes_it_should_update_attributes() {
+    public function test__setAttributes__it_should_update_attributes() {
         $entryId = '456';
         $entry = new EntryEntity([]);
 
@@ -47,7 +47,7 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
     }
 
-    public function test__toArray_it_should_convert_to_array_correctly() {
+    public function test__toArray__it_should_convert_to_array_correctly() {
         $entryData = $this->getJsonFixture('Api/Components/entry');
         $entry     = new EntryEntity($entryData);
         $array     = $entry->toArray();
@@ -57,7 +57,7 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('changes', $array);
     }
 
-    public function test__toJson_it_should_convert_to_json_correctly() {
+    public function test__toJson__it_should_convert_to_json_correctly() {
         $entryData = $this->getJsonFixture('Api/Components/entry');
         $entry     = new EntryEntity($entryData);
         $json      = $entry->toJson();
