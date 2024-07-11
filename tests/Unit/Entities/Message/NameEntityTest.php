@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\NameEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class NameEntityTest extends UnitTestCase {
-    public function test__construct_it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object() {
         $name = new NameEntity([]);
 
         $this->assertIsObject($name);
         $this->assertInstanceOf(Entity::class, $name);
     }
 
-    public function test__construct_it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes() {
         $nameData = $this->getJsonFixture('Api/Components/name');
         $name     = new NameEntity($nameData);
 
@@ -28,7 +28,7 @@ class NameEntityTest extends UnitTestCase {
         $this->assertEquals('Jr.', $name->suffix);
     }
 
-    public function test__setAttributes_it_should_update_attributes() {
+    public function test__setAttributes__it_should_update_attributes() {
         $name = new NameEntity([]);
 
         $this->assertIsObject($name);
@@ -57,7 +57,7 @@ class NameEntityTest extends UnitTestCase {
         $this->assertEquals('Jr.', $name->suffix);
     }
 
-    public function test__toArray_it_should_convert_to_array_correctly() {
+    public function test__toArray__it_should_convert_to_array_correctly() {
         $nameData = $this->getJsonFixture('Api/Components/name');
         $name     = new NameEntity($nameData);
         $array     = $name->toArray();
@@ -71,7 +71,7 @@ class NameEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('suffix', $array);
     }
 
-    public function test__toJson_it_should_convert_to_json_correctly() {
+    public function test__toJson__it_should_convert_to_json_correctly() {
         $nameData = $this->getJsonFixture('Api/Components/name');
         $name     = new NameEntity($nameData);
         $json      = $name->toJson();

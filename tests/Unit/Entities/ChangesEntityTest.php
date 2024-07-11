@@ -32,7 +32,7 @@ class ChangesEntityTest extends UnitTestCase {
         ];
     }
 
-    public function test__construct_it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object() {
         $changes = new ChangesEntity([]);
 
         $this->assertIsObject($changes);
@@ -40,7 +40,7 @@ class ChangesEntityTest extends UnitTestCase {
     }
 
     #[DataProvider('fieldTypeDataset')]
-    public function test__construct_it_should_create_object_with_correct_attributes(string $field, ApiEvent $expectedApiEvent, string|null $expectedValue) {
+    public function test__construct__it_should_create_object_with_correct_attributes(string $field, ApiEvent $expectedApiEvent, string|null $expectedValue) {
         $changes     = new ChangesEntity([
             'field' => $field,
             'value' => []
@@ -58,7 +58,7 @@ class ChangesEntityTest extends UnitTestCase {
         $this->assertInstanceOf($expectedValue, $changes->value);
     }
 
-    public function test__setAttributes_it_should_update_attributes() {
+    public function test__setAttributes__it_should_update_attributes() {
         $changes = new ChangesEntity([]);
 
         $this->assertNull($changes->field);
@@ -74,7 +74,7 @@ class ChangesEntityTest extends UnitTestCase {
         $this->assertInstanceOf(MessagesEntity::class, $changes->value);
     }
 
-    public function test__toArray_it_should_convert_to_array_correctly() {
+    public function test__toArray__it_should_convert_to_array_correctly() {
         $changesData = $this->getJsonFixture('Api/Components/change');
         $changes     = new ChangesEntity($changesData);
         $array       = $changes->toArray();
@@ -84,7 +84,7 @@ class ChangesEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('value', $array);
     }
 
-    public function test__toJson_it_should_convert_to_json_correctly() {
+    public function test__toJson__it_should_convert_to_json_correctly() {
         $changesData = $this->getJsonFixture('Api/Components/change');
         $changes     = new ChangesEntity($changesData);
         $json        = $changes->toJson();

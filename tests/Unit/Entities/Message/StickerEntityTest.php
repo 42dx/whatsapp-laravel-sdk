@@ -8,14 +8,14 @@ use The42dx\Whatsapp\Enums\StickerType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class StickerEntityTest extends UnitTestCase {
-    public function test__construct_it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object() {
         $sticker = new StickerEntity([]);
 
         $this->assertIsObject($sticker);
         $this->assertInstanceOf(Entity::class, $sticker);
     }
 
-    public function test__construct_it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes() {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
         $sticker     = new StickerEntity($stickerData);
 
@@ -31,7 +31,7 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertNull($sticker->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__setAttributes_it_should_update_attributes() {
+    public function test__setAttributes__it_should_update_attributes() {
         $sticker = new StickerEntity([]);
 
         $this->assertIsObject($sticker);
@@ -59,7 +59,7 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertNull($sticker->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__toArray_it_should_convert_to_array_correctly() {
+    public function test__toArray__it_should_convert_to_array_correctly() {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
         $sticker     = new StickerEntity($stickerData);
         $array     = $sticker->toArray();
@@ -71,7 +71,7 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test__toJson_it_should_convert_to_json_correctly() {
+    public function test__toJson__it_should_convert_to_json_correctly() {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
         $sticker     = new StickerEntity($stickerData);
         $json        = $sticker->toJson();

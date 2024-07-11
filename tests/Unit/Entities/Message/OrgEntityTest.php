@@ -7,14 +7,14 @@ use The42dx\Whatsapp\Entities\Message\OrgEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class OrgEntityTest extends UnitTestCase {
-    public function test__construct_it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object() {
         $org = new OrgEntity([]);
 
         $this->assertIsObject($org);
         $this->assertInstanceOf(Entity::class, $org);
     }
 
-    public function test__construct_it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes() {
         $orgData = $this->getJsonFixture('Api/Components/org');
         $org     = new OrgEntity($orgData);
 
@@ -25,7 +25,7 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertEquals('some title', $org->title);
     }
 
-    public function test__setAttributes_it_should_update_attributes() {
+    public function test__setAttributes__it_should_update_attributes() {
         $org = new OrgEntity([]);
 
         $this->assertIsObject($org);
@@ -45,7 +45,7 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertEquals('some title', $org->title);
     }
 
-    public function test__toArray_it_should_convert_to_array_correctly() {
+    public function test__toArray__it_should_convert_to_array_correctly() {
         $orgData = $this->getJsonFixture('Api/Components/org');
         $org     = new OrgEntity($orgData);
         $array   = $org->toArray();
@@ -56,7 +56,7 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('title', $array);
     }
 
-    public function test__toJson_it_should_convert_to_json_correctly() {
+    public function test__toJson__it_should_convert_to_json_correctly() {
         $orgData = $this->getJsonFixture('Api/Components/org');
         $org     = new OrgEntity($orgData);
         $json    = $org->toJson();
