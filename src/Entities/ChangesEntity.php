@@ -2,6 +2,7 @@
 
 namespace The42dx\Whatsapp\Entities;
 
+use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Entities\Changes\MessagesEntity;
@@ -71,10 +72,7 @@ class ChangesEntity extends Entity implements ContractsEntity {
             case ApiEvent::SECURITY:
             case ApiEvent::TEMPLATE_CAT_UPDT:
             default:
-                // Log::warn(self::ERR_UNSUPPORTED_CHANGE, [
-                //     'field' => $this->field->value,
-                //     'value' => $value
-                // ]);
+                Log::warn(self::ERR_UNSUPPORTED_CHANGE, ['field' => $this->field->value]);
 
                 return null;
         }

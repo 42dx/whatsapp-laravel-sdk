@@ -18,6 +18,6 @@ class EntityTest extends UnitTestCase {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Attribute \'unexistent\' does not exist on [The42dx\Whatsapp\Tests\Unit\Abstracts\Mock].');
 
-        $entity = new Mock(['unexistent' => 'something']);
+        new Mock(['unexistent' => 'something']);
     }
 }

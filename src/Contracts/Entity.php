@@ -2,8 +2,6 @@
 
 namespace The42dx\Whatsapp\Contracts;
 
-use Illuminate\Support\Collection;
-
 /**
  * Entity
  *
