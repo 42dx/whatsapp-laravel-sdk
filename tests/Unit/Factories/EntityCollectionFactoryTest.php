@@ -11,7 +11,7 @@ class Mock extends Model { }
 
 class EntityCollectionFactoryTest extends UnitTestCase {
     public function test__make__it_should_throw_error_if_provided_class_does_not_implement_entity_contract() {
-        $this->expectException(\Exception::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Entity class [[]] does not implement the [The42dx\Whatsapp\Contracts\Entity] contract');
 
         EntityCollectionFactory::make(Mock::class, [['some' => 'prop']]);
