@@ -103,19 +103,7 @@ abstract class Entity implements ContractsEntity {
         $value    = !empty($newValue) ? $newValue : $oldValue;
 
         if (!is_null($class)) {
-            $reflector = new \ReflectionClass($class);
-
-            if ($isCollection) {
-                $this->{$attrName} = EntityCollectionFactory::make($class, $value);
-            }
-
-            if ($reflector->isEnum()) {
-                $this->{$attrName} = $value ? $class::from($value) : null;
-            }
-
-            if (!$reflector->isEnum() && !$isCollection && (new $class) instanceof ContractsEntity) {
-                $this->{$attrName} = new $class($value);
-            }
+            $this->manageClassAttribute($attrName, $class, $value, $isCollection);
 
             return;
         }
@@ -136,5 +124,31 @@ abstract class Entity implements ContractsEntity {
      */
     public function __get(string $key): mixed {
         return $this->$key;
+    }
+
+    /**
+     * manageClassAttribute
+     *
+     * Manage the class attribute and set it correctly depending on the class type
+     *
+     * @param string $attrName The entity attribute name
+     * @param class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null $class The class of the object or collection
+     * @param mixed $value The attribute value
+     * @param bool $isCollection Whether the attribute is a collection
+     */
+    private function manageClassAttribute(string $attrName, string $class, mixed $value, bool $isCollection): void {
+        $reflector = new \ReflectionClass($class);
+
+        if ($isCollection) {
+            $this->{$attrName} = EntityCollectionFactory::make($class, $value);
+        }
+
+        if ($reflector->isEnum()) {
+            $this->{$attrName} = $value ? $class::from($value) : null;
+        }
+
+        if (!$reflector->isEnum() && !$isCollection && (new $class) instanceof ContractsEntity) {
+            $this->{$attrName} = new $class($value);
+        }
     }
 }
