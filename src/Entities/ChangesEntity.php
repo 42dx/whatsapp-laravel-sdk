@@ -72,7 +72,7 @@ class ChangesEntity extends Entity implements ContractsEntity {
             case ApiEvent::SECURITY:
             case ApiEvent::TEMPLATE_CAT_UPDT:
             default:
-                Log::warn(self::ERR_UNSUPPORTED_CHANGE, ['field' => $this->field->value]);
+                Log::warning(self::ERR_UNSUPPORTED_CHANGE, ['field' => isset($this->field) ? $this->field->value : 'undefined field']);
 
                 return null;
         }
