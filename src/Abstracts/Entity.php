@@ -102,24 +102,22 @@ abstract class Entity implements ContractsEntity {
         $newValue = Arr::get($data, $dataKey) ?? null;
         $value    = !empty($newValue) ? $newValue : $oldValue;
 
-        if ($isCollection) {
-            $this->{$attrName} = EntityCollectionFactory::make($class, $value);
+        if (!is_null($class)) {
+            $reflector = new \ReflectionClass($class);
+
+            if ($isCollection) {
+                $this->{$attrName} = EntityCollectionFactory::make($class, $value);
+            }
+
+            if ($reflector->isEnum()) {
+                $this->{$attrName} = $value ? $class::from($value) : null;
+            }
+
+            if (!$reflector->isEnum() && !$isCollection && (new $class) instanceof ContractsEntity) {
+                $this->{$attrName} = new $class($value);
+            }
 
             return;
-        }
-
-        if (!is_null($class)) {
-            if ((new \ReflectionClass($class))->isEnum()) {
-                $this->{$attrName} = $value ? $class::from($value) : null;
-
-                return;
-            }
-
-            if ((new $class) instanceof ContractsEntity) {
-                $this->{$attrName} = new $class($value);
-
-                return;
-            }
         }
 
         $this->{$attrName} = $value;
