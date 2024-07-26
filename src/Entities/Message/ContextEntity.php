@@ -41,9 +41,9 @@ class ContextEntity extends Entity implements ContractsEntity {
      *
      * The type of the context
      *
-     * @var \The42dx\Whatsapp\Enums\ContextType $type
+     * @var \The42dx\Whatsapp\Enums\ContextType|null $type
      */
-    protected ContextType $type;
+    protected ContextType|null $type;
 
     /**
      * setAttributes
@@ -58,7 +58,7 @@ class ContextEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
         $this->setOrUpdateAttribute('from', 'from', $attributes);
 
-        $this->type = $this->getContextType($attributes);
+        $this->type = isset($attributes['id']) ? $this->getContextType($attributes) : null;
 
         return $this;
     }
