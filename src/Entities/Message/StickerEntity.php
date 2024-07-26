@@ -23,11 +23,11 @@ class StickerEntity extends MediaEntity implements Entity {
      *
      * The type of the sticker.
      *
-     * @var StickerType
+     * @var \The42dx\Whatsapp\Enums\StickerType|null
      *
      * @see \The42dx\Whatsapp\Enums\StickerType
      */
-    protected StickerType $type;
+    protected StickerType|null $type;
 
     /**
      * setAttributes
@@ -41,7 +41,9 @@ class StickerEntity extends MediaEntity implements Entity {
     public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);
 
-        $this->type = isset($attributes['animated']) && ((bool) $attributes['animated']) ? StickerType::ANIMATED : StickerType::STATIC;
+        $this->type = !isset($attributes['animated']) ? null : (
+            !((bool) $attributes['animated']) ? StickerType::STATIC : StickerType::ANIMATED
+        );
 
         return $this;
     }
