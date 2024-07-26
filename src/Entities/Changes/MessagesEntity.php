@@ -7,7 +7,7 @@ use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
 use The42dx\Whatsapp\Entities\Changes\ContactsEntity;
 use The42dx\Whatsapp\Entities\Message\MessageEntity;
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
+use The42dx\Whatsapp\Entities\Message\StatusEntity;
 
 /**
  * MessagesEntity
@@ -44,6 +44,17 @@ class MessagesEntity extends Entity implements ContractsEntity {
     protected Collection|null $messages;
 
     /**
+     * statuses
+     *
+     * The statuses of the messages sent to the Whatsapp contacts
+     *
+     * @var \Illuminate\Support\Collection|null
+     *
+     * @see \The42dx\Whatsapp\Entities\Message\MessageEntity
+     */
+    protected Collection|null $statuses;
+
+    /**
      * waId
      *
      * The Whatsapp ID of the contact
@@ -75,6 +86,7 @@ class MessagesEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('phone', 'metadata.display_phone_number', $attributes);
         $this->setOrUpdateAttribute('contacts', 'contacts', $attributes, ContactsEntity::class, true);
         $this->setOrUpdateAttribute('messages', 'messages', $attributes, MessageEntity::class, true);
+        $this->setOrUpdateAttribute('statuses', 'statuses', $attributes, StatusEntity::class, true);
 
         return $this;
     }
