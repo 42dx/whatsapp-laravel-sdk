@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Contracts\Enum;
 use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
