@@ -2,7 +2,9 @@
 
 namespace The42dx\Whatsapp\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use The42dx\Whatsapp\Abstracts\FormRequest;
+use The42dx\Whatsapp\Enums\ObjectType;
 
 /**
  * ApiEventRequest
@@ -11,23 +13,26 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class ApiEventRequest extends FormRequest {
     /**
-     * entry
-     *
-     * The entry object sent by the Whatsapp Business API
-     *
-     * @var array
-     */
-    public array $entry;
-
-    /**
      * The rules that the request must pass.
      *
      * @return array
      */
     public function rules(): array {
         return [
+            'object'          => Rule::enum(ObjectType::class),
             'entry'           => 'required|array|min:1',
             'entry.*.changes' => 'required|array|min:1',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages(): array {
+        return [
+            'object' => 'The value of the \'object\' field is not supported or is invalid.',
         ];
     }
 }
