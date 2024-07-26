@@ -28,7 +28,7 @@ class EventEntity extends Entity implements ContractsEntity {
     protected ObjectType|null $object;
 
     /**
-     * entry
+     * entries
      *
      * The entry entity of the event
      *
@@ -36,7 +36,7 @@ class EventEntity extends Entity implements ContractsEntity {
      *
      * @see \The42dx\Whatsapp\Entities\EntryEntity
      */
-    protected Collection|null $entry;
+    protected Collection|null $entries;
 
     /**
      * setAttributes
@@ -49,7 +49,7 @@ class EventEntity extends Entity implements ContractsEntity {
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('object', 'object', $attributes, ObjectType::class);
-        $this->setOrUpdateAttribute('entry', 'entry', $attributes, EntryEntity::class, true);
+        $this->setOrUpdateAttribute('entries', 'entry', $attributes, EntryEntity::class, true);
 
         return $this;
     }

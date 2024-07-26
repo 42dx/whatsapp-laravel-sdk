@@ -2,6 +2,13 @@
 
 namespace The42dx\Whatsapp\Traits;
 
+/**
+ * HasCaption
+ *
+ * Trait for entities that have a caption attribute
+ *
+ * @package The42dx\Whatsapp\Traits
+ */
 trait HasCaption {
     /**
      * caption
