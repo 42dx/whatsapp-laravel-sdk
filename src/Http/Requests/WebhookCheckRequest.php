@@ -2,7 +2,7 @@
 
 namespace The42dx\Whatsapp\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use The42dx\Whatsapp\Abstracts\FormRequest;
 use The42dx\Whatsapp\Rules\{HubMode, VerifyToken};
 
 /**
