@@ -1,6 +1,6 @@
 <?php
 
-namespace The42dx\Whatsapp\Traits;
+namespace The42dx\Whatsapp\Entities\Traits;
 
 /**
  * HasCaption

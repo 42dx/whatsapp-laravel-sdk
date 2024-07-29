@@ -1,16 +1,17 @@
 <?php
 
-namespace The42dx\Whatsapp\Traits;
+namespace The42dx\Whatsapp\Http\Controllers\Traits\Messages;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Entities\Changes\MessagesEntity;
-use The42dx\Whatsapp\Entities\Message\{MessageEntity, StatusEntity};
-use The42dx\Whatsapp\Enums\MessageType;
-use The42dx\Whatsapp\Enums\MessageWay;
+use The42dx\Whatsapp\Entities\{Changes\MessagesEntity, Message\MessageEntity};
+use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
+use The42dx\Whatsapp\Http\Controllers\Traits\Messages\{HandleMessageStatus, HandleTextMessage};
 
-trait HandleMessages {
+trait HandleWhatsappMessage {
+    use HandleTextMessage, HandleMessageStatus;
+
     private WhatsappMessage $message;
 
     protected function handleMessages(MessagesEntity $messagesValue): void {
@@ -72,15 +73,5 @@ trait HandleMessages {
         }
 
         $this->message->save();
-    }
-
-    protected function handleStatus(StatusEntity $status): void {
-        $status; // Todo Handle
-    }
-
-    protected function handleText(MessageEntity $message): void {
-        $this->message->text = $message->text;
-
-        Log::debug('Text message handled');
     }
 }
