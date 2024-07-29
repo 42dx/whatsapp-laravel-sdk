@@ -8,7 +8,10 @@ use The42dx\Whatsapp\Enums\MessageType;
 use The42dx\Whatsapp\Enums\MessageWay;
 
 return new class extends Migration {
-    const TABLE_NAME = 'whatsapp_msgs';
+    const TABLE_NAME   = 'whatsapp_messages';
+    const USERS_TABLE  = 'users';
+    const PHONE_COLUMN = 'phone';
+    const USERS_PK     = 'id';
 
     /**
      * Run the migrations.
@@ -25,8 +28,8 @@ return new class extends Migration {
                   ->index();
             $table->foreignId('user_id')
                   ->nullable()
-                  ->references(config('whatsapp.database.users_table_pk', 'id'))
-                  ->on(config('whatsapp.database.users_table', 'users'))
+                  ->references(config('whatsapp.database.users_table_pk', self::USERS_PK))
+                  ->on(config('whatsapp.database.users_table', self::USERS_TABLE))
                   ->onDelete('cascade');
             $table->enum('way', [
                 MessageWay::INBOUND->value,
