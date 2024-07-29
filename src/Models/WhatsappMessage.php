@@ -1,7 +1,15 @@
 <?php
 
+namespace The42dx\Whatsapp\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * WhatsappMessage
+ *
+ * Represents a Whatsapp message data on the database.
+ *
+ */
 class WhatsappMessage extends Model {
     /**
      * The attributes that are mass assignable.

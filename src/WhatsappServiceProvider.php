@@ -21,11 +21,10 @@ class WhatsappServiceProvider extends ServiceProvider {
 
     public function boot() {
         $this->publishes([self::CONFIG_PATH => config_path(self::CONFIG_FILENAME)],  self::PUBLISH_TAG_PREFIX . 'config');
+        $this->publishesMigrations([self::MIGRATIONS_PATH => database_path('migrations')], self::PUBLISH_TAG_PREFIX . 'migrations');
 
         if (!config('whatsapp.database.skip_migrations')) {
             $this->loadMigrationsFrom(self::MIGRATIONS_PATH);
         }
-
-        $this->publishesMigrations([self::MIGRATIONS_PATH => database_path('migrations')], self::PUBLISH_TAG_PREFIX . 'migrations');
     }
 }

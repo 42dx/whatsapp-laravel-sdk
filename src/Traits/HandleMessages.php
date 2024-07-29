@@ -2,22 +2,30 @@
 
 namespace The42dx\Whatsapp\Traits;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Entities\Changes\{ContactsEntity, MessagesEntity};
+use The42dx\Whatsapp\Entities\Changes\MessagesEntity;
 use The42dx\Whatsapp\Entities\Message\{MessageEntity, StatusEntity};
 use The42dx\Whatsapp\Enums\MessageType;
+use The42dx\Whatsapp\Enums\MessageWay;
+use The42dx\Whatsapp\Models\WhatsappMessage;
 
 trait HandleMessages {
+    private WhatsappMessage $message;
+
     protected function handleMessages(MessagesEntity $messagesValue): void {
+        $this->message = new WhatsappMessage();
+
         $this->handleMetaData($messagesValue);
 
-        if (isset($messagesValue->messages) && !is_null($messagesValue->messages)) {
+        if (!is_null($messagesValue->messages)) {
+
             $messagesValue->messages->each(function ($message) {
                 $this->handleMessage($message);
             });
         }
 
-        if (isset($messagesValue->statuses) && !is_null($messagesValue->statuses)) {
+        if (!is_null($messagesValue->statuses)) {
             $messagesValue->statuses->each(function ($status) {
                 $this->handleStatus($status);
             });
@@ -25,25 +33,23 @@ trait HandleMessages {
     }
 
     protected function handleMetaData(MessagesEntity $messages): void {
-        $messages->waId; // Todo Handle
-        $messages->phone; // Todo Handle
-
-        if (isset($messages->contacts) && !is_null($messages->contacts)) {
-            $messages->contacts->each(function ($contact) {
-                $this->handleContact($contact);
-            });
-        }
-    }
-
-    protected function handleContact(ContactsEntity $contact): void {
-        $contact; // Todo Handle
+        $this->message->api_phone_number =  $messages->phone;
     }
 
     protected function handleMessage(MessageEntity $message): void {
-        $message->from;
-        $message->id;
-        $message->timestamp;
-        $message->type;
+        $this->message->contact_phone_number = $message->from;
+        $this->message->type                 = $message->type;
+        $this->message->whatsapp_message_id  = $message->id;
+        $this->message->way                  = MessageWay::INBOUND;
+
+        $user = User::where(
+            config('whatsapp.database.user_phone_column', 'phone'),
+            $message->from
+        )->first();
+
+        if(!!$user) {
+            $this->message->user_id = $user->id;
+        }
 
         switch ($message->type) {
             case MessageType::TEXT:
@@ -64,6 +70,8 @@ trait HandleMessages {
                 Log::warning('Unsupported message type: ' . $message->type->value);
                 break;
         }
+
+        $this->message->save();
     }
 
     protected function handleStatus(StatusEntity $status): void {
@@ -71,6 +79,8 @@ trait HandleMessages {
     }
 
     protected function handleText(MessageEntity $message): void {
-        $message; // Todo Handle
+        $this->message->text = $message->text;
+
+        Log::debug('Text message handled');
     }
 }
