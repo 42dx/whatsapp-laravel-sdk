@@ -10,7 +10,7 @@ use The42dx\Whatsapp\Entities\EventEntity;
 use The42dx\Whatsapp\Enums\ApiEvent;
 use The42dx\Whatsapp\Http\Requests\ApiEventRequest;
 use The42dx\Whatsapp\Http\Requests\WebhookCheckRequest;
-use The42dx\Whatsapp\Traits\HandleMessages;
+use The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleWhatsappMessage;
 
 /**
  * WebhookController
@@ -19,7 +19,7 @@ use The42dx\Whatsapp\Traits\HandleMessages;
  *
  */
 class WebhookController extends Controller {
-    use HandleMessages;
+    use HandleWhatsappMessage;
 
     /**
      * ERROR_INVALID_VERIFY
