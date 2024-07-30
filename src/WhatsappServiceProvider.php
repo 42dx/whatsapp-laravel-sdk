@@ -3,6 +3,7 @@
 namespace The42dx\Whatsapp;
 
 use Illuminate\Support\ServiceProvider;
+use The42dx\Whatsapp\Services\WhatsappService;
 
 class WhatsappServiceProvider extends ServiceProvider {
     const SERVICE_NAME       = 'whatsapp';
@@ -14,8 +15,8 @@ class WhatsappServiceProvider extends ServiceProvider {
     public function register() {
         $this->mergeConfigFrom(self::CONFIG_PATH, self::SERVICE_NAME);
 
-        $this->app->bind(self::SERVICE_NAME, function () {
-            // return new Whatsapp();
+        $this->app->singleton(WhatsappService::class, function () {
+            return new WhatsappService();
         });
     }
 
