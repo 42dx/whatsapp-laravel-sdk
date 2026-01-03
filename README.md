@@ -24,7 +24,7 @@ Check our package on [Packagist](https://packagist.org/packages/42dx/whatsapp-la
 - [Tooling](#tooling)
   - [Comitzen](#comitizen)
   - [Sample App](#sample-app)
-  - [Serveo](#serveo)
+  - [TunnelMole](#tunnelmole)
 - [Contributors](#contributors)
 - [Changelog](#changelog)
 - [Roadmap](#roadmap)
@@ -74,11 +74,11 @@ For those who want to test and/or contribute to this package, we included a samp
 
 Just run `composer serve` from the repository's root folder. The script will `cd` into the sample folder and run the Laravel artisan command `php artisan serve` from there.
 
-### Serveo
+### TunnelMole
 
 This service allows routing external requests to your local environment. You can use it to test your Watsapp webooks locally while developing.
 
-If you like the tool, [kudo the devs](https://serveo.net/) ;)
+If you like the tool, [kudo the devs](https://tunnelmole.com/) ;)
 
 #### How to use Serveo
 
