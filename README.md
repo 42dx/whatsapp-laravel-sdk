@@ -43,7 +43,7 @@ We tried to automate as much boring tasks and CLI commands as we could on short 
 
 We included a sample fresh Laravel app to help those who want to contribute to the package. To start it just go through the following steps:
 
-1. Clone this repository and `cd` into the sample app folder (`<repository-folder>/samples/laravel-11`).
+1. Clone this repository.
 2. Run `composer setup` from the repository root. It will `cd` on sample app's folder, install the dependencies and `cd` back to the root folder.
 3. Run `composer start` from the repository root. It will run the sample app through `artisan serve` command.
 4. With the local server running, from another terminal run `composer serve` from the repository. It will connect to [serveo](https://serveo.net) service and expose your local application to the web.
