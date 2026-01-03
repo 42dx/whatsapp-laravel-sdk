@@ -33,10 +33,10 @@
         "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml --coverage-html coverage --colors=always --testdox",
         "start": [
             "Composer\\Config::disableProcessTimeout",
-            "cd samples/laravel-11 && XDEBUG_MODE=develop,debug,trace php artisan serve"
+            "cd samples/laravel-12 && XDEBUG_MODE=develop,debug,trace php artisan serve"
         ],
-        "setup": "cd samples/laravel-11 && composer install && cd ../..",
-        "serve": [
+        "setup": "cd samples/laravel-12 && composer install && cd ../..",
+        "connect": [
             "Composer\\Config::disableProcessTimeout",
             "ssh -R 80:localhost:8000 serveo.net"
         ],
