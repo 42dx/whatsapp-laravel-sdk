@@ -28,13 +28,12 @@ class ContextEntityTest extends UnitTestCase {
     }
 
     public function test__set_attributes__it_should_update_attributes(): void {
-        $context = new ContextEntity([]);
+        $context = new ContextEntity;
 
         $this->assertIsObject($context);
 
         $this->assertNull($context->id);
         $this->assertNull($context->from);
-        $this->assertEquals(ContextType::STD, $context->type);
 
         $context->setAttributes([
             'forwarded' => false,

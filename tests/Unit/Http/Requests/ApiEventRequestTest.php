@@ -2,6 +2,8 @@
 
 namespace The42dx\Whatsapp\Tests\Unit\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use The42dx\Whatsapp\Enums\ObjectType;
 use The42dx\Whatsapp\Http\Requests\ApiEventRequest;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
@@ -11,6 +13,7 @@ class ApiEventRequestTest extends UnitTestCase {
         $rules = $request->rules();
 
         $this->assertEquals([
+            'object' => Rule::enum(ObjectType::class),
             'entry' => 'required|array|min:1',
             'entry.*.changes' => 'required|array|min:1',
         ], $rules);
