@@ -10,6 +10,6 @@ $webhookRoute = config('whatsapp.webhook_route');
 Route::get($webhookRoute, [WebhookController::class, 'check']);
 Route::post($webhookRoute, [WebhookController::class, 'handle']);
 
-Route::get('/asd', function () {
+Route::get('/asd', function (): void {
     User::find(1)->sendWhatsappMsg(MessageType::TEXT, 'Test Yeah!');
 });

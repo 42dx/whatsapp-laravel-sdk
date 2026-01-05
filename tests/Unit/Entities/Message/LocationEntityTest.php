@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\LocationEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class LocationEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $location = new LocationEntity([]);
 
         $this->assertIsObject($location);
         $this->assertInstanceOf(Entity::class, $location);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $locationData = $this->getJsonFixture('Api/Components/location');
-        $location     = new LocationEntity($locationData);
+        $location = new LocationEntity($locationData);
 
         $this->assertIsObject($location);
 
@@ -27,7 +27,7 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertEquals('https://foursquare.com/v/4d7031d35b5df7744', $location->url);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $location = new LocationEntity([]);
 
         $this->assertIsObject($location);
@@ -39,11 +39,11 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertNull($location->url);
 
         $location->setAttributes([
-            'address'   => 'Main Street Beach, Santa Cruz, CA',
-            'latitude'  => 38.9806263495,
+            'address' => 'Main Street Beach, Santa Cruz, CA',
+            'latitude' => 38.9806263495,
             'longitude' => -131.9428612257,
-            'name'      => 'Main Street Beach',
-            'url'       => 'https://foursquare.com/v/4d7031d35b5df7744',
+            'name' => 'Main Street Beach',
+            'url' => 'https://foursquare.com/v/4d7031d35b5df7744',
         ]);
 
         $this->assertEquals('Main Street Beach, Santa Cruz, CA', $location->address);
@@ -53,10 +53,10 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertEquals('https://foursquare.com/v/4d7031d35b5df7744', $location->url);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $locationData = $this->getJsonFixture('Api/Components/location');
-        $location     = new LocationEntity($locationData);
-        $array     = $location->toArray();
+        $location = new LocationEntity($locationData);
+        $array = $location->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('address', $array);
@@ -66,10 +66,10 @@ class LocationEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('url', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $locationData = $this->getJsonFixture('Api/Components/location');
-        $location     = new LocationEntity($locationData);
-        $json         = $location->toJson();
+        $location = new LocationEntity($locationData);
+        $json = $location->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('address', $json);

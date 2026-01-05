@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\ReactionEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ReactionEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $reaction = new ReactionEntity([]);
 
         $this->assertIsObject($reaction);
         $this->assertInstanceOf(Entity::class, $reaction);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $reactionData = $this->getJsonFixture('Api/Components/reaction');
-        $reaction     = new ReactionEntity($reactionData);
+        $reaction = new ReactionEntity($reactionData);
 
         $this->assertIsObject($reaction);
 
@@ -24,7 +24,7 @@ class ReactionEntityTest extends UnitTestCase {
         $this->assertEquals('123456', $reaction->reactedId);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $reaction = new ReactionEntity([]);
 
         $this->assertIsObject($reaction);
@@ -33,7 +33,7 @@ class ReactionEntityTest extends UnitTestCase {
         $this->assertNull($reaction->reactedId);
 
         $reaction->setAttributes([
-            'emoji'      => '😂',
+            'emoji' => '😂',
             'message_id' => '123456',
         ]);
 
@@ -41,20 +41,20 @@ class ReactionEntityTest extends UnitTestCase {
         $this->assertEquals('123456', $reaction->reactedId);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $reactionData = $this->getJsonFixture('Api/Components/reaction');
-        $reaction     = new ReactionEntity($reactionData);
-        $array        = $reaction->toArray();
+        $reaction = new ReactionEntity($reactionData);
+        $array = $reaction->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('emoji', $array);
         $this->assertArrayHasKey('reactedId', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $reactionData = $this->getJsonFixture('Api/Components/reaction');
-        $reaction     = new ReactionEntity($reactionData);
-        $json         = $reaction->toJson();
+        $reaction = new ReactionEntity($reactionData);
+        $json = $reaction->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('emoji', $json);

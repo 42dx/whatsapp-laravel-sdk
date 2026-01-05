@@ -8,16 +8,16 @@ use The42dx\Whatsapp\Enums\StickerType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class StickerEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $sticker = new StickerEntity([]);
 
         $this->assertIsObject($sticker);
         $this->assertInstanceOf(Entity::class, $sticker);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
-        $sticker     = new StickerEntity($stickerData);
+        $sticker = new StickerEntity($stickerData);
 
         $this->assertIsObject($sticker);
 
@@ -31,7 +31,7 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertNull($sticker->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $sticker = new StickerEntity([]);
 
         $this->assertIsObject($sticker);
@@ -59,10 +59,10 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertNull($sticker->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
-        $sticker     = new StickerEntity($stickerData);
-        $array     = $sticker->toArray();
+        $sticker = new StickerEntity($stickerData);
+        $array = $sticker->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('id', $array);
@@ -71,10 +71,10 @@ class StickerEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $stickerData = $this->getJsonFixture('Api/Components/media-sticker');
-        $sticker     = new StickerEntity($stickerData);
-        $json        = $sticker->toJson();
+        $sticker = new StickerEntity($stickerData);
+        $json = $sticker->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('id', $json);

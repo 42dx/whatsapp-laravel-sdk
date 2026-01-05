@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\VideoEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class VideoEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $video = new VideoEntity([]);
 
         $this->assertIsObject($video);
         $this->assertInstanceOf(Entity::class, $video);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
-        $video     = new VideoEntity($videoData);
+        $video = new VideoEntity($videoData);
 
         $this->assertIsObject($video);
 
@@ -29,7 +29,7 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertNull($video->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $video = new VideoEntity([]);
 
         $this->assertIsObject($video);
@@ -56,10 +56,10 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertNull($video->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
-        $video     = new VideoEntity($videoData);
-        $array     = $video->toArray();
+        $video = new VideoEntity($videoData);
+        $array = $video->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('id', $array);
@@ -70,9 +70,9 @@ class VideoEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('fileSize', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $videoData = $this->getJsonFixture('Api/Components/media-video');
-        $video     = new VideoEntity($videoData);
+        $video = new VideoEntity($videoData);
         $json = $video->toJson();
 
         $this->assertJson($json);

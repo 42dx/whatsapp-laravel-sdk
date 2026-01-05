@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
  *
  * Entity representing the organization sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -21,37 +20,27 @@ class OrgEntity extends Entity implements ContractsEntity {
      * company
      *
      * Name of the contact's company.
-     *
-     * @var string|null
      */
-    protected string|null $company;
+    protected ?string $company;
 
     /**
      * department
      *
      * Name of the contact's department.
-     *
-     * @var string|null
      */
-    protected string|null $department;
+    protected ?string $department;
 
     /**
      * title
      *
      * Contact's business title.
-     *
-     * @var string|null
      */
-    protected string|null $title;
+    protected ?string $title;
 
     /**
      * setAttributes
      *
      * Set the attributes of the org entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('company', 'company', $attributes);

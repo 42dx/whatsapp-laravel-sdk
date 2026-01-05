@@ -9,16 +9,16 @@ use The42dx\Whatsapp\Entities\Message\MessageEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class MessagesEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntityInstanceObject() {
+    public function test_it_should_be_an_entity_instance_object(): void {
         $changes = new MessagesEntity([]);
 
         $this->assertIsObject($changes);
         $this->assertTrue($changes instanceof Entity);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $messageData = $this->getJsonFixture('Api/Components/change-messages');
-        $message     = new MessagesEntity($messageData);
+        $message = new MessagesEntity($messageData);
 
         $this->assertIsObject($message);
 
@@ -35,7 +35,7 @@ class MessagesEntityTest extends UnitTestCase {
         $this->assertInstanceOf(MessageEntity::class, $message->messages->first());
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $expectedWaId = '999999999';
         $expectedNumber = '00000000';
         $message = new MessagesEntity([]);
@@ -46,29 +46,29 @@ class MessagesEntityTest extends UnitTestCase {
         $this->assertNull($message->messages);
 
         $message->setAttributes([
-            "metadata" => [
-                "display_phone_number" => $expectedNumber,
-                "phone_number_id" => $expectedWaId
+            'metadata' => [
+                'display_phone_number' => $expectedNumber,
+                'phone_number_id' => $expectedWaId,
             ],
-            "contacts" => [
+            'contacts' => [
                 [
-                    "profile" => [
-                        "name" => "Some Name And Surname"
+                    'profile' => [
+                        'name' => 'Some Name And Surname',
                     ],
-                    "wa_id" => "1234567890"
-                ]
+                    'wa_id' => '1234567890',
+                ],
             ],
-            "messages" => [
+            'messages' => [
                 [
-                    "from" => "66666666666",
-                    "id" => "ABGGFlA5Fpa",
-                    "timestamp" => "1504902988",
-                    "type" => "text",
-                    "text" => [
-                        "body" => "Some message"
-                    ]
-                ]
-            ]
+                    'from' => '66666666666',
+                    'id' => 'ABGGFlA5Fpa',
+                    'timestamp' => '1504902988',
+                    'type' => 'text',
+                    'text' => [
+                        'body' => 'Some message',
+                    ],
+                ],
+            ],
         ]);
 
         $this->assertEquals($expectedWaId, $message->waId);
@@ -78,10 +78,10 @@ class MessagesEntityTest extends UnitTestCase {
         $this->assertNotNull($message->messages->first()->id);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $messageData = $this->getJsonFixture('Api/Components/change-messages');
-        $message     = new MessagesEntity($messageData);
-        $array     = $message->toArray();
+        $message = new MessagesEntity($messageData);
+        $array = $message->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('waId', $array);
@@ -90,10 +90,10 @@ class MessagesEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('messages', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $messageData = $this->getJsonFixture('Api/Components/change-messages');
-        $message     = new MessagesEntity($messageData);
-        $json        = $message->toJson();
+        $message = new MessagesEntity($messageData);
+        $json = $message->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('waId', $json);

@@ -2,9 +2,10 @@
 
 namespace The42dx\Whatsapp\Tests\Unit\Rules;
 
+use Exception;
 use Illuminate\Support\Facades\Config;
-use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 use The42dx\Whatsapp\Rules\VerifyToken;
+use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class VerifyTokenTest extends UnitTestCase {
     protected function setUp(): void {
@@ -13,19 +14,19 @@ class VerifyTokenTest extends UnitTestCase {
         Config::set('whatsapp.webhook_verify', env('WPP_WEBHOOK_VERIFY'));
     }
 
-    public function test_itShouldFailIfProvidedTokenIsInvalid() {
-        $this->expectException(\Exception::class);
+    public function test_it_should_fail_if_provided_token_is_invalid(): void {
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid verify token');
 
-        $rule = new VerifyToken();
-        $rule->validate('hub_verify_token', 'invalid_token', fn($message) => throw new \Exception($message));
+        $rule = new VerifyToken;
+        $rule->validate('hub_verify_token', 'invalid_token', fn ($message) => throw new Exception($message));
     }
 
-    public function test_itShouldPassIfProvidedTokenIsValid() {
+    public function test_it_should_pass_if_provided_token_is_valid(): void {
         $this->expectNotToPerformAssertions();
 
-        $rule = new VerifyToken();
-        $rule->validate('hub_verify_token', 'some-verify', fn($message) => throw new \Exception($message));
+        $rule = new VerifyToken;
+        $rule->validate('hub_verify_token', 'some-verify', fn ($message) => throw new Exception($message));
     }
 
     protected function tearDown(): void {

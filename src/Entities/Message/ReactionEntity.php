@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
  *
  * Entity representing the reaction sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -21,28 +20,20 @@ class ReactionEntity extends Entity implements ContractsEntity {
      * emoji
      *
      * The emoji that represents the reaction to the message
-     *
-     * @var string|null
      */
-    protected string|null $emoji;
+    protected ?string $emoji;
 
     /**
      * reactedId
      *
      * The unique identifier of the message that was reacted to
-     *
-     * @var string|null
      */
-    protected string|null $reactedId;
+    protected ?string $reactedId;
 
     /**
      * setAttributes
      *
      * Set the attributes of the reaction entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('emoji', 'emoji', $attributes);

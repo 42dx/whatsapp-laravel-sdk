@@ -5,18 +5,15 @@ namespace The42dx\Whatsapp\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Entities\ChangesEntity;
-use The42dx\Whatsapp\Entities\EventEntity;
+use The42dx\Whatsapp\Entities\{ChangesEntity, EventEntity};
 use The42dx\Whatsapp\Enums\ApiEvent;
-use The42dx\Whatsapp\Http\Requests\ApiEventRequest;
-use The42dx\Whatsapp\Http\Requests\WebhookCheckRequest;
 use The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleWhatsappMessage;
+use The42dx\Whatsapp\Http\Requests\{ApiEventRequest, WebhookCheckRequest};
 
 /**
  * WebhookController
  *
  * Controller responsible for handling Whatsapp webhook actions and data.
- *
  */
 class WebhookController extends Controller {
     use HandleWhatsappMessage;
@@ -28,14 +25,14 @@ class WebhookController extends Controller {
      *
      * @var string
      */
-    const ERROR_INVALID_VERIFY = 'Invalid verify token';
+    public const ERROR_INVALID_VERIFY = 'Invalid verify token';
 
     /**
      * check
      *
      * Endpoint handler for the Whatsapp Business API webhook subscription check.
      *
-     * @param  \The42dx\Whatsapp\Http\Requests\WebhookCheckRequest $request The request object
+     * @param  \The42dx\Whatsapp\Http\Requests\WebhookCheckRequest  $request  The request object
      * @return \Illuminate\Http\Response The response object containing the challenge sent
      */
     public function check(WebhookCheckRequest $request): Response {
@@ -49,14 +46,14 @@ class WebhookController extends Controller {
 
         $event = new EventEntity($request->all());
 
-        $event->entries->each(function ($entry) {
-            $entry->changes->each(function ($change) {
+        $event->entries->each(function ($entry): void {
+            $entry->changes->each(function ($change): void {
                 $this->hookRouter($change);
             });
         });
     }
 
-    private function hookRouter(ChangesEntity $change) {
+    private function hookRouter(ChangesEntity $change): void {
         switch ($change->field) {
             case ApiEvent::MSGS:
                 $this->handleMessages($change->value);
@@ -83,8 +80,8 @@ class WebhookController extends Controller {
         }
     }
 
-    protected function handleDefault(ChangesEntity $change) {
-        Log::warning("Unsupported API event: $change->type");
-        Log::debug('Unsupported API event data: '. json_encode($change->toArray()));
+    protected function handleDefault(ChangesEntity $change): void {
+        Log::warning("Unsupported API event: {$change->type}");
+        Log::debug('Unsupported API event data: ' . json_encode($change->toArray()));
     }
 }

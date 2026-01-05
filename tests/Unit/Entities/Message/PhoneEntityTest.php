@@ -8,16 +8,16 @@ use The42dx\Whatsapp\Enums\ContactPropType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class PhoneEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $phone = new PhoneEntity([]);
 
         $this->assertIsObject($phone);
         $this->assertInstanceOf(Entity::class, $phone);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $phoneData = $this->getJsonFixture('Api/Components/phone');
-        $phone     = new PhoneEntity($phoneData);
+        $phone = new PhoneEntity($phoneData);
 
         $this->assertIsObject($phone);
 
@@ -26,7 +26,7 @@ class PhoneEntityTest extends UnitTestCase {
         $this->assertEquals('123123123', $phone->waId);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $phone = new PhoneEntity([]);
 
         $this->assertIsObject($phone);
@@ -37,7 +37,7 @@ class PhoneEntityTest extends UnitTestCase {
 
         $phone->setAttributes([
             'phone' => '5541999999999',
-            'type'  => ContactPropType::WORK->value,
+            'type' => ContactPropType::WORK->value,
             'wa_id' => '123123123',
         ]);
 
@@ -46,10 +46,10 @@ class PhoneEntityTest extends UnitTestCase {
         $this->assertEquals('123123123', $phone->waId);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $phoneData = $this->getJsonFixture('Api/Components/phone');
-        $phone     = new PhoneEntity($phoneData);
-        $array     = $phone->toArray();
+        $phone = new PhoneEntity($phoneData);
+        $array = $phone->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('number', $array);
@@ -57,10 +57,10 @@ class PhoneEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('waId', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $phoneData = $this->getJsonFixture('Api/Components/phone');
-        $phone     = new PhoneEntity($phoneData);
-        $json      = $phone->toJson();
+        $phone = new PhoneEntity($phoneData);
+        $json = $phone->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('number', $json);

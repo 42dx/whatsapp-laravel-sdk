@@ -13,7 +13,6 @@ use The42dx\Whatsapp\Enums\ApiEvent;
  *
  * Entity representing a change in the Whatsapp Business API event.
  *
- * @package The42dx\Whatsapp\Entities
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -26,32 +25,34 @@ class ChangesEntity extends Entity implements ContractsEntity {
      *
      * @var string
      */
-    const ERR_UNSUPPORTED_CHANGE = 'Unsupported change field';
+    public const ERR_UNSUPPORTED_CHANGE = 'Unsupported change field';
 
     /**
      * The field that was changed.
-     *
-     * @var \The42dx\Whatsapp\Enums\ApiEvent|null
      */
-    protected ApiEvent|null $field;
+    protected ?ApiEvent $field;
 
     /**
      * The new value of the field.
      *
      * @var \The42dx\Whatsapp\Contracts\Entity|null
      */
-    protected Entity|null $value;
+    protected ?Entity $value;
 
     /**
      * Get the field that was changed.
      *
-     * @param array $value The value of the field
+     * @param  array  $value  The value of the field
      * @return string|null The field that was changed
      *
      * @see \The42dx\Whatsapp\Enums\ApiEvent
      * @see \The42dx\Whatsapp\Entities\Changes\MessagesEntity
      */
-    private function getChangeValue(): ?string {
+    private function getChangeClass(): ?string {
+        if (!isset($this->field)) {
+            return null;
+        }
+
         switch ($this->field) {
             case ApiEvent::MSGS:
                 return MessagesEntity::class;
@@ -82,14 +83,10 @@ class ChangesEntity extends Entity implements ContractsEntity {
      * setAttributes
      *
      * Set the attributes of the changes entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('field', 'field', $attributes, ApiEvent::class);
-        $this->setOrUpdateAttribute('value', 'value', $attributes, $this->getChangeValue());
+        $this->setOrUpdateAttribute('value', 'value', $attributes, $this->getChangeClass());
 
         return $this;
     }

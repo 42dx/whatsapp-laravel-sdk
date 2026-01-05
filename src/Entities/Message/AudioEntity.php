@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity;
  *
  * Represents an audio message sent to/from the Whatsapp Business API
  *
- * @package The42dx\Whatsapp\Entities\Message
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity

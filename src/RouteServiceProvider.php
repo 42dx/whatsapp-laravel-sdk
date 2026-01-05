@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider {
     protected $namespace = 'The42dx\Http\Controllers';
 
-    public function map() {
+    public function map(): void {
         Route::namespace($this->namespace)
-             ->group(__DIR__ . '/../routes/api.php');
+            ->group(__DIR__ . '/../routes/api.php');
     }
 }

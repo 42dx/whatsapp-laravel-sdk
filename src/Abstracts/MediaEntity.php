@@ -2,14 +2,11 @@
 
 namespace The42dx\Whatsapp\Abstracts;
 
-use The42dx\Whatsapp\Abstracts\Entity;
-
 /**
  * MediaEntity
  *
  * Entity representing the media sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Abstracts
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -23,43 +20,35 @@ abstract class MediaEntity extends Entity {
      *
      * @var string|null
      */
-    protected int|null $fileSize;
+    protected ?int $fileSize;
 
     /**
      * hash
      *
      * The hash of the audio file
-     *
-     * @var string|null
      */
-    protected string|null $hash;
+    protected ?string $hash;
 
     /**
      * id
      *
      * The unique identifier of the media sent
-     *
-     * @var string|null
      */
-    protected string|null $id;
+    protected ?string $id;
 
     /**
      * link
      *
      * The link to the media sent
-     *
-     * @var string|null
      */
-    protected string|null $link;
+    protected ?string $link;
 
     /**
      * mimeType
      *
      * The MIME type of the audio file
-     *
-     * @var string|null
      */
-    protected string|null $mimeType;
+    protected ?string $mimeType;
 
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
@@ -92,6 +81,6 @@ abstract class MediaEntity extends Entity {
         // }
 
         $this->fileSize = isset($result['file_size']) && !is_null($result['file_size']) ? $result['file_size'] : null;
-        $this->link     = isset($result['url']) && !is_null($result['url']) ? $result['url'] : null;
+        $this->link = isset($result['url']) && !is_null($result['url']) ? $result['url'] : null;
     }
 }

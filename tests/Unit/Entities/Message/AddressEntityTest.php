@@ -8,16 +8,16 @@ use The42dx\Whatsapp\Enums\ContactPropType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class AddressEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $address = new AddressEntity([]);
 
         $this->assertIsObject($address);
         $this->assertInstanceOf(Entity::class, $address);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $addressData = $this->getJsonFixture('Api/Components/address');
-        $address     = new AddressEntity($addressData);
+        $address = new AddressEntity($addressData);
 
         $this->assertIsObject($address);
 
@@ -30,7 +30,7 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertEquals('94025', $address->zip);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $address = new AddressEntity([]);
 
         $this->assertIsObject($address);
@@ -44,13 +44,13 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertNull($address->zip);
 
         $address->setAttributes([
-            'city'         => 'Menlo Park',
-            'country'      => 'United States',
+            'city' => 'Menlo Park',
+            'country' => 'United States',
             'country_code' => 'us',
-            'state'        => 'CA',
-            'street'       => '1 Hacker Way',
-            'type'         => 'WORK',
-            'zip'          => '94025',
+            'state' => 'CA',
+            'street' => '1 Hacker Way',
+            'type' => 'WORK',
+            'zip' => '94025',
         ]);
 
         $this->assertEquals('Menlo Park', $address->city);
@@ -62,10 +62,10 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertEquals('94025', $address->zip);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $addressData = $this->getJsonFixture('Api/Components/address');
-        $address     = new AddressEntity($addressData);
-        $array     = $address->toArray();
+        $address = new AddressEntity($addressData);
+        $array = $address->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('city', $array);
@@ -77,10 +77,10 @@ class AddressEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('zip', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $addressData = $this->getJsonFixture('Api/Components/address');
-        $address     = new AddressEntity($addressData);
-        $json        = $address->toJson();
+        $address = new AddressEntity($addressData);
+        $json = $address->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('city', $json);

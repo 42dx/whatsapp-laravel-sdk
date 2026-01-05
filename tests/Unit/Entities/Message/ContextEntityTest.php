@@ -8,16 +8,16 @@ use The42dx\Whatsapp\Enums\ContextType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ContextEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
         $this->assertInstanceOf(Entity::class, $context);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $contextData = $this->getJsonFixture('Api/Components/context');
-        $context     = new ContextEntity($contextData);
+        $context = new ContextEntity($contextData);
 
         $this->assertIsObject($context);
 
@@ -27,7 +27,7 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertEquals(ContextType::STD, $context->type);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
@@ -49,10 +49,10 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertEquals(ContextType::STD, $context->type);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $contextData = $this->getJsonFixture('Api/Components/context');
-        $context     = new ContextEntity($contextData);
-        $array     = $context->toArray();
+        $context = new ContextEntity($contextData);
+        $array = $context->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('id', $array);
@@ -60,10 +60,10 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $contextData = $this->getJsonFixture('Api/Components/context');
-        $context     = new ContextEntity($contextData);
-        $json        = $context->toJson();
+        $context = new ContextEntity($contextData);
+        $json = $context->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('id', $json);

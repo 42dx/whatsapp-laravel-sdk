@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\StickerType;
  *
  * Entity representing the sticker sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\MediaEntity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -23,20 +22,15 @@ class StickerEntity extends MediaEntity implements Entity {
      *
      * The type of the sticker.
      *
-     * @var \The42dx\Whatsapp\Enums\StickerType|null
      *
      * @see \The42dx\Whatsapp\Enums\StickerType
      */
-    protected StickerType|null $type;
+    protected ?StickerType $type;
 
     /**
      * setAttributes
      *
      * Set the attributes of the sticker entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);

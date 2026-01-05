@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\MessageStatus;
  *
  * Entity representing the status of the message sent to the Whatsapp contacts
  *
- * @package The42dx\Whatsapp\Entities\Message
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -22,46 +21,39 @@ class StatusEntity extends Entity implements ContractsEntity {
      * id
      *
      * The ID of the message status refers to
-     *
-     * @var string|null
      */
-    protected string|null $id;
+    protected ?string $id;
 
     /**
      * recipientNumber
      *
      * The recipient number of the message status refers to
-     *
-     * @var string|null
      */
-    protected string|null $recipientNumber;
+    protected ?string $recipientNumber;
 
     /**
      * status
      *
      * The status of the message
      *
-     * @var \The42dx\Whatsapp\Enums\MessageStatus|null
      *
      * @see \The42dx\Whatsapp\Enums\MessageStatus
      */
-    protected MessageStatus|null $status;
+    protected ?MessageStatus $status;
 
     /**
      * timestamp
      *
      * The timestamp of the message status
-     *
-     * @var string|null
      */
-    protected string|null $timestamp;
+    protected ?string $timestamp;
 
     /**
      * setAttributes
      *
      * Set the attributes of the entity
      *
-     * @param array|null $attributes The attributes to set
+     * @param  array|null  $attributes  The attributes to set
      * @return self The entity
      */
     public function setAttributes(?array $attributes = []): self {

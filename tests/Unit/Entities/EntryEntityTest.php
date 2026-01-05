@@ -8,16 +8,16 @@ use The42dx\Whatsapp\Entities\{ChangesEntity, EntryEntity};
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class EntryEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $entry = new EntryEntity([]);
 
         $this->assertIsObject($entry);
         $this->assertInstanceOf(Entity::class, $entry);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $entryData = $this->getJsonFixture('Api/Components/entry');
-        $entry     = new EntryEntity($entryData);
+        $entry = new EntryEntity($entryData);
 
         $this->assertIsObject($entry);
 
@@ -28,7 +28,7 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $entryId = '456';
         $entry = new EntryEntity([]);
 
@@ -36,8 +36,8 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertNull($entry->changes);
 
         $entry->setAttributes([
-            'id'      => $entryId,
-            'changes' => [[]]
+            'id' => $entryId,
+            'changes' => [[]],
         ]);
 
         $this->assertEquals($entryId, $entry->id);
@@ -47,20 +47,20 @@ class EntryEntityTest extends UnitTestCase {
         $this->assertInstanceOf(ChangesEntity::class, $entry->changes->first());
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $entryData = $this->getJsonFixture('Api/Components/entry');
-        $entry     = new EntryEntity($entryData);
-        $array     = $entry->toArray();
+        $entry = new EntryEntity($entryData);
+        $array = $entry->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('id', $array);
         $this->assertArrayHasKey('changes', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $entryData = $this->getJsonFixture('Api/Components/entry');
-        $entry     = new EntryEntity($entryData);
-        $json      = $entry->toJson();
+        $entry = new EntryEntity($entryData);
+        $json = $entry->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('id', $json);

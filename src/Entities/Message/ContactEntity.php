@@ -5,22 +5,12 @@ namespace The42dx\Whatsapp\Entities\Message;
 use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Entities\Message\{
-    AddressEntity,
-    EmailEntity,
-    NameEntity,
-    OrgEntity,
-    PhoneEntity,
-    UrlEntity,
-};
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
  * ContactEntity
  *
  * Entity representing the contacts sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -33,17 +23,15 @@ class ContactEntity extends Entity implements ContractsEntity {
      * The contact's addresses
      *
      * @var Illuminate\Support\Collection|null
-    */
-    protected Collection|null $addresses;
+     */
+    protected ?Collection $addresses;
 
     /**
      * birthday
      *
      * The contact's birthday
-     *
-     * @var string|null
-    */
-    protected string|null $birthday;
+     */
+    protected ?string $birthday;
 
     /**
      * emails
@@ -53,17 +41,15 @@ class ContactEntity extends Entity implements ContractsEntity {
      * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\EmailEntity|null
-    */
-    protected Collection|null $emails;
+     */
+    protected ?Collection $emails;
 
     /**
      * name
      *
      * The contact's name
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\NameEntity|null
-    */
-    protected NameEntity|null $name;
+     */
+    protected ?NameEntity $name;
 
     /**
      * phones
@@ -73,17 +59,15 @@ class ContactEntity extends Entity implements ContractsEntity {
      * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\PhoneEntity
-    */
-    protected Collection|null $phones;
+     */
+    protected ?Collection $phones;
 
     /**
      * org
      *
      * The contact's organization
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\OrgEntity|null
-    */
-    protected OrgEntity|null $org;
+     */
+    protected ?OrgEntity $org;
 
     /**
      * urls
@@ -93,17 +77,13 @@ class ContactEntity extends Entity implements ContractsEntity {
      * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\UrlEntity|null
-    */
-    protected Collection|null $urls;
+     */
+    protected ?Collection $urls;
 
     /**
      * setAttributes
      *
      * Set the attributes of the contact entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('addresses', 'addresses', $attributes, AddressEntity::class, true);

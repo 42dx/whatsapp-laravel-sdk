@@ -10,15 +10,14 @@ use Illuminate\Support\Facades\Log;
  * VerifyToken
  *
  * Validation rule for the verify token parameter in the Whatsapp webhook check request.
- *
  */
 class VerifyToken implements ValidationRule {
-    const ERROR_INVALID_TOKEN = 'Invalid verify token';
+    public const ERROR_INVALID_TOKEN = 'Invalid verify token';
 
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void {
         if ($value !== config('whatsapp.webhook_verify')) {

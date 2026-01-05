@@ -10,16 +10,16 @@ use Illuminate\Support\Facades\Log;
  * HubMode
  *
  * Validation rule for the hub mode parameter in the Whatsapp webhook check request.
- *
  */
 class HubMode implements ValidationRule {
-    const HUB_MODE_SUBSCRIBE = 'subscribe';
-    const ERROR_INVALID_MODE = 'Invalid hub mode';
+    public const HUB_MODE_SUBSCRIBE = 'subscribe';
+
+    public const ERROR_INVALID_MODE = 'Invalid hub mode';
 
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void {
         if ($value !== self::HUB_MODE_SUBSCRIBE) {

@@ -8,17 +8,17 @@ use The42dx\Whatsapp\Enums\ContactPropType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class EmailEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $email = new EmailEntity([]);
 
         $this->assertIsObject($email);
         $this->assertInstanceOf(Entity::class, $email);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $expectedEmail = 'kfish@fb.com';
-        $emailData     = $this->getJsonFixture('Api/Components/email');
-        $email         = new EmailEntity($emailData);
+        $emailData = $this->getJsonFixture('Api/Components/email');
+        $email = new EmailEntity($emailData);
 
         $this->assertIsObject($email);
 
@@ -26,9 +26,9 @@ class EmailEntityTest extends UnitTestCase {
         $this->assertEquals(ContactPropType::WORK, $email->type);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $expectedEmail = 'kfish@fb.com';
-        $email         = new EmailEntity([]);
+        $email = new EmailEntity([]);
 
         $this->assertIsObject($email);
 
@@ -37,27 +37,27 @@ class EmailEntityTest extends UnitTestCase {
 
         $email->setAttributes([
             'email' => $expectedEmail,
-            'type'  => ContactPropType::WORK->value,
+            'type' => ContactPropType::WORK->value,
         ]);
 
         $this->assertEquals($expectedEmail, $email->email);
         $this->assertEquals(ContactPropType::WORK, $email->type);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $emailData = $this->getJsonFixture('Api/Components/email');
-        $email     = new EmailEntity($emailData);
-        $array     = $email->toArray();
+        $email = new EmailEntity($emailData);
+        $array = $email->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('email', $array);
         $this->assertArrayHasKey('type', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $emailData = $this->getJsonFixture('Api/Components/email');
-        $email     = new EmailEntity($emailData);
-        $json      = $email->toJson();
+        $email = new EmailEntity($emailData);
+        $json = $email->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('email', $json);

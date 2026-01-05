@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
  *
  * Entity representing the name of the contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -21,64 +20,48 @@ class NameEntity extends Entity implements ContractsEntity {
      * first
      *
      * The first name of the contact
-     *
-     * @var string|null
      */
-    protected string|null $first;
+    protected ?string $first;
 
     /**
      * formatted
      *
      * The formatted name of the contact
-     *
-     * @var string|null
      */
-    protected string|null $formatted;
+    protected ?string $formatted;
 
     /**
      * last
      *
      * The last name of the contact
-     *
-     * @var string|null
      */
-    protected string|null $last;
+    protected ?string $last;
 
     /**
      * middle
      *
      * The middle name of the contact
-     *
-     * @var string|null
      */
-    protected string|null $middle;
+    protected ?string $middle;
 
     /**
      * prefix
      *
      * The prefix of the contact name
-     *
-     * @var string|null
      */
-    protected string|null $prefix;
+    protected ?string $prefix;
 
     /**
      * suffix
      *
      * The suffix of the contact name
-     *
-     * @var string|null
      */
-    protected string|null $suffix;
+    protected ?string $suffix;
 
     /**
      * setAttributes
      *
      * Set the attributes of the name entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('first', 'first_name', $attributes);

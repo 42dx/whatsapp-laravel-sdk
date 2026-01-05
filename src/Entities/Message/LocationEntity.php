@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
  *
  * Entity representing the location sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -21,55 +20,41 @@ class LocationEntity extends Entity implements ContractsEntity {
      * latitude
      *
      * The latitude of the location
-     *
-     * @var float|null
      */
-    protected float|null $latitude;
+    protected ?float $latitude;
 
     /**
      * longitude
      *
      * The longitude of the location
-     *
-     * @var float|null
      */
-    protected float|null $longitude;
+    protected ?float $longitude;
 
     /**
      * address
      *
      * The address of the location
-     *
-     * @var string|null
      */
-    protected string|null $address;
+    protected ?string $address;
 
     /**
      * name
      *
      * The name of the location
-     *
-     * @var string|null
      */
-    protected string|null $name;
+    protected ?string $name;
 
     /**
      * url
      *
      * The URL of the location
-     *
-     * @var string|null
      */
-    protected string|null $url;
+    protected ?string $url;
 
     /**
      * setAttributes
      *
      * Set the attributes of the location entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('address', 'address', $attributes);

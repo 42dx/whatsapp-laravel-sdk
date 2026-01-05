@@ -9,16 +9,16 @@ use The42dx\Whatsapp\Enums\ObjectType;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class EventEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntityInstanceObject() {
+    public function test_it_should_be_an_entity_instance_object(): void {
         $event = new EventEntity([]);
 
         $this->assertIsObject($event);
         $this->assertInstanceOf(Entity::class, $event);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $eventData = $this->getJsonFixture('Api/Components/event');
-        $event     = new EventEntity($eventData);
+        $event = new EventEntity($eventData);
 
         $this->assertIsObject($event);
 
@@ -29,7 +29,7 @@ class EventEntityTest extends UnitTestCase {
         $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $event = new EventEntity([]);
 
         $this->assertNull($event->object);
@@ -37,7 +37,7 @@ class EventEntityTest extends UnitTestCase {
 
         $event->setAttributes([
             'object' => ObjectType::WPP_BUSINESS_API_ACC->value,
-            'entry'  => [[]]
+            'entry' => [[]],
         ]);
 
         $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
@@ -47,20 +47,20 @@ class EventEntityTest extends UnitTestCase {
         $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $eventData = $this->getJsonFixture('Api/Components/event');
-        $event     = new EventEntity($eventData);
-        $array     = $event->toArray();
+        $event = new EventEntity($eventData);
+        $array = $event->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('object', $array);
         $this->assertArrayHasKey('entry', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $eventData = $this->getJsonFixture('Api/Components/event');
-        $event     = new EventEntity($eventData);
-        $json      = $event->toJson();
+        $event = new EventEntity($eventData);
+        $json = $event->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('object', $json);

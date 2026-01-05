@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
  * WhatsappMessage
  *
  * Represents a Whatsapp message data on the database.
- *
  */
 class WhatsappMessage extends Model {
     /**

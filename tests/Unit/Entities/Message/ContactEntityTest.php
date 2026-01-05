@@ -4,27 +4,21 @@ namespace The42dx\Whatsapp\Tests\Unit\Entities\Message;
 
 use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
-use The42dx\Whatsapp\Entities\Message\AddressEntity;
-use The42dx\Whatsapp\Entities\Message\ContactEntity;
-use The42dx\Whatsapp\Entities\Message\EmailEntity;
-use The42dx\Whatsapp\Entities\Message\NameEntity;
-use The42dx\Whatsapp\Entities\Message\OrgEntity;
-use The42dx\Whatsapp\Entities\Message\PhoneEntity;
-use The42dx\Whatsapp\Entities\Message\UrlEntity;
+use The42dx\Whatsapp\Entities\Message\{AddressEntity, ContactEntity, EmailEntity, NameEntity, OrgEntity, PhoneEntity, UrlEntity};
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ContactEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $contact = new ContactEntity([]);
 
         $this->assertIsObject($contact);
         $this->assertInstanceOf(Entity::class, $contact);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $expectedBirthday = '2012-08-18';
-        $contactData      = $this->getJsonFixture('Api/Components/contact');
-        $contact          = new ContactEntity($contactData);
+        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contact = new ContactEntity($contactData);
 
         $this->assertIsObject($contact);
 
@@ -41,12 +35,11 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertInstanceOf(UrlEntity::class, $contact->urls->first());
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $expectedBirthday = '2012-08-18';
         $contact = new ContactEntity([]);
 
         $this->assertIsObject($contact);
-
 
         $this->assertNull($contact->addresses);
         $this->assertNull($contact->birthday);
@@ -58,20 +51,20 @@ class ContactEntityTest extends UnitTestCase {
 
         $contact->setAttributes([
             'addresses' => [
-                []
+                [],
             ],
             'birthday' => $expectedBirthday,
             'emails' => [
-                []
+                [],
             ],
             'name' => [],
             'org' => [],
             'phones' => [
-                []
+                [],
             ],
             'urls' => [
-                []
-            ]
+                [],
+            ],
         ]);
 
         $this->assertInstanceOf(Collection::class, $contact->addresses);
@@ -87,10 +80,10 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertInstanceOf(UrlEntity::class, $contact->urls->first());
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
-        $contactData      = $this->getJsonFixture('Api/Components/contact');
-        $contact          = new ContactEntity($contactData);
-        $array            = $contact->toArray();
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
+        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contact = new ContactEntity($contactData);
+        $array = $contact->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('addresses', $array);
@@ -102,10 +95,10 @@ class ContactEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('urls', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
-        $contactData      = $this->getJsonFixture('Api/Components/contact');
-        $contact          = new ContactEntity($contactData);
-        $json             = $contact->toJson();
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
+        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contact = new ContactEntity($contactData);
+        $json = $contact->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('addresses', $json);

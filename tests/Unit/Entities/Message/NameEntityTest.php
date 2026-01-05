@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\NameEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class NameEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $name = new NameEntity([]);
 
         $this->assertIsObject($name);
         $this->assertInstanceOf(Entity::class, $name);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $nameData = $this->getJsonFixture('Api/Components/name');
-        $name     = new NameEntity($nameData);
+        $name = new NameEntity($nameData);
 
         $this->assertIsObject($name);
 
@@ -28,7 +28,7 @@ class NameEntityTest extends UnitTestCase {
         $this->assertEquals('Jr.', $name->suffix);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $name = new NameEntity([]);
 
         $this->assertIsObject($name);
@@ -41,12 +41,12 @@ class NameEntityTest extends UnitTestCase {
         $this->assertNull($name->suffix);
 
         $name->setAttributes([
-            'first_name'     => 'John',
+            'first_name' => 'John',
             'formatted_name' => 'Mr. John Doe Jr.',
-            'last_name'      => 'Doe',
-            'middle_name'    => 'Whatever',
-            'name-prefix'    => 'Mr.',
-            'name_suffix'    => 'Jr.',
+            'last_name' => 'Doe',
+            'middle_name' => 'Whatever',
+            'name-prefix' => 'Mr.',
+            'name_suffix' => 'Jr.',
         ]);
 
         $this->assertEquals('John', $name->first);
@@ -57,10 +57,10 @@ class NameEntityTest extends UnitTestCase {
         $this->assertEquals('Jr.', $name->suffix);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $nameData = $this->getJsonFixture('Api/Components/name');
-        $name     = new NameEntity($nameData);
-        $array     = $name->toArray();
+        $name = new NameEntity($nameData);
+        $array = $name->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('first', $array);
@@ -71,10 +71,10 @@ class NameEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('suffix', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $nameData = $this->getJsonFixture('Api/Components/name');
-        $name     = new NameEntity($nameData);
-        $json      = $name->toJson();
+        $name = new NameEntity($nameData);
+        $json = $name->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('first', $json);

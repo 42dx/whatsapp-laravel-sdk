@@ -2,8 +2,8 @@
 
 namespace The42dx\Whatsapp\Abstracts;
 
-use Illuminate\Foundation\Http\FormRequest as OriginalFormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest as OriginalFormRequest;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -16,7 +16,6 @@ abstract class FormRequest extends OriginalFormRequest {
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
      *
@@ -29,6 +28,6 @@ abstract class FormRequest extends OriginalFormRequest {
         $exception = $validator->getException();
 
         throw (new $exception($validator))
-                    ->errorBag($this->errorBag);
+            ->errorBag($this->errorBag);
     }
 }
