@@ -30,10 +30,19 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
 
+      - name: Branch SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true -Dsonar.branch.name=${{ github.ref_name }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.15"
+          node-version: '20.15'
 
       - name: Install node dependencies
         run: |
