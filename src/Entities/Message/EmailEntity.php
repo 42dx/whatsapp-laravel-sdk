@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\ContactPropType;
  *
  * Entity representing the email sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -22,28 +21,20 @@ class EmailEntity extends Entity implements ContractsEntity {
      * email
      *
      * The email address
-     *
-     * @var string|null
      */
-    protected string|null $email;
+    protected ?string $email;
 
     /**
      * type
      *
      * The type of the email address
-     *
-     * @var \The42dx\Whatsapp\Enums\ContactPropType|null
      */
-    protected ContactPropType|null $type;
+    protected ?ContactPropType $type;
 
     /**
      * setAttributes
      *
      * Set the attributes of the email entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('email', 'email', $attributes);

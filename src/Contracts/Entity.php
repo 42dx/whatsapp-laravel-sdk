@@ -7,7 +7,6 @@ namespace The42dx\Whatsapp\Contracts;
  *
  * Interface for entities in the package.
  *
- * @package The42dx\Whatsapp\Contracts
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  */

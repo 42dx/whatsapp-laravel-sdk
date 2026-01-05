@@ -10,7 +10,6 @@ use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
  *
  * Entity representing the contacts object of the Whatsapp message
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -20,28 +19,20 @@ class ContactsEntity extends Entity implements ContractsEntity {
      * profile
      *
      * The profile of the contact
-     *
-     * @var string|null
      */
-    protected string|null $name;
+    protected ?string $name;
 
     /**
      * waId
      *
      * The Whatsapp ID of the contact
-     *
-     * @var string|null
      */
-    protected string|null $waId;
+    protected ?string $waId;
 
     /**
      * setAttributes
      *
      * Set the attributes of the Contacts entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('name', 'profile.name', $attributes);

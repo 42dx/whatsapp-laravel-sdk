@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\ContextType;
  *
  * Entity representing the context of a message
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -22,37 +21,27 @@ class ContextEntity extends Entity implements ContractsEntity {
      * id
      *
      * The ID of the relevant message
-     *
-     * @var string|null $id
      */
-    protected string|null $id;
+    protected ?string $id;
 
     /**
      * from
      *
      * The phone number of the contact that sent the original message
-     *
-     * @var string|null $from
      */
-    protected string|null $from;
+    protected ?string $from;
 
     /**
      * type
      *
      * The type of the context
-     *
-     * @var \The42dx\Whatsapp\Enums\ContextType|null $type
      */
-    protected ContextType|null $type;
+    protected ?ContextType $type;
 
     /**
      * setAttributes
      *
      * Set the attributes of the reply entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
@@ -68,16 +57,14 @@ class ContextEntity extends Entity implements ContractsEntity {
      *
      * Get the context type from the attributes
      *
-     * @param array $attributes
      *
-     * @return \The42dx\Whatsapp\Enums\ContextType
      *
      * @see \The42dx\Whatsapp\Enums\ContextType
      */
     private function getContextType(?array $attributes = []): ContextType {
-        $isForwarded           = isset($attributes['forwarded']) && $attributes['forwarded'] ? ContextType::FWD : null;
+        $isForwarded = isset($attributes['forwarded']) && $attributes['forwarded'] ? ContextType::FWD : null;
         $isFrequentlyForwarded = isset($attributes['frequently_forwarded']) && $attributes['frequently_forwarded'] ? ContextType::F_FWD : null;
-        $isAlreadySet          = isset($this->type) && !is_null($this->type) ? $this->type : null;
+        $isAlreadySet = isset($this->type) && !is_null($this->type) ? $this->type : null;
 
         return $isForwarded ?? ($isFrequentlyForwarded ?? ($isAlreadySet ?? ContextType::STD));
     }

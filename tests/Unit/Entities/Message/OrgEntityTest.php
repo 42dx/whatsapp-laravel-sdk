@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\OrgEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class OrgEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $org = new OrgEntity([]);
 
         $this->assertIsObject($org);
         $this->assertInstanceOf(Entity::class, $org);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $orgData = $this->getJsonFixture('Api/Components/org');
-        $org     = new OrgEntity($orgData);
+        $org = new OrgEntity($orgData);
 
         $this->assertIsObject($org);
 
@@ -25,7 +25,7 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertEquals('some title', $org->title);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $org = new OrgEntity([]);
 
         $this->assertIsObject($org);
@@ -35,9 +35,9 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertNull($org->title);
 
         $org->setAttributes([
-            'company'     => 'some company',
-            'department'  => 'some department',
-            'title'       => 'some title',
+            'company' => 'some company',
+            'department' => 'some department',
+            'title' => 'some title',
         ]);
 
         $this->assertEquals('some company', $org->company);
@@ -45,10 +45,10 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertEquals('some title', $org->title);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $orgData = $this->getJsonFixture('Api/Components/org');
-        $org     = new OrgEntity($orgData);
-        $array   = $org->toArray();
+        $org = new OrgEntity($orgData);
+        $array = $org->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('company', $array);
@@ -56,10 +56,10 @@ class OrgEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('title', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $orgData = $this->getJsonFixture('Api/Components/org');
-        $org     = new OrgEntity($orgData);
-        $json    = $org->toJson();
+        $org = new OrgEntity($orgData);
+        $json = $org->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('company', $json);

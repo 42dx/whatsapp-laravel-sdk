@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Message\DocumentEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class DocumentEntityTest extends UnitTestCase {
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $document = new DocumentEntity([]);
 
         $this->assertIsObject($document);
         $this->assertInstanceOf(Entity::class, $document);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
-        $document     = new DocumentEntity($documentData);
+        $document = new DocumentEntity($documentData);
 
         $this->assertIsObject($document);
 
@@ -30,7 +30,7 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertNull($document->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $document = new DocumentEntity([]);
 
         $this->assertIsObject($document);
@@ -59,10 +59,10 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertNull($document->fileSize); // adjust when media link retrieve is implemented
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
-        $document     = new DocumentEntity($documentData);
-        $array        = $document->toArray();
+        $document = new DocumentEntity($documentData);
+        $array = $document->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('id', $array);
@@ -74,10 +74,10 @@ class DocumentEntityTest extends UnitTestCase {
         $this->assertArrayHasKey('fileSize', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $documentData = $this->getJsonFixture('Api/Components/media-document');
-        $document     = new DocumentEntity($documentData);
-        $json         = $document->toJson();
+        $document = new DocumentEntity($documentData);
+        $json = $document->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('id', $json);

@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 use The42dx\Whatsapp\Tests\TestCase;
 
 abstract class IntegrationTestCase extends TestCase {
-    const CONTROLLER_NAMESPACE = 'The42dx\Http\Controllers';
+    public const CONTROLLER_NAMESPACE = 'The42dx\Http\Controllers';
 
-    public function setUp(): void {
+    protected function setUp(): void {
         parent::setUp();
 
         Route::namespace(self::CONTROLLER_NAMESPACE)
-             ->group(__DIR__ . '/../../routes/api.php');
+            ->group(__DIR__ . '/../../routes/api.php');
     }
 }

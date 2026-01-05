@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\ContactPropType;
  *
  * Entity representing the url sent by Whatsapp Business API
  *
- * @package The42dx\Whatsapp\Entities\Message
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -22,28 +21,20 @@ class UrlEntity extends Entity implements ContractsEntity {
      * url
      *
      * The url
-     *
-     * @var string|null
      */
-    protected string|null $url;
+    protected ?string $url;
 
     /**
      * type
      *
      * The type of the url
-     *
-     * @var \The42dx\Whatsapp\Enums\ContactPropType|null
      */
-    protected ContactPropType|null $type;
+    protected ?ContactPropType $type;
 
     /**
      * setAttributes
      *
      * Set the attributes of the url entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('url', 'url', $attributes);

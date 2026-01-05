@@ -3,34 +3,35 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use The42dx\Whatsapp\Enums\MessageStatus;
-use The42dx\Whatsapp\Enums\MessageType;
-use The42dx\Whatsapp\Enums\MessageWay;
+use The42dx\Whatsapp\Enums\{MessageStatus, MessageType, MessageWay};
 
 return new class extends Migration {
-    const TABLE_NAME   = 'whatsapp_messages';
-    const USERS_TABLE  = 'users';
-    const PHONE_COLUMN = 'phone';
-    const USERS_PK     = 'id';
+    public const TABLE_NAME = 'whatsapp_messages';
+
+    public const USERS_TABLE = 'users';
+
+    public const PHONE_COLUMN = 'phone';
+
+    public const USERS_PK = 'id';
 
     /**
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create(config('whatsapp.database.table_name', self::TABLE_NAME), function (Blueprint $table) {
+        Schema::create(config('whatsapp.database.table_name', self::TABLE_NAME), function (Blueprint $table): void {
             $table->id();
 
             $table->string('whatsapp_message_id')
-                  ->unique();
+                ->unique();
             $table->string('api_phone_number')
-                  ->index();
+                ->index();
             $table->string('contact_phone_number')
-                  ->index();
+                ->index();
             $table->foreignId('user_id')
-                  ->nullable()
-                  ->references(config('whatsapp.database.users_table_pk', self::USERS_PK))
-                  ->on(config('whatsapp.database.users_table', self::USERS_TABLE))
-                  ->onDelete('cascade');
+                ->nullable()
+                ->references(config('whatsapp.database.users_table_pk', self::USERS_PK))
+                ->on(config('whatsapp.database.users_table', self::USERS_TABLE))
+                ->onDelete('cascade');
             $table->enum('way', [
                 MessageWay::INBOUND->value,
                 MessageWay::OUTBOUND->value,
@@ -61,17 +62,17 @@ return new class extends Migration {
             ])->index();
 
             $table->text('text')
-                  ->nullable();
+                ->nullable();
 
             $table->timestamps();
             $table->dateTime('deleted_at')
-                  ->nullable();
+                ->nullable();
             $table->dateTime('delivered_at')
-                  ->nullable();
+                ->nullable();
             $table->dateTime('read_at')
-                  ->nullable();
+                ->nullable();
             $table->dateTime('sent_at')
-                  ->nullable();
+                ->nullable();
         });
     }
 

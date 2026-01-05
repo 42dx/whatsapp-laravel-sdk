@@ -7,16 +7,16 @@ use The42dx\Whatsapp\Entities\Changes\ContactsEntity;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class ContactsEntityTest extends UnitTestCase {
-    public function test_itShouldBeAnEntityInstanceObject() {
+    public function test_it_should_be_an_entity_instance_object(): void {
         $changes = new ContactsEntity([]);
 
         $this->assertIsObject($changes);
         $this->assertTrue($changes instanceof Entity);
     }
 
-    public function test__construct__it_should_create_object_with_correct_attributes() {
+    public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
-        $contact     = new ContactsEntity($contactData);
+        $contact = new ContactsEntity($contactData);
 
         $this->assertIsObject($contact);
 
@@ -27,7 +27,7 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertEquals('123123123123', $contact->waId);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $expectedName = 'Some Interesting Name';
         $expectedWaId = '098876654';
         $contact = new ContactsEntity([]);
@@ -37,9 +37,9 @@ class ContactsEntityTest extends UnitTestCase {
 
         $contact->setAttributes([
             'profile' => [
-                'name' => $expectedName
+                'name' => $expectedName,
             ],
-            'wa_id'   => $expectedWaId,
+            'wa_id' => $expectedWaId,
         ]);
 
         $this->assertNotNull($contact->name);
@@ -49,20 +49,20 @@ class ContactsEntityTest extends UnitTestCase {
         $this->assertEquals($expectedWaId, $contact->waId);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
-        $contact     = new ContactsEntity($contactData);
-        $array     = $contact->toArray();
+        $contact = new ContactsEntity($contactData);
+        $array = $contact->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('name', $array);
         $this->assertArrayHasKey('waId', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $contactData = $this->getJsonFixture('Api/Components/change-contact');
-        $contact     = new ContactsEntity($contactData);
-        $json        = $contact->toJson();
+        $contact = new ContactsEntity($contactData);
+        $json = $contact->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('name', $json);

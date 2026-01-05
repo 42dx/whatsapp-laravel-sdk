@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Enums\ContactPropType;
  *
  * Entity representing the address sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -22,73 +21,55 @@ class AddressEntity extends Entity implements ContractsEntity {
      * city
      *
      * The city of the address
-     *
-     * @var string|null
      */
-    protected string|null $city;
+    protected ?string $city;
 
     /**
      * countryCode
      *
      * The country code of the address
-     *
-     * @var string|null
      */
-    protected string|null $countryCode;
+    protected ?string $countryCode;
 
     /**
      * country
      *
      * The country of the address
-     *
-     * @var string|null
      */
-    protected string|null $country;
+    protected ?string $country;
 
     /**
      * state
      *
      * The state of the address
-     *
-     * @var string|null
      */
-    protected string|null $state;
+    protected ?string $state;
 
     /**
      * street
      *
      * The street of the address
-     *
-     * @var string|null
      */
-    protected string|null $street;
+    protected ?string $street;
 
     /**
      * type
      *
      * The type of the address
-     *
-     * @var \The42dx\Whatsapp\Enums\ContactPropType|null
      */
-    protected ContactPropType|null $type;
+    protected ?ContactPropType $type;
 
     /**
      * zip
      *
      * The zip code of the address
-     *
-     * @var string|null
      */
-    protected string|null $zip;
+    protected ?string $zip;
 
     /**
      * setAttributes
      *
      * Set the attributes of the address entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('city', 'city', $attributes);

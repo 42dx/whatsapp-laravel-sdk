@@ -2,10 +2,10 @@
 
 namespace The42dx\Whatsapp\Abstracts;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
+use Illuminate\Support\{Arr, Collection};
+use InvalidArgumentException;
+use ReflectionClass;
+use The42dx\Whatsapp\Contracts\{Entity as ContractsEntity, Enum};
 use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
@@ -13,15 +13,12 @@ use The42dx\Whatsapp\Factories\EntityCollectionFactory;
  *
  * Abstract class for entities in the package.
  *
- * @package The42dx\Whatsapp\Abstracts
  *
  * @see \The42dx\Whatsapp\Contracts\Entity
  */
 abstract class Entity implements ContractsEntity {
     public function __construct(?array $attributes = []) {
         $this->setAttributes($attributes);
-
-        Log::debug('['. get_class($this) .'] created');
     }
 
     /**
@@ -29,7 +26,6 @@ abstract class Entity implements ContractsEntity {
      *
      * Convert the entity to an array
      *
-     * @return array
      *
      * @see \Illuminate\Support\Collection
      * @see \The42dx\Whatsapp\Contracts\Entity
@@ -38,6 +34,12 @@ abstract class Entity implements ContractsEntity {
         $array = [];
 
         foreach ($this as $key => $value) {
+            if ($value instanceof Enum) {
+                $array[$key] = $value->value;
+
+                continue;
+            }
+
             if ($value instanceof Entity) {
                 $array[$key] = $value->toArray();
 
@@ -45,9 +47,7 @@ abstract class Entity implements ContractsEntity {
             }
 
             if ($value instanceof Collection) {
-                $array[$key] = $value->map(function ($item) {
-                    return $item->toArray();
-                })->toArray();
+                $array[$key] = $value->map(fn ($item) => $item->toArray())->toArray();
 
                 continue;
             }
@@ -62,8 +62,6 @@ abstract class Entity implements ContractsEntity {
      * toJson
      *
      * Convert the entity to a JSON string
-     *
-     * @return string
      */
     public function toJson(): string {
         return json_encode($this->toArray());
@@ -76,19 +74,17 @@ abstract class Entity implements ContractsEntity {
      *
      * Check if provided attribute exists on the entity, and set or update it if so.
      *
-     * @param string $attrName The entity attribute name
-     * @param string $dataKey The key of the attribute in the data array
-     * @param mixed $data The attribute value
-     * @param class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null $class The class of the object or collection
-     * @param bool $isCollection Whether the attribute is a collection
+     * @param  string  $attrName  The entity attribute name
+     * @param  string  $dataKey  The key of the attribute in the data array
+     * @param  mixed  $data  The attribute value
+     * @param  class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null  $class  The class of the object or collection
+     * @param  bool  $isCollection  Whether the attribute is a collection
      *
-     * @return void
-     *
-     * @throws \InvalidArgumentException If the attribute does not exist on the entity
+     * @throws InvalidArgumentException If the attribute does not exist on the entity
      */
     protected function setOrUpdateAttribute(string $attrName, string $dataKey, mixed $data, ?string $class = null, ?bool $isCollection = false): void {
         if (!property_exists($this, $attrName)) {
-            throw new \InvalidArgumentException("Attribute '$attrName' does not exist on [" . get_class($this) . "].");
+            throw new InvalidArgumentException("Attribute '{$attrName}' does not exist on [" . static::class . '].');
         }
 
         if (!$data || empty($data)) {
@@ -99,7 +95,7 @@ abstract class Entity implements ContractsEntity {
 
         $oldValue = isset($this->{$attrName}) && !is_null($this->{$attrName}) && !empty($this->{$attrName}) ? $this->{$attrName} : null;
         $newValue = Arr::get($data, $dataKey) ?? null;
-        $value    = !empty($newValue) ? $newValue : $oldValue;
+        $value = !empty($newValue) ? $newValue : $oldValue;
 
         if (!is_null($class)) {
             $this->manageClassAttribute($attrName, $class, $value, $isCollection);
@@ -115,7 +111,7 @@ abstract class Entity implements ContractsEntity {
      *
      * Get the entity attribute
      *
-     * @param string $key The entity attribute
+     * @param  string  $key  The entity attribute
      * @return mixed The entity attribute value
      *
      * @see \Illuminate\Support\Collection
@@ -130,13 +126,13 @@ abstract class Entity implements ContractsEntity {
      *
      * Manage the class attribute and set it correctly depending on the class type
      *
-     * @param string $attrName The entity attribute name
-     * @param class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null $class The class of the object or collection
-     * @param mixed $value The attribute value
-     * @param bool $isCollection Whether the attribute is a collection
+     * @param  string  $attrName  The entity attribute name
+     * @param  class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null  $class  The class of the object or collection
+     * @param  mixed  $value  The attribute value
+     * @param  bool  $isCollection  Whether the attribute is a collection
      */
     private function manageClassAttribute(string $attrName, string $class, mixed $value, bool $isCollection): void {
-        $reflector = new \ReflectionClass($class);
+        $reflector = new ReflectionClass($class);
 
         if ($isCollection) {
             $this->{$attrName} = EntityCollectionFactory::make($class, $value);

@@ -12,27 +12,27 @@ use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 class ChangesEntityTest extends UnitTestCase {
     public static function fieldTypeDataset(): array {
         return [
-            'account_alerts event'                  => [ApiEvent::ACC_ALERTS->value, ApiEvent::ACC_ALERTS, null],
-            'account_review_update event'           => [ApiEvent::ACC_REVIEW_UPDATE->value, ApiEvent::ACC_REVIEW_UPDATE, null],
-            'account_update event'                  => [ApiEvent::ACC_UPDT->value, ApiEvent::ACC_UPDT, null],
-            'business_capability_update event'      => [ApiEvent::BUSINESS_CAPABILITY_UPDT->value, ApiEvent::BUSINESS_CAPABILITY_UPDT, null],
-            'business_status_update event'          => [ApiEvent::BUSINESS_STATUS_UPDT->value, ApiEvent::BUSINESS_STATUS_UPDT, null],
-            'campaign_status_update event'          => [ApiEvent::CAMPAIGN_STATUS_UPDT->value, ApiEvent::CAMPAIGN_STATUS_UPDT, null],
-            'flows event'                           => [ApiEvent::FLOWS->value, ApiEvent::FLOWS, null],
-            'message_echoes event'                  => [ApiEvent::MSG_ECHOES->value, ApiEvent::MSG_ECHOES, null],
+            'account_alerts event' => [ApiEvent::ACC_ALERTS->value, ApiEvent::ACC_ALERTS, null],
+            'account_review_update event' => [ApiEvent::ACC_REVIEW_UPDATE->value, ApiEvent::ACC_REVIEW_UPDATE, null],
+            'account_update event' => [ApiEvent::ACC_UPDT->value, ApiEvent::ACC_UPDT, null],
+            'business_capability_update event' => [ApiEvent::BUSINESS_CAPABILITY_UPDT->value, ApiEvent::BUSINESS_CAPABILITY_UPDT, null],
+            'business_status_update event' => [ApiEvent::BUSINESS_STATUS_UPDT->value, ApiEvent::BUSINESS_STATUS_UPDT, null],
+            'campaign_status_update event' => [ApiEvent::CAMPAIGN_STATUS_UPDT->value, ApiEvent::CAMPAIGN_STATUS_UPDT, null],
+            'flows event' => [ApiEvent::FLOWS->value, ApiEvent::FLOWS, null],
+            'message_echoes event' => [ApiEvent::MSG_ECHOES->value, ApiEvent::MSG_ECHOES, null],
             'message_template_quality_update event' => [ApiEvent::MSG_TPLT_QUALITY_UPDT->value, ApiEvent::MSG_TPLT_QUALITY_UPDT, null],
-            'message_template_status_update event'  => [ApiEvent::MSG_TPLT_STATUS_UPDT->value, ApiEvent::MSG_TPLT_STATUS_UPDT, null],
-            'messaging_handovers event'             => [ApiEvent::MSG_HANDOVERS->value, ApiEvent::MSG_HANDOVERS, null],
-            'message event'                         => [ApiEvent::MSGS->value, ApiEvent::MSGS, MessagesEntity::class],
-            'partner_solutions event'               => [ApiEvent::PARTNER_SOLUTIONS->value, ApiEvent::PARTNER_SOLUTIONS, null],
-            'phone_number_name_update event'        => [ApiEvent::PHONE_NUM_NAME_UPDT->value, ApiEvent::PHONE_NUM_NAME_UPDT, null],
-            'phone_number_quality_update event'     => [ApiEvent::PHONE_NUM_QUALITY_UPDT->value, ApiEvent::PHONE_NUM_QUALITY_UPDT, null],
-            'security event'                        => [ApiEvent::SECURITY->value, ApiEvent::SECURITY, null],
-            'template_category_update event'        => [ApiEvent::TEMPLATE_CAT_UPDT->value, ApiEvent::TEMPLATE_CAT_UPDT, null],
+            'message_template_status_update event' => [ApiEvent::MSG_TPLT_STATUS_UPDT->value, ApiEvent::MSG_TPLT_STATUS_UPDT, null],
+            'messaging_handovers event' => [ApiEvent::MSG_HANDOVERS->value, ApiEvent::MSG_HANDOVERS, null],
+            'message event' => [ApiEvent::MSGS->value, ApiEvent::MSGS, MessagesEntity::class],
+            'partner_solutions event' => [ApiEvent::PARTNER_SOLUTIONS->value, ApiEvent::PARTNER_SOLUTIONS, null],
+            'phone_number_name_update event' => [ApiEvent::PHONE_NUM_NAME_UPDT->value, ApiEvent::PHONE_NUM_NAME_UPDT, null],
+            'phone_number_quality_update event' => [ApiEvent::PHONE_NUM_QUALITY_UPDT->value, ApiEvent::PHONE_NUM_QUALITY_UPDT, null],
+            'security event' => [ApiEvent::SECURITY->value, ApiEvent::SECURITY, null],
+            'template_category_update event' => [ApiEvent::TEMPLATE_CAT_UPDT->value, ApiEvent::TEMPLATE_CAT_UPDT, null],
         ];
     }
 
-    public function test__construct__it_should_be_an_entity_instance_object() {
+    public function test__construct__it_should_be_an_entity_instance_object(): void {
         $changes = new ChangesEntity([]);
 
         $this->assertIsObject($changes);
@@ -40,10 +40,10 @@ class ChangesEntityTest extends UnitTestCase {
     }
 
     #[DataProvider('fieldTypeDataset')]
-    public function test__construct__it_should_create_object_with_correct_attributes(string $field, ApiEvent $expectedApiEvent, string|null $expectedValue) {
-        $changes     = new ChangesEntity([
+    public function test__construct__it_should_create_object_with_correct_attributes(string $field, ApiEvent $expectedApiEvent, ?string $expectedValue): void {
+        $changes = new ChangesEntity([
             'field' => $field,
-            'value' => []
+            'value' => [],
         ]);
 
         $this->assertIsObject($changes);
@@ -52,13 +52,14 @@ class ChangesEntityTest extends UnitTestCase {
 
         if ($expectedValue === null) { // Remove conditional when all events are implemented
             $this->assertNull($changes->value);
+
             return;
         }
 
         $this->assertInstanceOf($expectedValue, $changes->value);
     }
 
-    public function test__setAttributes__it_should_update_attributes() {
+    public function test__set_attributes__it_should_update_attributes(): void {
         $changes = new ChangesEntity([]);
 
         $this->assertNull($changes->field);
@@ -66,7 +67,7 @@ class ChangesEntityTest extends UnitTestCase {
 
         $changes->setAttributes([
             'field' => ApiEvent::MSGS->value,
-            'value' => []
+            'value' => [],
         ]);
 
         $this->assertEquals(ApiEvent::MSGS, $changes->field);
@@ -74,20 +75,20 @@ class ChangesEntityTest extends UnitTestCase {
         $this->assertInstanceOf(MessagesEntity::class, $changes->value);
     }
 
-    public function test__toArray__it_should_convert_to_array_correctly() {
+    public function test__to_array__it_should_convert_to_array_correctly(): void {
         $changesData = $this->getJsonFixture('Api/Components/change');
-        $changes     = new ChangesEntity($changesData);
-        $array       = $changes->toArray();
+        $changes = new ChangesEntity($changesData);
+        $array = $changes->toArray();
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('field', $array);
         $this->assertArrayHasKey('value', $array);
     }
 
-    public function test__toJson__it_should_convert_to_json_correctly() {
+    public function test__to_json__it_should_convert_to_json_correctly(): void {
         $changesData = $this->getJsonFixture('Api/Components/change');
-        $changes     = new ChangesEntity($changesData);
-        $json        = $changes->toJson();
+        $changes = new ChangesEntity($changesData);
+        $json = $changes->toJson();
 
         $this->assertJson($json);
         $this->assertStringContainsString('field', $json);

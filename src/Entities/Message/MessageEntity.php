@@ -5,25 +5,13 @@ namespace The42dx\Whatsapp\Entities\Message;
 use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Entities\Message\{
-    AudioEntity,
-    ContactEntity,
-    DocumentEntity,
-    ImageEntity,
-    LocationEntity,
-    ReactionEntity,
-    ContextEntity,
-    StickerEntity,
-};
 use The42dx\Whatsapp\Enums\MessageType;
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
 
 /**
  * MessageEntity
  *
  * Entity representing the message sent to the Whatsapp contact
  *
- * @package The42dx\Whatsapp\Entities\Messages
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -34,57 +22,46 @@ class MessageEntity extends Entity implements ContractsEntity {
      * audio
      *
      * The audio message sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\AudioEntity|null
      */
-    protected AudioEntity|null $audio;
+    protected ?AudioEntity $audio;
 
     /**
      * contacts
      *
      * The contacts sent to the Whatsapp contact
      *
-     * @var \Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\ContactEntity
      */
-    protected Collection|null $contacts;
+    protected ?Collection $contacts;
 
     /**
      * document
      *
      * The document sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\DocumentEntity|null
      */
-    protected DocumentEntity|null $document;
+    protected ?DocumentEntity $document;
 
     /**
      * from
      *
      * The phone number of the Whatsapp contact that sent the message
-     *
-     * @var string|null
      */
-    protected string|null $from;
+    protected ?string $from;
 
     /**
      * id
      *
      * The unique identifier of the message sent
-     *
-     * @var string|null
      */
-    protected string|null $id;
+    protected ?string $id;
 
     /**
      * image
      *
      * The image sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\ImageEntity|null
      */
-    protected ImageEntity|null $image;
+    protected ?ImageEntity $image;
 
     /**
      * location
@@ -93,82 +70,65 @@ class MessageEntity extends Entity implements ContractsEntity {
      *
      * @var The42dx\Whatsapp\Entities\Message\LocationEntity|null
      */
-    protected LocationEntity|null $location;
+    protected ?LocationEntity $location;
 
     /**
      * reaction
      *
      * The reaction to the message sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\ReactionEntity|null
      */
-    protected ReactionEntity|null $reaction;
+    protected ?ReactionEntity $reaction;
 
     /**
      * context
      *
      * The context to the message sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\ContextEntity|null
      */
-    protected ContextEntity|null $context;
+    protected ?ContextEntity $context;
 
     /**
      * sticker
      *
      * The sticker sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\StickerEntity|null
      */
-    protected StickerEntity|null $sticker;
+    protected ?StickerEntity $sticker;
 
     /**
      * text
      *
      * The text message sent to the Whatsapp contact
-     *
-     * @var string|null
      */
-    protected string|null $text;
+    protected ?string $text;
 
     /**
      * timestamp
      *
      * The timestamp of the message sent
-     *
-     * @var string|null
      */
-    protected string|null $timestamp;
+    protected ?string $timestamp;
 
     /**
      * type
      *
      * The type of message sent
-     *
-     * @var \The42dx\Whatsapp\Enums\MessageType|null
      */
-    protected MessageType|null $type;
+    protected ?MessageType $type;
 
     /**
      * video
      *
      * The video sent to the Whatsapp contact
-     *
-     * @var \The42dx\Whatsapp\Entities\Message\VideoEntity|null
      */
-    protected VideoEntity|null $video;
+    protected ?VideoEntity $video;
 
     protected null $template; // TODO: implement
+
     protected null $interactive; // TODO: implement
 
     /**
      * setAttributes
      *
      * Set the attributes of the message entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('audio', 'audio', $attributes, AudioEntity::class);
@@ -186,7 +146,7 @@ class MessageEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('type', 'type', $attributes, MessageType::class);
         $this->setOrUpdateAttribute('video', 'video', $attributes, VideoEntity::class);
 
-        $this->template    = null;
+        $this->template = null;
         $this->interactive = null;
 
         return $this;

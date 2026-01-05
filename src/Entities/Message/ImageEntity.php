@@ -11,7 +11,6 @@ use The42dx\Whatsapp\Entities\Traits\HasCaption;
  *
  * Represents an image message sent to/from the Whatsapp Business API
  *
- * @package The42dx\Whatsapp\Entities\Message
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -25,10 +24,6 @@ class ImageEntity extends MediaEntity implements Entity {
      * setAttributes
      *
      * Set the attributes of the video entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         parent::setAttributes($attributes);

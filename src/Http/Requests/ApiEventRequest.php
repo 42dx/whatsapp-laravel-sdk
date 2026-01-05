@@ -14,21 +14,17 @@ use The42dx\Whatsapp\Enums\ObjectType;
 class ApiEventRequest extends FormRequest {
     /**
      * The rules that the request must pass.
-     *
-     * @return array
      */
     public function rules(): array {
         return [
-            'object'          => Rule::enum(ObjectType::class),
-            'entry'           => 'required|array|min:1',
+            'object' => Rule::enum(ObjectType::class),
+            'entry' => 'required|array|min:1',
             'entry.*.changes' => 'required|array|min:1',
         ];
     }
 
     /**
      * Get custom messages for validator errors.
-     *
-     * @return array
      */
     public function messages(): array {
         return [

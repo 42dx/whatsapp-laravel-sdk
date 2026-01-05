@@ -5,16 +5,13 @@ namespace The42dx\Whatsapp\Entities\Changes;
 use Illuminate\Support\Collection;
 use The42dx\Whatsapp\Abstracts\Entity;
 use The42dx\Whatsapp\Contracts\Entity as ContractsEntity;
-use The42dx\Whatsapp\Entities\Changes\ContactsEntity;
-use The42dx\Whatsapp\Entities\Message\MessageEntity;
-use The42dx\Whatsapp\Entities\Message\StatusEntity;
+use The42dx\Whatsapp\Entities\Message\{MessageEntity, StatusEntity};
 
 /**
  * MessagesEntity
  *
  * Entity representing the messages sent to the Whatsapp contacts
  *
- * @package The42dx\Whatsapp\Entities\Changes
  *
  * @see \The42dx\Whatsapp\Abstracts\Entity
  * @see \The42dx\Whatsapp\Contracts\Entity
@@ -26,60 +23,49 @@ class MessagesEntity extends Entity implements ContractsEntity {
      *
      * The Whatsapp contacts the message was sent to
      *
-     * @var \Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\ContactsEntity
      */
-    protected Collection|null $contacts;
+    protected ?Collection $contacts;
 
     /**
      * messages
      *
      * The messages sent to the Whatsapp contacts
      *
-     * @var \Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\MessageEntity
      */
-    protected Collection|null $messages;
+    protected ?Collection $messages;
 
     /**
      * statuses
      *
      * The statuses of the messages sent to the Whatsapp contacts
      *
-     * @var \Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\MessageEntity
      */
-    protected Collection|null $statuses;
+    protected ?Collection $statuses;
 
     /**
      * waId
      *
      * The Whatsapp ID of the contact
-     *
-     * @var string|null
      */
-    protected string|null $waId;
+    protected ?string $waId;
 
     /**
      * phone
      *
      * The Whatsapp phone number of the contact
-     *
-     * @var string|null
      */
-    protected string|null $phone;
+    protected ?string $phone;
 
     /**
      * setAttributes
      *
      * Set the attributes of the messages entity
-     *
-     * @param array $attributes
-     *
-     * @return self
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('waId', 'metadata.phone_number_id', $attributes);
