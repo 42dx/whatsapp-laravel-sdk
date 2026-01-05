@@ -24,16 +24,16 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
 
-        $this->assertInstanceOf(Collection::class, $event->entry);
-        $this->assertEquals(1, $event->entry->count());
-        $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
+        $this->assertInstanceOf(Collection::class, $event->entries);
+        $this->assertEquals(1, $event->entries->count());
+        $this->assertInstanceOf(EntryEntity::class, $event->entries->first());
     }
 
     public function test__set_attributes__it_should_update_attributes(): void {
         $event = new EventEntity([]);
 
         $this->assertNull($event->object);
-        $this->assertNull($event->entry);
+        $this->assertNull($event->entries);
 
         $event->setAttributes([
             'object' => ObjectType::WPP_BUSINESS_API_ACC->value,
@@ -42,9 +42,9 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
 
-        $this->assertInstanceOf(Collection::class, $event->entry);
-        $this->assertEquals(1, $event->entry->count());
-        $this->assertInstanceOf(EntryEntity::class, $event->entry->first());
+        $this->assertInstanceOf(Collection::class, $event->entries);
+        $this->assertEquals(1, $event->entries->count());
+        $this->assertInstanceOf(EntryEntity::class, $event->entries->first());
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
@@ -54,7 +54,7 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('object', $array);
-        $this->assertArrayHasKey('entry', $array);
+        $this->assertArrayHasKey('entries', $array);
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
@@ -64,6 +64,6 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertJson($json);
         $this->assertStringContainsString('object', $json);
-        $this->assertStringContainsString('entry', $json);
+        $this->assertStringContainsString('entries', $json);
     }
 }
