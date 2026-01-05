@@ -6,31 +6,21 @@ use Illuminate\Support\Facades\Schema;
 use The42dx\Whatsapp\Enums\{MessageStatus, MessageType, MessageWay};
 
 return new class extends Migration {
-    public const TABLE_NAME = 'whatsapp_messages';
-
-    public const USERS_TABLE = 'users';
-
-    public const PHONE_COLUMN = 'phone';
-
-    public const USERS_PK = 'id';
-
     /**
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create(config('whatsapp.database.table_name', self::TABLE_NAME), function (Blueprint $table): void {
+        Schema::create(config('whatsapp.database.table_name'), function (Blueprint $table): void {
             $table->id();
 
             $table->string('whatsapp_message_id')
                 ->unique();
-            $table->string('api_phone_number')
-                ->index();
             $table->string('contact_phone_number')
                 ->index();
             $table->foreignId('user_id')
                 ->nullable()
-                ->references(config('whatsapp.database.users_table_pk', self::USERS_PK))
-                ->on(config('whatsapp.database.users_table', self::USERS_TABLE))
+                ->references(config('whatsapp.database.users_table_pk'))
+                ->on(config('whatsapp.database.users_table'))
                 ->onDelete('cascade');
             $table->enum('way', [
                 MessageWay::INBOUND->value,
@@ -80,6 +70,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists(config('whatsapp.database.table_name', self::TABLE_NAME));
+        Schema::dropIfExists(config('whatsapp.database.table_name'));
     }
 };

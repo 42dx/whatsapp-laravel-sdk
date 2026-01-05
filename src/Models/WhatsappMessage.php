@@ -16,7 +16,6 @@ class WhatsappMessage extends Model {
      * @var array
      */
     protected $fillable = [
-        'api_phone_number',
         'contact_phone_number',
         'deleted_at',
         'delivered_at',

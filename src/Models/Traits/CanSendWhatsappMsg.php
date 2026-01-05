@@ -33,7 +33,7 @@ trait CanSendWhatsappMsg {
 
         $whatsappService->send(
             MessageType::TEXT,
-            $this->{config('whatsapp.database.user_phone_column', 'phone')},
+            $this,
             $data
         );
     }
