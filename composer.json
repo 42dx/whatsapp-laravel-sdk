@@ -38,13 +38,15 @@
         "setup": "cd samples/laravel-12 && composer install && cd ../..",
         "connect": [
             "Composer\\Config::disableProcessTimeout",
-            "ssh -R 80:localhost:8000 serveo.net"
+            "tmole 8000"
         ],
-        "test": "XDEBUG_MODE=off phpunit --colors=always --testdox"
+        "test": "XDEBUG_MODE=off phpunit --colors=always --testdox",
+        "lint": "./vendor/bin/pint --test"
     },
     "require-dev": {
         "orchestra/testbench": "^9.1",
-        "phpunit/phpunit": "^11.2"
+        "phpunit/phpunit": "^11.2",
+        "laravel/pint": "^1.27"
     },
     "autoload": {
         "psr-4": {
