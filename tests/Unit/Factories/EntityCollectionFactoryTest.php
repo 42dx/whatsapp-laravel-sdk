@@ -22,8 +22,8 @@ class EntityCollectionFactoryTest extends UnitTestCase {
         $collection = EntityCollectionFactory::make(
             UrlEntity::class,
             [
-                ['url' => 'http://some.url',    'type' => 'WORK'],
-                ['url' => 'http://another.url', 'type' => 'HOME'],
+                ['url' => 'https://some.url',    'type' => 'WORK'],
+                ['url' => 'https://another.url', 'type' => 'HOME'],
             ]
         );
 
