@@ -2,10 +2,12 @@
 
 namespace The42dx\Whatsapp\Services;
 
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Enums\MessageType;
+use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
+use The42dx\Whatsapp\Models\WhatsappMessage;
 use Throwable;
 
 class WhatsappService {
@@ -33,14 +35,31 @@ class WhatsappService {
         ]);
     }
 
-    public function send(MessageType $type, string $whatsappPhone, array|string $data): array {
-        $apiMessage = $this->getApiMessag($type, $whatsappPhone, $data);
+    public function send(MessageType $type, User $user, array|string $data): array {
+        if (is_null($user->{config('whatsapp.database.user_phone_column')})) {
+            Log::error('User does not have a phone number set', ['user_id' => $user->id]);
+
+            return [];
+        }
+
+        $apiMessage = $this->getApiMessage($type, $user->{config('whatsapp.database.user_phone_column')}, $data);
 
         try {
             $response = $this->http->post("{$this->businessPhoneId}/messages", ['json' => $apiMessage]);
             $body = json_decode($response->getBody()->getContents(), true);
 
             Log::info('Message sent to WhatsApp API', ['response' => $body]);
+
+            if (isset($body['messages']) && isset($body['messages'][0]) && isset($body['messages'][0]['id'])) {
+                WhatsappMessage::create([
+                    'text' => $apiMessage['text']['body'] ?? null,
+                    'contact_phone_number' => $user->{config('whatsapp.database.user_phone_column')},
+                    'user_id' => $user->id,
+                    'type' => $type,
+                    'whatsapp_message_id' => $body['messages'][0]['id'],
+                    'way' => MessageWay::OUTBOUND,
+                ]);
+            }
         } catch (RequestException $th) {
             $body = [];
 
@@ -60,7 +79,7 @@ class WhatsappService {
         return $body;
     }
 
-    private function getApiMessag(MessageType $type, string $whatsappPhone, array|string $data): array {
+    private function getApiMessage(MessageType $type, string $whatsappPhone, array|string $data): ?array {
         switch ($type) {
             case MessageType::TEXT:
                 return $this->createTextMsg($whatsappPhone, $data);
@@ -77,6 +96,9 @@ class WhatsappService {
             case MessageType::VIDEO:
             default:
                 Log::warning('Unsupported message type: ' . $type->value);
+                Log::debug('Unsupported message content:', ['content' => $data]);
+
+                return null;
         }
     }
 
