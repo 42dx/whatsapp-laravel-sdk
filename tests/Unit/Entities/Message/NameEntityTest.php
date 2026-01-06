@@ -15,7 +15,7 @@ class NameEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $nameData = $this->getJsonFixture('Api/Components/name');
+        $nameData = self::getJsonFixture('Api/Components/name');
         $name = new NameEntity($nameData);
 
         $this->assertIsObject($name);
@@ -58,7 +58,7 @@ class NameEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $nameData = $this->getJsonFixture('Api/Components/name');
+        $nameData = self::getJsonFixture('Api/Components/name');
         $name = new NameEntity($nameData);
         $array = $name->toArray();
 
@@ -72,7 +72,7 @@ class NameEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $nameData = $this->getJsonFixture('Api/Components/name');
+        $nameData = self::getJsonFixture('Api/Components/name');
         $name = new NameEntity($nameData);
         $json = $name->toJson();
 

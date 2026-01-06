@@ -17,7 +17,7 @@ class EventEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $eventData = $this->getJsonFixture('Api/Components/event');
+        $eventData = self::getJsonFixture('Api/Components/event');
         $event = new EventEntity($eventData);
 
         $this->assertIsObject($event);
@@ -48,7 +48,7 @@ class EventEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $eventData = $this->getJsonFixture('Api/Components/event');
+        $eventData = self::getJsonFixture('Api/Components/event');
         $event = new EventEntity($eventData);
         $array = $event->toArray();
 
@@ -58,7 +58,7 @@ class EventEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $eventData = $this->getJsonFixture('Api/Components/event');
+        $eventData = self::getJsonFixture('Api/Components/event');
         $event = new EventEntity($eventData);
         $json = $event->toJson();
 

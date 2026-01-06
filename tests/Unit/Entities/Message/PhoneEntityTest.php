@@ -16,7 +16,7 @@ class PhoneEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $phoneData = $this->getJsonFixture('Api/Components/phone');
+        $phoneData = self::getJsonFixture('Api/Components/phone');
         $phone = new PhoneEntity($phoneData);
 
         $this->assertIsObject($phone);
@@ -47,7 +47,7 @@ class PhoneEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $phoneData = $this->getJsonFixture('Api/Components/phone');
+        $phoneData = self::getJsonFixture('Api/Components/phone');
         $phone = new PhoneEntity($phoneData);
         $array = $phone->toArray();
 
@@ -58,7 +58,7 @@ class PhoneEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $phoneData = $this->getJsonFixture('Api/Components/phone');
+        $phoneData = self::getJsonFixture('Api/Components/phone');
         $phone = new PhoneEntity($phoneData);
         $json = $phone->toJson();
 

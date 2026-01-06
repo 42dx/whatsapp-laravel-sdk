@@ -2,7 +2,6 @@
 
 namespace The42dx\Whatsapp\Http\Controllers\Traits\Messages;
 
-use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Entities\{Changes\MessagesEntity, Message\MessageEntity};
@@ -73,10 +72,9 @@ trait HandleWhatsappMessage {
         $messageModel->whatsapp_message_id = $message->id;
         $messageModel->way = MessageWay::INBOUND; // might need to change this logic when sending messages through the SDK
 
-        $user = User::where(
-            config('whatsapp.database.user_phone_column'),
-            $message->from
-        )->first();
+        $user = app(config('whatsapp.database.user_model'))
+            ->where(config('whatsapp.database.user_phone_column'), $message->from)
+            ->first();
 
         if (isset($user) && !is_null($user) && !empty($user)) {
             $messageModel->user_id = $user->id;

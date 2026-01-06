@@ -16,7 +16,7 @@ class AddressEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $addressData = $this->getJsonFixture('Api/Components/address');
+        $addressData = self::getJsonFixture('Api/Components/address');
         $address = new AddressEntity($addressData);
 
         $this->assertIsObject($address);
@@ -63,7 +63,7 @@ class AddressEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $addressData = $this->getJsonFixture('Api/Components/address');
+        $addressData = self::getJsonFixture('Api/Components/address');
         $address = new AddressEntity($addressData);
         $array = $address->toArray();
 
@@ -78,7 +78,7 @@ class AddressEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $addressData = $this->getJsonFixture('Api/Components/address');
+        $addressData = self::getJsonFixture('Api/Components/address');
         $address = new AddressEntity($addressData);
         $json = $address->toJson();
 
