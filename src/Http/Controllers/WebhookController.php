@@ -81,7 +81,9 @@ class WebhookController extends Controller {
     }
 
     protected function handleDefault(ChangesEntity $change): void {
-        Log::warning("Unsupported API event: {$change->type}");
-        Log::debug('Unsupported API event data', ['data' => $change->toArray()]);
+        $changeData = $change->toArray();
+
+        Log::warning("Unsupported API event: {$changeData['field']}");
+        Log::debug('Unsupported API event data', ['data' => $changeData]);
     }
 }
