@@ -10,6 +10,7 @@ return [
     'webhook_route' => env('WPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
     'database' => [
         'skip_migrations' => false,
+        'user_model' => App\Models\User::class,
         'table_name' => 'whatsapp_messages',
         'users_table' => 'users',
         'users_table_pk' => 'id',
