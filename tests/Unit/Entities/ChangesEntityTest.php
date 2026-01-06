@@ -76,7 +76,7 @@ class ChangesEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $changesData = $this->getJsonFixture('Api/Components/change');
+        $changesData = self::getJsonFixture('Api/Components/change');
         $changes = new ChangesEntity($changesData);
         $array = $changes->toArray();
 
@@ -86,7 +86,7 @@ class ChangesEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $changesData = $this->getJsonFixture('Api/Components/change');
+        $changesData = self::getJsonFixture('Api/Components/change');
         $changes = new ChangesEntity($changesData);
         $json = $changes->toJson();
 

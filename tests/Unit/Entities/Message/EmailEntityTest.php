@@ -17,7 +17,7 @@ class EmailEntityTest extends UnitTestCase {
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $expectedEmail = 'kfish@fb.com';
-        $emailData = $this->getJsonFixture('Api/Components/email');
+        $emailData = self::getJsonFixture('Api/Components/email');
         $email = new EmailEntity($emailData);
 
         $this->assertIsObject($email);
@@ -45,7 +45,7 @@ class EmailEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $emailData = $this->getJsonFixture('Api/Components/email');
+        $emailData = self::getJsonFixture('Api/Components/email');
         $email = new EmailEntity($emailData);
         $array = $email->toArray();
 
@@ -55,7 +55,7 @@ class EmailEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $emailData = $this->getJsonFixture('Api/Components/email');
+        $emailData = self::getJsonFixture('Api/Components/email');
         $email = new EmailEntity($emailData);
         $json = $email->toJson();
 

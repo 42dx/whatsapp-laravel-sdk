@@ -17,7 +17,7 @@ class ContactEntityTest extends UnitTestCase {
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
         $expectedBirthday = '2012-08-18';
-        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contactData = self::getJsonFixture('Api/Components/contact');
         $contact = new ContactEntity($contactData);
 
         $this->assertIsObject($contact);
@@ -81,7 +81,7 @@ class ContactEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contactData = self::getJsonFixture('Api/Components/contact');
         $contact = new ContactEntity($contactData);
         $array = $contact->toArray();
 
@@ -96,7 +96,7 @@ class ContactEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $contactData = $this->getJsonFixture('Api/Components/contact');
+        $contactData = self::getJsonFixture('Api/Components/contact');
         $contact = new ContactEntity($contactData);
         $json = $contact->toJson();
 

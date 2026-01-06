@@ -3,15 +3,12 @@
 namespace The42dx\Whatsapp\Tests\Unit\Rules;
 
 use Exception;
-use Illuminate\Support\Facades\Config;
 use The42dx\Whatsapp\Rules\VerifyToken;
 use The42dx\Whatsapp\Tests\Unit\UnitTestCase;
 
 class VerifyTokenTest extends UnitTestCase {
     protected function setUp(): void {
         parent::setUp();
-
-        Config::set('whatsapp.webhook_verify', env('WPP_WEBHOOK_VERIFY'));
     }
 
     public function test_it_should_fail_if_provided_token_is_invalid(): void {
@@ -27,11 +24,5 @@ class VerifyTokenTest extends UnitTestCase {
 
         $rule = new VerifyToken;
         $rule->validate('hub_verify_token', 'some-verify', fn ($message) => throw new Exception($message));
-    }
-
-    protected function tearDown(): void {
-        parent::tearDown();
-
-        Config::set('whatsapp.webhook_verify', null);
     }
 }

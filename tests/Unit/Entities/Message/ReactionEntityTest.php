@@ -15,7 +15,7 @@ class ReactionEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $reactionData = $this->getJsonFixture('Api/Components/reaction');
+        $reactionData = self::getJsonFixture('Api/Components/reaction');
         $reaction = new ReactionEntity($reactionData);
 
         $this->assertIsObject($reaction);
@@ -42,7 +42,7 @@ class ReactionEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $reactionData = $this->getJsonFixture('Api/Components/reaction');
+        $reactionData = self::getJsonFixture('Api/Components/reaction');
         $reaction = new ReactionEntity($reactionData);
         $array = $reaction->toArray();
 
@@ -52,7 +52,7 @@ class ReactionEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $reactionData = $this->getJsonFixture('Api/Components/reaction');
+        $reactionData = self::getJsonFixture('Api/Components/reaction');
         $reaction = new ReactionEntity($reactionData);
         $json = $reaction->toJson();
 

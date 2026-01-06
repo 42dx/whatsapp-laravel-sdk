@@ -16,7 +16,7 @@ class EntryEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $entryData = $this->getJsonFixture('Api/Components/entry');
+        $entryData = self::getJsonFixture('Api/Components/entry');
         $entry = new EntryEntity($entryData);
 
         $this->assertIsObject($entry);
@@ -48,7 +48,7 @@ class EntryEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $entryData = $this->getJsonFixture('Api/Components/entry');
+        $entryData = self::getJsonFixture('Api/Components/entry');
         $entry = new EntryEntity($entryData);
         $array = $entry->toArray();
 
@@ -58,7 +58,7 @@ class EntryEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $entryData = $this->getJsonFixture('Api/Components/entry');
+        $entryData = self::getJsonFixture('Api/Components/entry');
         $entry = new EntryEntity($entryData);
         $json = $entry->toJson();
 

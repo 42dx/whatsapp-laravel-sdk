@@ -2,9 +2,9 @@
 
 namespace The42dx\Whatsapp\Services;
 
-use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
@@ -35,7 +35,7 @@ class WhatsappService {
         ]);
     }
 
-    public function send(MessageType $type, User $user, array|string $data): array {
+    public function send(MessageType $type, Model $user, array|string $data): array {
         if (is_null($user->{config('whatsapp.database.user_phone_column')})) {
             Log::error('User does not have a phone number set', ['user_id' => $user->id]);
 

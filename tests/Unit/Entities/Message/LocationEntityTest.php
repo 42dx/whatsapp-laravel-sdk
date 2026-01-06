@@ -15,7 +15,7 @@ class LocationEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $locationData = $this->getJsonFixture('Api/Components/location');
+        $locationData = self::getJsonFixture('Api/Components/location');
         $location = new LocationEntity($locationData);
 
         $this->assertIsObject($location);
@@ -54,7 +54,7 @@ class LocationEntityTest extends UnitTestCase {
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
-        $locationData = $this->getJsonFixture('Api/Components/location');
+        $locationData = self::getJsonFixture('Api/Components/location');
         $location = new LocationEntity($locationData);
         $array = $location->toArray();
 
@@ -67,7 +67,7 @@ class LocationEntityTest extends UnitTestCase {
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
-        $locationData = $this->getJsonFixture('Api/Components/location');
+        $locationData = self::getJsonFixture('Api/Components/location');
         $location = new LocationEntity($locationData);
         $json = $location->toJson();
 
