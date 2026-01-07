@@ -38,9 +38,11 @@ return new class extends Migration {
 
             $table->enum('type', [
                 MessageType::AUDIO->value,
+                MessageType::BUTTON->value,
                 MessageType::CONTACTS->value,
                 MessageType::DOCUMENT->value,
                 MessageType::IMAGE->value,
+                MessageType::INTERACTIVE->value,
                 MessageType::INTERACTIVE->value,
                 MessageType::LOCATION->value,
                 MessageType::REACTION->value,

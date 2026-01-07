@@ -13,30 +13,31 @@ trait HandleMessageStatus {
             ->first();
 
         if (!$message) {
-            Log::debug('Message not found on the database');
+            Log::debug('Message not found on the database: ' . $statusEntity->id);
 
             return;
         }
 
+        $now = now();
         $message->status = $statusEntity->status->value;
 
         switch ($statusEntity->status) {
             case MessageStatus::DELETED:
-                $message->deleted_at = now();
+                $message->deleted_at = $now;
                 break;
             case MessageStatus::DELIVERED:
-                $message->delivered_at = now();
+                $message->delivered_at = $now;
                 break;
             case MessageStatus::READ:
-                $message->read_at = now();
+                $message->read_at = $now;
                 break;
             case MessageStatus::SENT:
-                $message->sent_at = now();
+                $message->sent_at = $now;
                 break;
         }
 
         $message->save();
 
-        Log::debug('Message status handled ');
+        Log::debug('Message status update handled ');
     }
 }

@@ -1,0 +1,48 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "238793539323649",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "22222222222",
+                            "phone_number_id": "275962428926195"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Some Whatsapp User"
+                                },
+                                "wa_id": "111111111111"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "context": {
+                                    "from": "22222222222",
+                                    "id": "wamid.HBgMNTU0MTk5MTU5NjY2FQIAERgSNkFGREUzNThERDk3N0VGRURBAA=="
+                                },
+                                "from": "111111111111",
+                                "id": "wamid.HBgMNTU0MTk5MTU5NjY2FQIAEhggQUMzMkZFQURDODBBODQxRUNFNjk4REI5QjNCQzM4REUA",
+                                "timestamp": "1767758073",
+                                "type": "interactive",
+                                "interactive": {
+                                    "type": "nfm_reply",
+                                    "nfm_reply": {
+                                        "response_json": "{\"screen_0_Label_0\":\"0_Option_1\",\"flow_token\":\"unused\"}",
+                                        "body": "Sent",
+                                        "name": "flow"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}

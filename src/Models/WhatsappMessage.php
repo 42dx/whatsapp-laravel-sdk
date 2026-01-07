@@ -2,7 +2,9 @@
 
 namespace The42dx\Whatsapp\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use The42dx\Whatsapp\Database\Factories\WhatsappMessageFactory;
 
 /**
  * WhatsappMessage
@@ -10,6 +12,12 @@ use Illuminate\Database\Eloquent\Model;
  * Represents a Whatsapp message data on the database.
  */
 class WhatsappMessage extends Model {
+    use HasFactory;
+
+    public static function newFactory(): WhatsappMessageFactory {
+        return WhatsappMessageFactory::new();
+    }
+
     /**
      * The attributes that are mass assignable.
      *

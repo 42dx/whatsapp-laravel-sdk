@@ -11,6 +11,7 @@ use The42dx\Whatsapp\Contracts\Enum;
  */
 enum MessageType: string implements Enum {
     case AUDIO = 'audio';
+    case BUTTON = 'button';
     case CONTACTS = 'contacts';
     case DOCUMENT = 'document';
     case IMAGE = 'image';

@@ -17,8 +17,8 @@ trait CanSendWhatsappMsg {
      *
      * Send a WhatsApp message of the specified type with the given data.
      *
-     * @param MessageType $type The type of WhatsApp message to send.
-     * @param array|string $data The data/content of the message.
+     * @param  MessageType  $type  The type of WhatsApp message to send.
+     * @param  array|string  $data  The data/content of the message.
      */
     public function sendWhatsappMsg(MessageType $type, array|string $data): void {
         switch ($type) {
@@ -26,6 +26,7 @@ trait CanSendWhatsappMsg {
                 $this->sendTextMessage($data);
                 break;
             case MessageType::AUDIO:
+            case MessageType::BUTTON:
             case MessageType::CONTACTS:
             case MessageType::DOCUMENT:
             case MessageType::IMAGE:
@@ -46,7 +47,7 @@ trait CanSendWhatsappMsg {
      *
      * Helper method to send a text WhatsApp message.
      *
-     * @param array|string $data The text content of the message.
+     * @param  array|string  $data  The text content of the message.
      */
     private function sendTextMessage(array|string $data): void {
         $whatsappService = app(WhatsappService::class);
