@@ -24,13 +24,6 @@ trait HandleWhatsappMessage {
     use HandleMessageStatus, HandleTextMessage;
 
     /**
-     * apiPhoneNumber
-     *
-     * The API phone number the message was sent to
-     */
-    private string $apiPhoneNumber;
-
-    /**
      * handleMessages
      *
      * Handle the messages received from Whatsapp, and creates or updates them in the database.
@@ -39,8 +32,6 @@ trait HandleWhatsappMessage {
      * @param  \The42dx\Whatsapp\Entities\Changes\MessagesEntity  $messagesValue  The whatsapp API messages entity
      */
     protected function handleMessages(MessagesEntity $messagesValue): void {
-        $this->apiPhoneNumber = $messagesValue->phone;
-
         if (!is_null($messagesValue->messages)) {
             $messagesValue->messages->each(function ($message): void {
                 $this->handleMessage($message);
@@ -85,6 +76,7 @@ trait HandleWhatsappMessage {
                 $messageModel = $this->handleText($messageModel, $message);
                 break;
             case MessageType::AUDIO:
+            case MessageType::BUTTON:
             case MessageType::CONTACTS:
             case MessageType::DOCUMENT:
             case MessageType::IMAGE:
@@ -92,8 +84,6 @@ trait HandleWhatsappMessage {
             case MessageType::LOCATION:
             case MessageType::REACTION:
             case MessageType::STICKER:
-            case MessageType::TEMPLATE:
-            case MessageType::UNSUPPORTED:
             case MessageType::VIDEO:
             default:
                 Log::warning('Unsupported message type: ' . $message->type->value);

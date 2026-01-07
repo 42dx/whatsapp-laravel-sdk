@@ -13,6 +13,7 @@ enum ContactPropType: string implements Enum {
     case CELL = 'CELL';
     case HOME = 'HOME';
     case IPHONE = 'IPHONE';
+    case MOBILE = 'MOBILE';
     case MAIN = 'MAIN';
     case OTHER = 'OTHER';
     case WORK = 'WORK';

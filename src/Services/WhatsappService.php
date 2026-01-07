@@ -15,8 +15,6 @@ class WhatsappService {
 
     private string $apiVersion;
 
-    private string $businessId;
-
     private string $businessPhoneId;
 
     private string $serverUrl;

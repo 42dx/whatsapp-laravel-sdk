@@ -1,0 +1,42 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "238793539323649",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550796792",
+                            "phone_number_id": "275962428926195"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Some Wpp User Name"
+                                },
+                                "wa_id": "554199159666"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "context": {
+                                    "forwarded": true
+                                },
+                                "from": "554199159666",
+                                "id": "wamid.HBgMNTU0MTk5MTU5NjY2FQIAEhggQUM3QUM4MDQxQzdCQzE5OUQ4NTY1QzdFM0EyODFCQkQA",
+                                "timestamp": "1767751148",
+                                "text": {
+                                    "body": "some forwarded text message"
+                                },
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
