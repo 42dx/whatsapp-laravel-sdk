@@ -17,7 +17,7 @@ return new class extends Migration {
                 ->unique();
             $table->string('contact_phone_number')
                 ->index();
-            $table->foreignId('user_id')
+            $table->foreignId(config('whatsapp.database.messageable_id_column'))
                 ->nullable()
                 ->references(config('whatsapp.database.users_table_pk'))
                 ->on(config('whatsapp.database.users_table'))

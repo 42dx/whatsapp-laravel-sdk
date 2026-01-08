@@ -24,7 +24,6 @@ class WhatsappService {
     public function __construct() {
         $this->serverUrl = config('whatsapp.server_url');
         $this->apiVersion = config('whatsapp.api_version');
-        $this->businessId = config('whatsapp.business_id');
         $this->businessPhoneId = config('whatsapp.business_phone_id');
         $this->token = config('whatsapp.token');
         $this->http = new Client([

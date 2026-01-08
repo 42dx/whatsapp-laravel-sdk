@@ -18,6 +18,7 @@ abstract class TestCase extends TestbenchTestCase {
         Config::set('whatsapp.database.users_table_pk', 'id');
         Config::set('whatsapp.database.users_table', 'users');
         Config::set('whatsapp.database.user_phone_column', 'phone');
+        Config::set('whatsapp.database.messageable_id_column', 'user_id');
     }
 
     protected static function getJsonFixture(string $filename): array {
