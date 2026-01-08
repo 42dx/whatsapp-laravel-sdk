@@ -1,0 +1,46 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "238793539323649",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "11111111111",
+                            "phone_number_id": "222222222222222"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Some Wpp User Name"
+                                },
+                                "wa_id": "333333333333"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "context": {
+                                    "frequently_forwarded": true
+                                },
+                                "from": "333333333333",
+                                "id": "wamid.HBgMNTU0MTk5MTU5NjY2FQIAEhgWM0VCMDlCQ0JGM0RCNEQ5RjNDQkY2MAA=",
+                                "timestamp": "1767834896",
+                                "type": "video",
+                                "video": {
+                                    "caption": "Some Video Caption",
+                                    "mime_type": "video\/mp4",
+                                    "sha256": "V+gXtEU\/chJFplakmG\/Av+2\/LE62JYNnhny0Cr6oBb4=",
+                                    "id": "1231537112207271",
+                                    "url": "https:\/\/lookaside.fbsbx.com\/whatsapp_business\/attachments\/?mid=1231537112207271&source=webhook&ext=1767835199&hash=ARnE8pm2mFlcBiLUfcOWSJUzBNIRa_ktiLcqMriV6NOENw"
+                                }
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}

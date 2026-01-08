@@ -5,6 +5,7 @@ namespace The42dx\Whatsapp\Tests\Integration\Http\Controllers;
 use PHPUnit\Framework\Attributes\DataProvider;
 use The42dx\Whatsapp\Enums\{ApiEvent, MessageStatus, MessageType};
 use The42dx\Whatsapp\Models\WhatsappMessage;
+use The42dx\Whatsapp\Tests\Fixtures\Models\User;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
 
 class WebhookControllerTest extends IntegrationTestCase {
@@ -113,6 +114,18 @@ class WebhookControllerTest extends IntegrationTestCase {
         // This is here just to greenlight code coverage on the switch/cases
         $this->postJson($this->webhookRoute, self::getJsonFixture($jsonFixture))
             ->assertOk();
+    }
+
+    public function test__handle__it_should_add_the_messageable_id_to_message_record_when_messageable_exists_in_the_system(): void {
+        $user = User::create(['phone' => '16315551181']);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+        $this->assertDatabaseCount('users', 1);
+
+        $this->assertEquals(WhatsappMessage::first()->{config('whatsapp.database.messageable_id_column')}, $user->id);
     }
 
     public function test__handle__it_should_handle_messages_status(): void {

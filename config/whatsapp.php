@@ -9,11 +9,12 @@ return [
     'webhook_verify' => env('WPP_WEBHOOK_VERIFY'),
     'webhook_route' => env('WPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
     'database' => [
+        'messageable_id_column' => 'user_id',
         'skip_migrations' => false,
-        'user_model' => App\Models\User::class,
         'table_name' => 'whatsapp_messages',
-        'users_table' => 'users',
-        'users_table_pk' => 'id',
+        'user_model' => App\Models\User::class,
         'user_phone_column' => 'phone',
+        'users_table_pk' => 'id',
+        'users_table' => 'users',
     ],
 ];

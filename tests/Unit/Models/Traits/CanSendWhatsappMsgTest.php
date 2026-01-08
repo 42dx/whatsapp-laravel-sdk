@@ -32,7 +32,9 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
     public static function msgTypeDataset(): array {
         return [
             MessageType::TEXT->value => [MessageType::TEXT, 'Test text message'],
+
             MessageType::AUDIO->value => [MessageType::AUDIO, ''],
+            MessageType::BUTTON->value => [MessageType::CONTACTS, ''],
             MessageType::CONTACTS->value => [MessageType::CONTACTS, ''],
             MessageType::DOCUMENT->value => [MessageType::DOCUMENT, ''],
             MessageType::IMAGE->value => [MessageType::IMAGE, ''],
@@ -54,12 +56,14 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
                 ->shouldReceive('send')
                 ->with($messageType, $this->user, $message)
                 ->once();
-
-            $this->user->sendWhatsappMsg($messageType, $message);
-
-            $this->addToAssertionCount(1);
         } else {
-            $this->markTestIncomplete('This test has not been implemented yet.');
+            Log::shouldReceive('warning')
+                ->with('Unsupported message type: ' . $messageType->value)
+                ->once();
         }
+
+        $this->user->sendWhatsappMsg($messageType, $message);
+
+        $this->addToAssertionCount(1);
     }
 }

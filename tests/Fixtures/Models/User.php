@@ -7,4 +7,6 @@ use The42dx\Whatsapp\Models\Traits\CanSendWhatsappMsg;
 
 class User extends Model {
     use CanSendWhatsappMsg;
+
+    protected $fillable = ['phone'];
 }
