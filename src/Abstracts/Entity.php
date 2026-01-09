@@ -67,6 +67,13 @@ abstract class Entity implements ContractsEntity {
         return json_encode($this->toArray());
     }
 
+    /**
+     * setAttributes
+     *
+     * Set the entity attributes
+     *
+     * * @param  array|null  $attributes  The attributes to set
+     */
     abstract public function setAttributes(?array $attributes = []): self;
 
     /**

@@ -38,7 +38,7 @@
         "setup": "cd samples/laravel-12 && composer install && cd ../..",
         "connect": [
             "Composer\\Config::disableProcessTimeout",
-            "tmole 8000"
+            "ssh -p 443 -R0:localhost:8000 free.pinggy.io0"
         ],
         "test": "XDEBUG_MODE=off phpunit --colors=always --testdox",
         "lint": "./vendor/bin/pint --test"
