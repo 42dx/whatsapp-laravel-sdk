@@ -50,6 +50,16 @@ abstract class MediaEntity extends Entity {
      */
     protected ?string $mimeType;
 
+    /**
+     * setAttributes
+     *
+     * Set the entity attributes. id, mimeType and hash are required to get the media link.
+     * id: The unique identifier of the media sent
+     * mimeType: The MIME type of the audio file
+     * hash: The hash of the audio file
+     *
+     * * @param  array|null  $attributes  The attributes to set
+     */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
         $this->setOrUpdateAttribute('mimeType', 'mime_type', $attributes);

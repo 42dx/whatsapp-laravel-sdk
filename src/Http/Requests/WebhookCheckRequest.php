@@ -11,6 +11,9 @@ use The42dx\Whatsapp\Rules\{HubMode, VerifyToken};
  * Request object for the webhook check endpoint.
  */
 class WebhookCheckRequest extends FormRequest {
+    /**
+     * The rules that the request must pass.
+     */
     public function rules() {
         return [
             'hub_challenge' => 'required|string',
