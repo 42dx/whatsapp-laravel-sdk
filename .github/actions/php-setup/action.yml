@@ -1,0 +1,62 @@
+name: PHP Setup
+description: Installs PHP and required extensions, caching them for future runs.
+
+inputs:
+  base-folder:
+    type: string
+    required: true
+    description: Base folder to scan for nested folders
+  PHP-VERSION:
+    type: string
+    required: true
+    description: PHP version to install
+  PHP-EXTENSIONS:
+    type: string
+    required: true
+    description: PHP extensions to install
+
+outputs:
+  folders:
+    description: JSON flattened list of all folders nested in the provided base folder
+    value: ${{ steps.list-folders.outputs.folders }}
+
+runs:
+  using: composite
+  steps:
+    - name: Cache PHP environment
+      id: extcache
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ inputs.PHP-VERSION }}
+        extensions: ${{ inputs.PHP-EXTENSIONS }}
+        key: php${{ inputs.PHP-VERSION }}-ext-cache
+
+    - name: Cache extensions
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.extcache.outputs.dir }}
+        key: ${{ steps.extcache.outputs.key }}
+        restore-keys: ${{ steps.extcache.outputs.key }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: ${{ inputs.PHP-EXTENSIONS }}
+        coverage: xdebug
+
+    - name: Get composer cache directory
+      id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Install Project Dependencies
+      shell: bash
+      run: composer install --no-progress --prefer-dist --no-interaction
