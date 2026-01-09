@@ -11,17 +11,47 @@ use InvalidArgumentException;
 use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
+/**
+ * Class WhatsappService
+ *
+ * Service for sending messages via WhatsApp Business API.
+ */
 class WhatsappService {
+    /**
+     * @var Client HTTP client for making requests to WhatsApp API
+     */
     private Client $http;
 
+    /**
+     * @var string API version for WhatsApp Business API
+     */
     private string $apiVersion;
 
+    /**
+     * @var string Business phone ID for WhatsApp Business API
+     */
     private string $businessPhoneId;
 
+    /**
+     * @var string Server URL for WhatsApp Business API
+     */
     private string $serverUrl;
 
+    /**
+     * @var string Token for WhatsApp Business API
+     */
     private string $token;
 
+    /**
+     * WhatsappService constructor.
+     *
+     * Created the WhatsApp service instance. Generate the service
+     * with the necessary configuration and HTTP client if none is provided.
+     *
+     * @param  Client|null  $http  Optional HTTP client for making requests to WhatsApp API
+     *
+     * @throws InvalidArgumentException if configuration is missing or invalid
+     */
     public function __construct(?Client $http = null) {
         if (empty(config('whatsapp.server_url')) || empty(config('whatsapp.api_version')) || empty(config('whatsapp.business_phone_id')) || empty(config('whatsapp.token'))) {
             Log::error('WhatsApp configuration is missing or invalid. Please check your configuration settings.');
@@ -39,16 +69,26 @@ class WhatsappService {
         ]);
     }
 
-    public function send(MessageType $type, Model $user, array|string $data): array {
+    /**
+     * send
+     *
+     * Sends a message via WhatsApp Business API.
+     *
+     * @param  MessageType  $type  The type of message to send
+     * @param  Model  $messageable  The messageable model containing the recipient's phone number
+     * @param  array|string  $data  The message content or data
+     * @return array The response body from the WhatsApp API
+     */
+    public function send(MessageType $type, Model $messageable, array|string $data): array {
         $body = [];
 
-        if (is_null($user->{config('whatsapp.database.user_phone_column')})) {
-            Log::warning('User does not have a phone number set', ['user_id' => $user->id]);
+        if (is_null($messageable->{config('whatsapp.database.messageable_phone_column')})) {
+            Log::warning('User does not have a phone number set', [(config('whatsapp.database.messageable_id_column')) => $messageable->id]);
 
             return $body;
         }
 
-        $apiMessage = $this->getApiMessage($type, $user->{config('whatsapp.database.user_phone_column')}, $data);
+        $apiMessage = $this->getApiMessage($type, $messageable->{config('whatsapp.database.messageable_phone_column')}, $data);
 
         if (!$apiMessage) {
             return $body;
@@ -60,7 +100,7 @@ class WhatsappService {
 
             Log::info('Message sent to WhatsApp API', ['response' => $body]);
 
-            $this->createMessageRecord($body, $user, $type, $apiMessage);
+            $this->createMessageRecord($body, $messageable, $type, $apiMessage);
         } catch (RequestException $th) {
             Log::error('Error sending whatsapp message', [
                 'body' => $th->getResponse()->getBody()->getContents(),
@@ -71,6 +111,16 @@ class WhatsappService {
         return $body;
     }
 
+    /**
+     * getApiMessage
+     *
+     * Generates the API message payload based on the message type.
+     *
+     * @param  MessageType  $type  The type of message to send
+     * @param  string  $whatsappPhone  The recipient's WhatsApp phone number
+     * @param  array|string  $data  The message content or data
+     * @return array|null The API message payload or null if unsupported type
+     */
     private function getApiMessage(MessageType $type, string $whatsappPhone, array|string $data): ?array {
         switch ($type) {
             case MessageType::TEXT:
@@ -94,12 +144,22 @@ class WhatsappService {
         }
     }
 
-    private function createMessageRecord(array $body, Model $user, MessageType $type, array $apiMessage): void {
+    /**
+     * createMessageRecord
+     *
+     * Creates a record of the sent WhatsApp message in the database.
+     *
+     * @param  array  $body  The response body from the WhatsApp API
+     * @param  Model  $messageable  The messageable model containing the recipient's phone number
+     * @param  MessageType  $type  The type of message sent
+     * @param  array  $apiMessage  The original API message payload
+     */
+    private function createMessageRecord(array $body, Model $messageable, MessageType $type, array $apiMessage): void {
         if (isset($body['messages']) && isset($body['messages'][0]) && isset($body['messages'][0]['id'])) {
             $record = WhatsappMessage::create([
                 'text' => isset($apiMessage['text']) && isset($apiMessage['text']['body']) ? $apiMessage['text']['body'] : null,
-                'contact_phone_number' => $user->{config('whatsapp.database.user_phone_column')},
-                'user_id' => $user->id,
+                'contact_phone_number' => $messageable->{config('whatsapp.database.messageable_phone_column')},
+                (config('whatsapp.database.messageable_id_column')) => $messageable->id,
                 'type' => $type,
                 'whatsapp_message_id' => $body['messages'][0]['id'],
                 'way' => MessageWay::OUTBOUND,
@@ -109,6 +169,15 @@ class WhatsappService {
         }
     }
 
+    /**
+     * createTextMsg
+     *
+     * Creates a text message payload for WhatsApp API.
+     *
+     * @param  string  $to  The recipient's WhatsApp phone number
+     * @param  string  $text  The text message content
+     * @return array The text message payload
+     */
     private function createTextMsg(string $to, string $text): array {
         return [
             'messaging_product' => 'whatsapp',

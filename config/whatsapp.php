@@ -13,7 +13,7 @@ return [
         'skip_migrations' => false,
         'table_name' => 'whatsapp_messages',
         'user_model' => App\Models\User::class,
-        'user_phone_column' => 'phone',
+        'messageable_phone_column' => 'phone',
         'users_table_pk' => 'id',
         'users_table' => 'users',
     ],

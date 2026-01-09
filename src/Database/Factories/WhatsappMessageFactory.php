@@ -8,6 +8,10 @@ use The42dx\Whatsapp\Enums\{MessageStatus, MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
 /**
+ * WhatsappMessageFactory
+ *
+ * Factory for creating WhatsappMessage model instances for testing and seeding.
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\The42dx\Whatsapp\Models\WhatsappMessage>
  */
 class WhatsappMessageFactory extends Factory {
