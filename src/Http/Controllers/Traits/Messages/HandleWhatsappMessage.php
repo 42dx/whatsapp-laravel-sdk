@@ -64,7 +64,7 @@ trait HandleWhatsappMessage {
         $messageModel->way = MessageWay::INBOUND; // might need to change this logic when sending messages through the SDK
 
         $user = app(config('whatsapp.database.user_model'))
-            ->where(config('whatsapp.database.user_phone_column'), $message->from)
+            ->where(config('whatsapp.database.messageable_phone_column'), $message->from)
             ->first();
 
         if (isset($user) && !is_null($user) && !empty($user)) {

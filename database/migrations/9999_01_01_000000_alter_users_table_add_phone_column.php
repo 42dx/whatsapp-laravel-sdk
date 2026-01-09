@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::table(config('whatsapp.database.users_table'), function (Blueprint $table): void {
-            $table->string(config('whatsapp.database.user_phone_column'))
+            $table->string(config('whatsapp.database.messageable_phone_column'))
                 ->unique()
                 ->nullable()
                 ->after(config('whatsapp.database.users_table_pk'));
@@ -22,8 +22,8 @@ return new class extends Migration {
      */
     public function down(): void {
         Schema::table(config('whatsapp.database.users_table'), function (Blueprint $table): void {
-            $table->dropUnique([config('whatsapp.database.user_phone_column')]);
-            $table->dropColumn(config('whatsapp.database.user_phone_column'));
+            $table->dropUnique([config('whatsapp.database.messageable_phone_column')]);
+            $table->dropColumn(config('whatsapp.database.messageable_phone_column'));
         });
     }
 };

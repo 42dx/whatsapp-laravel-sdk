@@ -41,6 +41,14 @@ class WebhookController extends Controller {
         return response($request->hub_challenge);
     }
 
+    /**
+     * handle
+     *
+     * Endpoint handler for processing incoming Whatsapp Business API webhook events.
+     * It unwraps the relevant data from the data arrays and routes them to the appropriate handlers.
+     *
+     * @param  \The42dx\Whatsapp\Http\Requests\ApiEventRequest  $request  The request object containing the event data
+     */
     public function handle(ApiEventRequest $request): void {
         Log::debug('Whatsapp event received: ' . json_encode($request->all()));
 
@@ -53,6 +61,13 @@ class WebhookController extends Controller {
         });
     }
 
+    /**
+     * hookRouter
+     *
+     * Routes the incoming change entity to the appropriate handler based on the field type.
+     *
+     * @param  \The42dx\Whatsapp\Entities\ChangesEntity  $change  The change entity to be processed
+     */
     private function hookRouter(ChangesEntity $change): void {
         switch ($change->field) {
             case ApiEvent::MSGS:
@@ -80,6 +95,13 @@ class WebhookController extends Controller {
         }
     }
 
+    /**
+     * handleDefault
+     *
+     * Default handler for unsupported or unrecognized API events.
+     *
+     * @param  \The42dx\Whatsapp\Entities\ChangesEntity  $change  The change entity to be processed
+     */
     protected function handleDefault(ChangesEntity $change): void {
         $changeData = $change->toArray();
 

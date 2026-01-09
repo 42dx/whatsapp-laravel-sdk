@@ -26,7 +26,7 @@ abstract class TestCase extends TestbenchTestCase {
         Config::set('whatsapp.database.table_name', 'whatsapp_messages');
         Config::set('whatsapp.database.users_table_pk', 'id');
         Config::set('whatsapp.database.users_table', 'users');
-        Config::set('whatsapp.database.user_phone_column', 'phone');
+        Config::set('whatsapp.database.messageable_phone_column', 'phone');
         Config::set('whatsapp.database.messageable_id_column', 'user_id');
         Config::set('whatsapp.server_url', env('WPP_SERVER_URL'));
         Config::set('whatsapp.api_version', env('WPP_API_VERSION'));

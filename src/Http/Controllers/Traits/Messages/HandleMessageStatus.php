@@ -7,7 +7,24 @@ use The42dx\Whatsapp\Entities\Message\StatusEntity;
 use The42dx\Whatsapp\Enums\MessageStatus;
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
+/**
+ * HandleMessageStatus
+ *
+ * Trait to handle Whatsapp message status updates (read, sent, delivered, deleted).
+ *
+ * @see \The42dx\Whatsapp\Entities\Message\StatusEntity
+ * @see \The42dx\Whatsapp\Enums\MessageStatus
+ * @see \The42dx\Whatsapp\Models\WhatsappMessage
+ * @see \The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleWhatsappMessage
+ */
 trait HandleMessageStatus {
+    /**
+     * handleStatus
+     *
+     * Handles the update of message status updates received from Whatsapp.
+     *
+     * @param  \The42dx\Whatsapp\Entities\Message\StatusEntity  $statusEntity  The status entity containing the status update data
+     */
     protected function handleStatus(StatusEntity $statusEntity): void {
         $message = WhatsappMessage::where('whatsapp_message_id', $statusEntity->id)
             ->first();
