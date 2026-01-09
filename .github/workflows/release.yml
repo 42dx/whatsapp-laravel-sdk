@@ -39,6 +39,8 @@ jobs:
           PHP-VERSION: ${{ env.PHP-VERSION }}
           PHP-EXTENSIONS: ${{ env.PHP-EXTENSIONS }}
 
+      - name: Unit Test
+        run: composer coverage
       - name: Branch SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2
         env:
