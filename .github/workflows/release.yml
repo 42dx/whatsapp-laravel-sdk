@@ -15,6 +15,9 @@ jobs:
   release:
     name: Release New Version
     runs-on: ubuntu-latest
+    env:
+      PHP-VERSION: 8.4
+      PHP-EXTENSIONS: mbstring, xdebug
     steps:
       - name: Generate Bot GH Token
         uses: actions/create-github-app-token@v1
@@ -29,6 +32,12 @@ jobs:
           persist-credentials: false
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
+
+      - name: Setup PHP Environment
+        uses: ./.github/actions/php-setup
+        with:
+          PHP-VERSION: ${{ env.PHP-VERSION }}
+          PHP-EXTENSIONS: ${{ env.PHP-EXTENSIONS }}
 
       - name: Branch SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2

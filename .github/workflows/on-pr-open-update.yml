@@ -49,41 +49,11 @@ jobs:
         if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.draft }}
         run: ./tools/scripts/validate-commit-msgs.sh
 
-      - name: Setup cache environment
-        id: extcache
-        uses: shivammathur/cache-extensions@v1
+      - name: Setup PHP Environment
+        uses: ./.github/actions/php-setup
         with:
-          php-version: ${{ env.PHP-VERSION }}
-          extensions: ${{ env.PHP-EXTENSIONS }}
-          key: php8.3-ext-cache
-
-      - name: Cache extensions
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.key }}
-          restore-keys: ${{ steps.extcache.outputs.key }}
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          extensions: ${{ env.PHP-EXTENSIONS }}
-          coverage: xdebug
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Project Dependencies
-        run: composer install --no-progress --prefer-dist --no-interaction
+          PHP-VERSION: ${{ env.PHP-VERSION }}
+          PHP-EXTENSIONS: ${{ env.PHP-EXTENSIONS }}
 
       - name: Linting
         run: composer lint

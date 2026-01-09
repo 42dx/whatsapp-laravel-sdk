@@ -2,10 +2,6 @@ name: PHP Setup
 description: Installs PHP and required extensions, caching them for future runs.
 
 inputs:
-  base-folder:
-    type: string
-    required: true
-    description: Base folder to scan for nested folders
   PHP-VERSION:
     type: string
     required: true
@@ -41,7 +37,7 @@ runs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.3
+        php-version: ${{ inputs.PHP-VERSION }}
         extensions: ${{ inputs.PHP-EXTENSIONS }}
         coverage: xdebug
 
