@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.0-beta.4](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2026-05-13)
+
+### ⚙️ New Features
+
+* **msg-ctx**: added support to message contexts [[#16](https://github.com/42dx/whatsapp-laravel-sdk/issues/16)] ([0aaf590](https://github.com/42dx/whatsapp-laravel-sdk/commit/0aaf5901e401ca22ca4ce5b656478b968de290ab))
+
 ## [1.0.0-beta.3](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2026-01-09)
 
 ### ⚙️ New Features
