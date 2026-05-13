@@ -24,11 +24,11 @@ class ReactionEntity extends Entity implements ContractsEntity {
     protected ?string $emoji;
 
     /**
-     * reactedId
+     * message_id
      *
      * The unique identifier of the message that was reacted to
      */
-    protected ?string $reactedId;
+    protected ?string $message_id;
 
     /**
      * setAttributes
@@ -37,7 +37,7 @@ class ReactionEntity extends Entity implements ContractsEntity {
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('emoji', 'emoji', $attributes);
-        $this->setOrUpdateAttribute('reactedId', 'message_id', $attributes);
+        $this->setOrUpdateAttribute('message_id', 'message_id', $attributes);
 
         return $this;
     }

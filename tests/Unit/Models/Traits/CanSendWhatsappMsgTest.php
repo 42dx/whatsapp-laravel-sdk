@@ -32,6 +32,7 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
     public static function msgTypeDataset(): array {
         return [
             MessageType::TEXT->value => [MessageType::TEXT, 'Test text message'],
+            MessageType::REACTION->value => [MessageType::REACTION, ['emoji' => '👍', 'message_id' => '12345']],
 
             MessageType::AUDIO->value => [MessageType::AUDIO, ''],
             MessageType::BUTTON->value => [MessageType::CONTACTS, ''],
@@ -40,7 +41,6 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
             MessageType::IMAGE->value => [MessageType::IMAGE, ''],
             MessageType::INTERACTIVE->value => [MessageType::INTERACTIVE, ''],
             MessageType::LOCATION->value => [MessageType::LOCATION, ''],
-            MessageType::REACTION->value => [MessageType::REACTION, ''],
             MessageType::STICKER->value => [MessageType::STICKER, ''],
             MessageType::TEMPLATE->value => [MessageType::TEMPLATE, ''],
             MessageType::UNSUPPORTED->value => [MessageType::UNSUPPORTED, ''],
@@ -49,12 +49,17 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
     }
 
     #[DataProvider('msgTypeDataset')]
-    public function test__send_whatsapp_msg__it_should_call_the_correct_send_message_method_based_on_message_type(MessageType $messageType, string $message): void {
+    public function test__send_whatsapp_msg__it_should_call_the_correct_send_message_method_based_on_message_type(MessageType $messageType, array|string $data): void {
         // remove the condition when all other message types are implemented
         if ($messageType === MessageType::TEXT) {
             $this->whatsappServiceMock
                 ->shouldReceive('send')
-                ->with($messageType, $this->user, $message, null)
+                ->with($messageType, $this->user, $data, null)
+                ->once();
+        } elseif ($messageType === MessageType::REACTION) {
+            $this->whatsappServiceMock
+                ->shouldReceive('send')
+                ->with($messageType, $this->user, $data)
                 ->once();
         } else {
             Log::shouldReceive('warning')
@@ -62,7 +67,7 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
                 ->once();
         }
 
-        $this->user->sendWhatsappMsg($messageType, $message);
+        $this->user->sendWhatsappMsg($messageType, $data, null);
 
         $this->addToAssertionCount(1);
     }

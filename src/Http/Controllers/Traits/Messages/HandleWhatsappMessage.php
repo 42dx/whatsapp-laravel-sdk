@@ -75,6 +75,10 @@ trait HandleWhatsappMessage {
             case MessageType::TEXT:
                 $messageModel = $this->handleText($messageModel, $message);
                 break;
+            case MessageType::REACTION:
+                $existingMsg = WhatsappMessage::where('whatsapp_message_id', $message->reaction->message_id)->first();
+                $messageModel = $this->handleReaction($existingMsg ?? $messageModel, $message);
+                break;
             case MessageType::AUDIO:
             case MessageType::BUTTON:
             case MessageType::CONTACTS:
@@ -82,7 +86,6 @@ trait HandleWhatsappMessage {
             case MessageType::IMAGE:
             case MessageType::INTERACTIVE:
             case MessageType::LOCATION:
-            case MessageType::REACTION:
             case MessageType::STICKER:
             case MessageType::VIDEO:
             default:

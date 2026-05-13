@@ -4,7 +4,6 @@ namespace The42dx\Whatsapp\Abstracts;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as OriginalFormRequest;
-use Illuminate\Support\Facades\Log;
 
 /**
  * FormRequest
@@ -23,8 +22,6 @@ abstract class FormRequest extends OriginalFormRequest {
      * @see Illuminate\Validation\ValidatesWhenResolvedTrait::failedValidation
      */
     protected function failedValidation(Validator $validator): void {
-        Log::debug('Validation Error: ' . json_encode($validator->errors()->all()));
-
         $exception = $validator->getException();
 
         throw (new $exception($validator))

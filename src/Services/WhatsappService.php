@@ -43,6 +43,11 @@ class WhatsappService {
     private string $token;
 
     /**
+     * @var string Business phone number for WhatsApp Business API
+     */
+    private string $businessPhoneNumber;
+
+    /**
      * WhatsappService constructor.
      *
      * Created the WhatsApp service instance. Generate the service
@@ -62,6 +67,7 @@ class WhatsappService {
         $this->serverUrl = config('whatsapp.server_url');
         $this->apiVersion = config('whatsapp.api_version');
         $this->businessPhoneId = config('whatsapp.business_phone_id');
+        $this->businessPhoneNumber = config('whatsapp.business_phone_number');
         $this->token = config('whatsapp.token');
         $this->http = $http ?? new Client([
             'base_uri' => "{$this->serverUrl}/{$this->apiVersion}/",
@@ -82,14 +88,15 @@ class WhatsappService {
      */
     public function send(MessageType $type, Model $messageable, array|string $data, ?WhatsappMessage $replyTo = null): array {
         $body = [];
+        $to = $messageable->{config('whatsapp.database.messageable_phone_column')};
 
-        if (is_null($messageable->{config('whatsapp.database.messageable_phone_column')})) {
+        if (is_null($to)) {
             Log::warning('User does not have a phone number set', [(config('whatsapp.database.messageable_id_column')) => $messageable->id]);
 
             return $body;
         }
 
-        $apiMessage = $this->getApiMessage($type, $messageable->{config('whatsapp.database.messageable_phone_column')}, $data, $replyTo);
+        $apiMessage = $this->getApiMessage($type, $to, $data, $replyTo);
 
         if (!$apiMessage) {
             return $body;
@@ -100,6 +107,26 @@ class WhatsappService {
             $body = json_decode($response->getBody()->getContents(), true);
 
             Log::info('Message sent to WhatsApp API', ['response' => $body]);
+
+            if ($apiMessage['type'] === MessageType::REACTION->value) {
+                $reactedToMsg = WhatsappMessage::where('whatsapp_message_id', $apiMessage['reaction']['message_id'])
+                    ->first();
+
+                $reaction = is_null($reactedToMsg->reaction) ? [] : $reactedToMsg->reaction;
+
+                if ($apiMessage['reaction']['emoji']) {
+                    $reaction[] = [
+                        'emoji' => $apiMessage['reaction']['emoji'],
+                        'from' => $this->businessPhoneNumber,
+                    ];
+                } else {
+                    $reaction = array_filter($reaction, fn ($reaction) => $reaction['from'] !== $this->businessPhoneNumber);
+                }
+
+                $reactedToMsg->update(['reaction' => $reaction]);
+
+                return $body;
+            }
 
             $this->createMessageRecord($body, $messageable, $type, $apiMessage);
         } catch (RequestException $th) {
@@ -129,6 +156,8 @@ class WhatsappService {
         switch ($type) {
             case MessageType::TEXT:
                 return $this->createTextMsg($apiMsg, is_array($data) ? $data['text'] : $data);
+            case MessageType::REACTION:
+                return $this->createReactionMsg($apiMsg, $data);
             case MessageType::AUDIO:
             case MessageType::BUTTON:
             case MessageType::CONTACTS:
@@ -136,7 +165,6 @@ class WhatsappService {
             case MessageType::IMAGE:
             case MessageType::INTERACTIVE:
             case MessageType::LOCATION:
-            case MessageType::REACTION:
             case MessageType::STICKER:
             case MessageType::TEMPLATE:
             case MessageType::VIDEO:
@@ -212,5 +240,24 @@ class WhatsappService {
             'text' => ['body' => $text],
             'type' => MessageType::TEXT->value,
         ]);
+    }
+
+    /**
+     * createReactionMsg
+     *
+     * Creates a reaction message payload for WhatsApp API.
+     *
+     * @param  array  $msg  The API message payload with common fields set
+     * @param  array  $data  The reaction message data
+     * @return array The reaction message payload
+     */
+    private function createReactionMsg(array $msg, array $data): array {
+        $msg['type'] = MessageType::REACTION->value;
+        $msg['reaction'] = [];
+        $msg['reaction']['message_id'] = $data['message_id'];
+
+        $msg['reaction']['emoji'] = $data['emoji'] ?? '';
+
+        return $msg;
     }
 }

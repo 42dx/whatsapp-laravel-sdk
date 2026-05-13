@@ -27,6 +27,9 @@ trait CanSendWhatsappMsg {
             case MessageType::TEXT:
                 $this->sendTextMessage($data, $replyTo);
                 break;
+            case MessageType::REACTION:
+                $this->sendReactionMessage($data);
+                break;
             case MessageType::AUDIO:
             case MessageType::BUTTON:
             case MessageType::CONTACTS:
@@ -34,7 +37,6 @@ trait CanSendWhatsappMsg {
             case MessageType::IMAGE:
             case MessageType::INTERACTIVE:
             case MessageType::LOCATION:
-            case MessageType::REACTION:
             case MessageType::STICKER:
             case MessageType::TEMPLATE:
             case MessageType::UNSUPPORTED:
@@ -60,6 +62,16 @@ trait CanSendWhatsappMsg {
             $this,
             $text,
             $replyTo
+        );
+    }
+
+    private function sendReactionMessage(array $data): void {
+        $whatsappService = app(WhatsappService::class);
+
+        $whatsappService->send(
+            MessageType::REACTION,
+            $this,
+            $data
         );
     }
 }
