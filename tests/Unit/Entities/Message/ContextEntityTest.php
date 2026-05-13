@@ -44,6 +44,38 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertInstanceOf(ContextType::class, $context->type);
     }
 
+    public function test__get_context_type__it_should_set_correct_forwarded_context_type(): void {
+        $context = new ContextEntity;
+
+        $this->assertIsObject($context);
+
+        $this->assertNull($context->id);
+        $this->assertNull($context->from);
+
+        $context->setAttributes([
+            'forwarded' => true,
+        ]);
+
+        $this->assertInstanceOf(ContextType::class, $context->type);
+        $this->assertEquals(ContextType::FWD, $context->type);
+    }
+
+    public function test__get_context_type__it_should_set_correct_frequently_forwarded_context_type(): void {
+        $context = new ContextEntity;
+
+        $this->assertIsObject($context);
+
+        $this->assertNull($context->id);
+        $this->assertNull($context->from);
+
+        $context->setAttributes([
+            'frequently_forwarded' => true,
+        ]);
+
+        $this->assertInstanceOf(ContextType::class, $context->type);
+        $this->assertEquals(ContextType::F_FWD, $context->type);
+    }
+
     public function test__to_array__it_should_convert_to_array_correctly(): void {
         $contextData = self::getJsonFixture('Api/Components/context');
         $context = new ContextEntity($contextData);
