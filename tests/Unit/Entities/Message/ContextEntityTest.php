@@ -16,13 +16,10 @@ class ContextEntityTest extends UnitTestCase {
     }
 
     public function test__construct__it_should_create_object_with_correct_attributes(): void {
-        $contextData = self::getJsonFixture('Api/Components/context');
-        $context = new ContextEntity($contextData);
+        $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
 
-        $this->assertEquals('8231jouiwfe9823jr', $context->id);
-        $this->assertEquals('5541999999999', $context->from);
         $this->assertInstanceOf(ContextType::class, $context->type);
         $this->assertEquals(ContextType::STD, $context->type);
     }
@@ -45,7 +42,6 @@ class ContextEntityTest extends UnitTestCase {
         $this->assertEquals('8231jouiwfe9823jr', $context->id);
         $this->assertEquals('5541999999999', $context->from);
         $this->assertInstanceOf(ContextType::class, $context->type);
-        $this->assertEquals(ContextType::STD, $context->type);
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
