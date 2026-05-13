@@ -47,7 +47,13 @@ class ContextEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
         $this->setOrUpdateAttribute('from', 'from', $attributes);
 
-        $this->type = empty($attributes) ? ContextType::STD : (isset($attributes['id']) ? ContextType::REPLY : $this->getContextType($attributes));
+        if (empty($attributes)) {
+            $this->type = ContextType::STD;
+        } elseif (isset($attributes['id'])) {
+            $this->type = ContextType::REPLY;
+        } else {
+            $this->type = $this->getContextType($attributes);
+        }
 
         return $this;
     }

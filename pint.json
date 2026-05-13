@@ -50,6 +50,9 @@
         "no_blank_lines_after_phpdoc": true,
         "no_closing_tag": true,
         "no_empty_comment": true,
+        "fully_qualified_strict_types": {
+            "phpdoc_tags": []
+        },
         "no_empty_phpdoc": true,
         "no_empty_statement": true,
         "no_extra_blank_lines": {
