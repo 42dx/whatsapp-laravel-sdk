@@ -58,7 +58,7 @@ trait HandleMessageMetadata {
 
         $message->save();
 
-        Log::debug('Message status update handled ');
+        Log::info('Message status update handled ');
     }
 
     /**
@@ -74,7 +74,7 @@ trait HandleMessageMetadata {
         $messageModel->ctx = $ctx->id ?? null;
         $messageModel->ctx_type = $ctx->type;
 
-        Log::debug('Message context handled');
+        Log::info('Message context handled');
 
         return $messageModel;
     }

@@ -21,7 +21,7 @@ class ReactionEntityTest extends UnitTestCase {
         $this->assertIsObject($reaction);
 
         $this->assertEquals('😂', $reaction->emoji);
-        $this->assertEquals('123456', $reaction->reactedId);
+        $this->assertEquals('123456', $reaction->message_id);
     }
 
     public function test__set_attributes__it_should_update_attributes(): void {
@@ -30,7 +30,7 @@ class ReactionEntityTest extends UnitTestCase {
         $this->assertIsObject($reaction);
 
         $this->assertNull($reaction->emoji);
-        $this->assertNull($reaction->reactedId);
+        $this->assertNull($reaction->message_id);
 
         $reaction->setAttributes([
             'emoji' => '😂',
@@ -38,7 +38,7 @@ class ReactionEntityTest extends UnitTestCase {
         ]);
 
         $this->assertEquals('😂', $reaction->emoji);
-        $this->assertEquals('123456', $reaction->reactedId);
+        $this->assertEquals('123456', $reaction->message_id);
     }
 
     public function test__to_array__it_should_convert_to_array_correctly(): void {
@@ -48,7 +48,7 @@ class ReactionEntityTest extends UnitTestCase {
 
         $this->assertIsArray($array);
         $this->assertArrayHasKey('emoji', $array);
-        $this->assertArrayHasKey('reactedId', $array);
+        $this->assertArrayHasKey('message_id', $array);
     }
 
     public function test__to_json__it_should_convert_to_json_correctly(): void {
@@ -58,6 +58,6 @@ class ReactionEntityTest extends UnitTestCase {
 
         $this->assertJson($json);
         $this->assertStringContainsString('emoji', $json);
-        $this->assertStringContainsString('reactedId', $json);
+        $this->assertStringContainsString('message_id', $json);
     }
 }

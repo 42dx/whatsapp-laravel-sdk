@@ -61,7 +61,9 @@ return new class extends Migration {
                 ContextType::STD->value,
             ])
                 ->nullable();
-            $table->string('ctx', 75)
+            $table->json('ctx')
+                ->nullable();
+            $table->json('reaction')
                 ->nullable();
 
             $table->timestamps();

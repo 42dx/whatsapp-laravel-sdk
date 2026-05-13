@@ -49,7 +49,6 @@ class WebhookControllerTest extends IntegrationTestCase {
             MessageType::INTERACTIVE->value => ['Api/Events/message-interactive'],
             MessageType::BUTTON->value => ['Api/Events/message-button'],
             MessageType::LOCATION->value => ['Api/Events/message-location'],
-            MessageType::REACTION->value => ['Api/Events/message-reaction'],
             MessageType::STICKER->value => ['Api/Events/message-sticker'],
             MessageType::VIDEO->value => ['Api/Events/message-video'],
         ];
@@ -167,23 +166,105 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->assertEquals($msg->ctx_type, ContextType::REPLY->value);
     }
 
+    public function test__handle__todo_it_should_handle_forwarded_messages(): void {
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-forwarded-context'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertNull($msg->ctx);
+        $this->assertEquals($msg->ctx_type, ContextType::FWD->value);
+    }
+
+    public function test__handle__todo_it_should_handle_frequently_forwarded_messages(): void {
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-frequently-forwarded-context'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertNull($msg->ctx);
+        $this->assertEquals($msg->ctx_type, ContextType::F_FWD->value);
+    }
+
+    public function test__handle__todo_it_should_handle_add_reaction_to_messages(): void {
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
+            ->assertOk();
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = $msg->refresh();
+
+        $this->assertCount(1, $msg->reaction);
+        $this->assertArrayHasKey('from', $msg->reaction[0]);
+        $this->assertArrayHasKey('emoji', $msg->reaction[0]);
+        $this->assertEquals($msg->reaction[0]['from'], '111111111111');
+        $this->assertEquals($msg->reaction[0]['emoji'], '❤️');
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-2'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = $msg->refresh();
+
+        $this->assertCount(2, $msg->reaction);
+        $this->assertArrayHasKey('from', $msg->reaction[1]);
+        $this->assertArrayHasKey('emoji', $msg->reaction[1]);
+        $this->assertEquals($msg->reaction[1]['from'], '333333333333');
+        $this->assertEquals($msg->reaction[1]['emoji'], '❤️');
+    }
+
+    public function test__handle__todo_it_should_handle_remove_reaction_to_messages(): void {
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
+            ->assertOk();
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = $msg->refresh();
+
+        $this->assertCount(1, $msg->reaction);
+        $this->assertArrayHasKey('from', $msg->reaction[0]);
+        $this->assertArrayHasKey('emoji', $msg->reaction[0]);
+        $this->assertEquals($msg->reaction[0]['from'], '111111111111');
+        $this->assertEquals($msg->reaction[0]['emoji'], '❤️');
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-remove'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = $msg->refresh();
+
+        $this->assertCount(0, $msg->reaction);
+    }
+
     public function test__handle__todo_it_should_handle_audio_messages(): void {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     public function test__handle__todo_it_should_handle_contact_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_forwarded_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_frequently_forwarded_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_replied_messages(): void {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
@@ -196,10 +277,6 @@ class WebhookControllerTest extends IntegrationTestCase {
     }
 
     public function test__handle__todo_it_should_handle_location_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_reaction_messages(): void {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 

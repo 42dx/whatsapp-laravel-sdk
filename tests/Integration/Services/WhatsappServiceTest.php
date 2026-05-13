@@ -25,7 +25,6 @@ class WhatsappServiceTest extends IntegrationTestCase {
             MessageType::IMAGE->value => [MessageType::IMAGE, []],
             MessageType::INTERACTIVE->value => [MessageType::INTERACTIVE, []],
             MessageType::LOCATION->value => [MessageType::LOCATION, []],
-            MessageType::REACTION->value => [MessageType::REACTION, []],
             MessageType::STICKER->value => [MessageType::STICKER, []],
             MessageType::TEMPLATE->value => [MessageType::TEMPLATE, []],
             MessageType::VIDEO->value => [MessageType::VIDEO, []],
@@ -154,6 +153,61 @@ class WhatsappServiceTest extends IntegrationTestCase {
             'way' => MessageWay::OUTBOUND->value,
             'ctx_type' => ContextType::REPLY->value,
             'ctx' => $toBeRepliedTo->whatsapp_message_id,
+        ]);
+    }
+
+    public function test__send__it_should_update_message_record_with_reaction_on_successful_send(): void {
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-whatsapp-msg-id']]])));
+
+        $user = User::first();
+        $result = $this->whatsappService->send(MessageType::TEXT, $user, 'Some text message');
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('messages', $result);
+        $this->assertNotEmpty($result['messages']);
+
+        $toBeReactedTo = WhatsappMessage::first();
+
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-reply-msg-id']]])));
+
+        $result = $this->whatsappService->send(MessageType::REACTION, $user, ['message_id' => $toBeReactedTo->whatsapp_message_id, 'emoji' => '👍']);
+
+        $this->assertDatabaseHas('whatsapp_messages', [
+            'user_id' => $user->id,
+            'whatsapp_message_id' => 'some-whatsapp-msg-id',
+            'reaction' => json_encode([['emoji' => '👍', 'from' => config('whatsapp.business_phone_number')]]),
+        ]);
+    }
+
+    public function test__send__it_should_update_message_record_with_removing_reaction_on_successful_send(): void {
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-whatsapp-msg-id']]])));
+
+        $user = User::first();
+        $result = $this->whatsappService->send(MessageType::TEXT, $user, 'Some text message');
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('messages', $result);
+        $this->assertNotEmpty($result['messages']);
+
+        $toBeReactedTo = WhatsappMessage::first();
+
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-reply-msg-id']]])));
+
+        $result = $this->whatsappService->send(MessageType::REACTION, $user, ['message_id' => $toBeReactedTo->whatsapp_message_id, 'emoji' => '👍']);
+
+        $this->assertDatabaseHas('whatsapp_messages', [
+            'user_id' => $user->id,
+            'whatsapp_message_id' => 'some-whatsapp-msg-id',
+            'reaction' => json_encode([['emoji' => '👍', 'from' => config('whatsapp.business_phone_number')]]),
+        ]);
+
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-reply-msg-id']]])));
+        $result = $this->whatsappService->send(MessageType::REACTION, $user, ['message_id' => $toBeReactedTo->whatsapp_message_id, 'emoji' => '']);
+
+        $this->assertDatabaseHas('whatsapp_messages', [
+            'user_id' => $user->id,
+            'whatsapp_message_id' => 'some-whatsapp-msg-id',
+            'reaction' => json_encode([]),
         ]);
     }
 }

@@ -36,7 +36,7 @@ class WebhookController extends Controller {
      * @return \Illuminate\Http\Response The response object containing the challenge sent
      */
     public function check(WebhookCheckRequest $request): Response {
-        Log::debug('Whatsapp verify_token match');
+        Log::info('Whatsapp verify_token match');
 
         return response($request->hub_challenge);
     }

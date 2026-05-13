@@ -14,10 +14,6 @@ use The42dx\Whatsapp\Database\Factories\WhatsappMessageFactory;
 class WhatsappMessage extends Model {
     use HasFactory;
 
-    public static function newFactory(): WhatsappMessageFactory {
-        return WhatsappMessageFactory::new();
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +25,7 @@ class WhatsappMessage extends Model {
         'ctx',
         'deleted_at',
         'delivered_at',
+        'reaction',
         'read_at',
         'sent_at',
         'status',
@@ -38,4 +35,24 @@ class WhatsappMessage extends Model {
         'way',
         'whatsapp_message_id',
     ];
+
+    /**
+     * newFactory
+     *
+     * Create a new factory instance for the model.
+     */
+    public static function newFactory(): WhatsappMessageFactory {
+        return WhatsappMessageFactory::new();
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array {
+        return [
+            'reaction' => 'array',
+        ];
+    }
 }

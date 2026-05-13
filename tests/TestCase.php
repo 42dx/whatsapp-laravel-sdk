@@ -31,6 +31,7 @@ abstract class TestCase extends TestbenchTestCase {
         Config::set('whatsapp.server_url', env('WPP_SERVER_URL'));
         Config::set('whatsapp.api_version', env('WPP_API_VERSION'));
         Config::set('whatsapp.business_phone_id', env('WPP_BUSINESS_PHONE_ID'));
+        Config::set('whatsapp.business_phone_number', env('WPP_BUSINESS_PHONE_NUMBER'));
         Config::set('whatsapp.token', env('WPP_TOKEN'));
 
         $this->mock = new MockHandler([]);

@@ -15,5 +15,8 @@ Route::get('/asd', function (): void {
 
     /** @var User $user */
     $user = User::find(1);
-    $user->sendWhatsappMsg(MessageType::TEXT, 'Test Yeah!');
+    $user->sendWhatsappMsg(MessageType::REACTION, [
+        'message_id' => 'wamid.HBgMNTU0MTk5MTU5NjY2FQIAEhgWM0VCMDE0RkI4OTM4QkM4MTVBNjJFNgA=',
+        // 'emoji' => '👍',
+    ]);
 });
