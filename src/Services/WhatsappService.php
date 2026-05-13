@@ -245,6 +245,13 @@ class WhatsappService {
         return $msg;
     }
 
+    /**
+     * updateMessageRecordWithReaction
+     *
+     * Updates the message record in the database with the reaction information.
+     *
+     * @param  array  $apiMessage  The original API message payload containing the reaction data
+     */
     private function updateMessageRecordWithReaction(array $apiMessage): void {
         $reactedToMsg = WhatsappMessage::where('whatsapp_message_id', $apiMessage['reaction']['message_id'])
             ->first();
