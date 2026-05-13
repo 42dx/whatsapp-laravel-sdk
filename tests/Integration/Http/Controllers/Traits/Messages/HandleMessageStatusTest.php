@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\DataProvider;
 use The42dx\Whatsapp\Entities\Message\StatusEntity;
 use The42dx\Whatsapp\Enums\MessageStatus;
-use The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleMessageStatus;
+use The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleMessageMetadata;
 use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
 
-class HandleMessageStatusTest extends IntegrationTestCase {
-    use HandleMessageStatus;
+class HandleMessageMetadataTest extends IntegrationTestCase {
+    use HandleMessageMetadata;
 
     public static function msgStatusDataset(): array {
         return [

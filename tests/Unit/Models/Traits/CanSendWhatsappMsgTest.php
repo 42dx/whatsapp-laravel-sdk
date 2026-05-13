@@ -62,7 +62,7 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
                 ->once();
         }
 
-        $this->user->sendWhatsappMsg($messageType, $message);
+        $this->user->sendWhatsappMsg($messageType, ['text' => $message]);
 
         $this->addToAssertionCount(1);
     }

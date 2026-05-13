@@ -10,8 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "42dx/whatsapp-laravel-sdk": "@beta",
         "laravel/framework": "^12.0",
-        "42dx/whatsapp-laravel-sdk": "1.0.0-beta.2",
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
@@ -40,13 +40,13 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
-            "@php artisan migrate --force",
-            "npm install",
-            "npm run build"
+            "./vendor/bin/sail up --build -d",
+            "./vendor/bin/sail bash -c 'while ! mysqladmin ping -h mysql --silent; do sleep 1; done'",
+            "./vendor/bin/sail artisan migrate --force"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+            "./vendor/bin/sail up -d"
         ],
         "test": [
             "@php artisan config:clear --ansi",
@@ -88,7 +88,10 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../../"
+            "url": "../../",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "minimum-stability": "stable",

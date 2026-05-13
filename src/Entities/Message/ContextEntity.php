@@ -47,7 +47,7 @@ class ContextEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
         $this->setOrUpdateAttribute('from', 'from', $attributes);
 
-        $this->type = isset($attributes['id']) ? $this->getContextType($attributes) : null;
+        $this->type = empty($attributes) ? ContextType::STD : (isset($attributes['id']) ? ContextType::REPLY : $this->getContextType($attributes));
 
         return $this;
     }
@@ -66,6 +66,6 @@ class ContextEntity extends Entity implements ContractsEntity {
         $isFrequentlyForwarded = isset($attributes['frequently_forwarded']) && $attributes['frequently_forwarded'] ? ContextType::F_FWD : null;
         $isAlreadySet = isset($this->type) && !is_null($this->type) ? $this->type : null;
 
-        return $isForwarded ?? ($isFrequentlyForwarded ?? ($isAlreadySet ?? ContextType::STD));
+        return $isForwarded ?? ($isFrequentlyForwarded ?? ($isAlreadySet ?? ContextType::REPLY));
     }
 }

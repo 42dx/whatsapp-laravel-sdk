@@ -12,5 +12,8 @@ Route::post($webhookRoute, [WebhookController::class, 'handle']);
 
 Route::get('/asd', function (): void {
     Log::info('Sending test whatsapp message');
-    User::find(1)->sendWhatsappMsg(MessageType::TEXT, 'Test Yeah!');
+
+    /** @var User $user */
+    $user = User::find(1);
+    $user->sendWhatsappMsg(MessageType::TEXT, 'Test Yeah!');
 });

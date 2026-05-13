@@ -1,8 +1,10 @@
 {
     "recommendations": [
-        "bmewburn.vscode-intelephense-client",
         "editorconfig.editorconfig",
         "xdebug.php-debug",
         "alexcvzz.vscode-sqlite",
+        "open-southeners.laravel-pint",
+        "davidanson.vscode-markdownlint",
+        "xdebug.php-pack",
     ]
 }

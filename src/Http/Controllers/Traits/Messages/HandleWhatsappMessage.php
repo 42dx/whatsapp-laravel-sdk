@@ -18,10 +18,10 @@ use The42dx\Whatsapp\Models\WhatsappMessage;
  * @see \The42dx\Whatsapp\Models\WhatsappMessage
  * @see \The42dx\Whatsapp\Enums\MessageType
  * @see \The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleTextMessage
- * @see \The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleMessageStatus
+ * @see \The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleMessageMetadata
  */
 trait HandleWhatsappMessage {
-    use HandleMessageStatus, HandleTextMessage;
+    use HandleMessageMetadata, HandleTextMessage;
 
     /**
      * handleMessages
@@ -89,6 +89,8 @@ trait HandleWhatsappMessage {
                 Log::warning('Unsupported message type: ' . $message->type->value);
                 break;
         }
+
+        $messageModel = $this->handleContext($messageModel, $message->context);
 
         WhatsappMessage::updateOrCreate(
             [
