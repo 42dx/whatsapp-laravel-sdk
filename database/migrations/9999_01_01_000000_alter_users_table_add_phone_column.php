@@ -14,6 +14,9 @@ return new class extends Migration {
                 ->unique()
                 ->nullable()
                 ->after(config('whatsapp.database.users_table_pk'));
+            $table->timestamp(config('whatsapp.database.messageable_phone_column') . '_verified_at')
+                ->unique()
+                ->nullable();
         });
     }
 

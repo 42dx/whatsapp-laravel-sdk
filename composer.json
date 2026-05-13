@@ -33,12 +33,12 @@
         "coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover=coverage.xml --coverage-html coverage --colors=always --testdox",
         "start": [
             "Composer\\Config::disableProcessTimeout",
-            "cd samples/laravel-12 && XDEBUG_MODE=develop,debug,trace php artisan serve"
+            "cd samples/laravel-12 && XDEBUG_MODE=develop,debug,trace SAIL_XDEBUG_MODE=develop,debug,trace composer run dev && cd ../.."
         ],
-        "setup": "cd samples/laravel-12 && composer install && cd ../..",
+        "setup": "cd samples/laravel-12 && composer run setup && cd ../..",
         "connect": [
             "Composer\\Config::disableProcessTimeout",
-            "ssh -p 443 -R0:localhost:8000 free.pinggy.io0"
+            "ssh -p 443 -R0:localhost:80 free.pinggy.io"
         ],
         "test": "XDEBUG_MODE=off phpunit --colors=always --testdox",
         "lint": "./vendor/bin/pint --test"

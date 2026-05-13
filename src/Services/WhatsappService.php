@@ -77,9 +77,10 @@ class WhatsappService {
      * @param  MessageType  $type  The type of message to send
      * @param  Model  $messageable  The messageable model containing the recipient's phone number
      * @param  array|string  $data  The message content or data
+     * @param  WhatsappMessage  $replyTo  The message to which this message is a reply
      * @return array The response body from the WhatsApp API
      */
-    public function send(MessageType $type, Model $messageable, array|string $data): array {
+    public function send(MessageType $type, Model $messageable, array|string $data, ?WhatsappMessage $replyTo = null): array {
         $body = [];
 
         if (is_null($messageable->{config('whatsapp.database.messageable_phone_column')})) {
@@ -88,7 +89,7 @@ class WhatsappService {
             return $body;
         }
 
-        $apiMessage = $this->getApiMessage($type, $messageable->{config('whatsapp.database.messageable_phone_column')}, $data);
+        $apiMessage = $this->getApiMessage($type, $messageable->{config('whatsapp.database.messageable_phone_column')}, $data, $replyTo);
 
         if (!$apiMessage) {
             return $body;
@@ -119,12 +120,15 @@ class WhatsappService {
      * @param  MessageType  $type  The type of message to send
      * @param  string  $whatsappPhone  The recipient's WhatsApp phone number
      * @param  array|string  $data  The message content or data
+     * @param  WhatsappMessage  $replyTo  The message to which this message is a reply
      * @return array|null The API message payload or null if unsupported type
      */
-    private function getApiMessage(MessageType $type, string $whatsappPhone, array|string $data): ?array {
+    private function getApiMessage(MessageType $type, string $whatsappPhone, array|string $data, ?WhatsappMessage $replyTo): ?array {
+        $apiMsg = $this->setMesgCtx($whatsappPhone, $replyTo);
+
         switch ($type) {
             case MessageType::TEXT:
-                return $this->createTextMsg($whatsappPhone, $data);
+                return $this->createTextMsg($apiMsg, is_array($data) ? $data['text'] : $data);
             case MessageType::AUDIO:
             case MessageType::BUTTON:
             case MessageType::CONTACTS:
@@ -170,21 +174,41 @@ class WhatsappService {
     }
 
     /**
+     * setMesgCtx
+     *
+     * Sets the context for the API message.
+     *
+     * @param  string  $whatsappPhone  The recipient's WhatsApp phone number
+     * @param  ?WhatsappMessage  $replyTo  The message to which this message is a reply
+     * @return array The API message context
+     */
+    private function setMesgCtx(string $whatsappPhone, ?WhatsappMessage $replyTo = null): array {
+        $msg = [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $whatsappPhone,
+        ];
+
+        if ($replyTo) {
+            $msg['context'] = ['message_id' => $replyTo->whatsapp_message_id];
+        }
+
+        return $msg;
+    }
+
+    /**
      * createTextMsg
      *
      * Creates a text message payload for WhatsApp API.
      *
-     * @param  string  $to  The recipient's WhatsApp phone number
+     * @param  array  $msg  The API message payload with common fields set
      * @param  string  $text  The text message content
      * @return array The text message payload
      */
-    private function createTextMsg(string $to, string $text): array {
-        return [
-            'messaging_product' => 'whatsapp',
-            'recipient_type' => 'individual',
+    private function createTextMsg(array $msg, string $text): array {
+        return array_merge($msg, [
             'text' => ['body' => $text],
-            'to' => $to,
             'type' => MessageType::TEXT->value,
-        ];
+        ]);
     }
 }

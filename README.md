@@ -35,9 +35,8 @@ Check our package on [Packagist](https://packagist.org/packages/42dx/whatsapp-la
 - [Run and Test](#run-and-test)
 - [Tooling](#tooling)
   - [Comitzen](#comitizen)
-  - [Sample App](#sample-app)
   - [Pinggy](#pinggy)
-  - [How to use Pinggy](#how-to-use-pinggy)
+    - [How to use Pinggy](#how-to-use-pinggy)
 - [Contributors](#contributors)
 - [Changelog](#changelog)
 - [Roadmap](#roadmap)
@@ -128,7 +127,7 @@ We included a sample fresh Laravel app to help those who want to contribute to t
 
 1. Clone this repository.
 2. Run `composer setup` from the repository root. It will `cd` on sample app's folder, install the dependencies and `cd` back to the root folder.
-3. Run `composer start` from the repository root. It will run the sample app through `artisan serve` command.
+3. Run `composer start` from the repository root. It will run the sample app through `laravel sail`.
 4. With the local server running, from another terminal run `composer connect` from the repository. It will connect to [pinggy](https://pinggy.io) service and expose your local application to the web.
 5. Adjust your webhook configuration on the Meta/Facebook dashboard with the generated [pinggy](https://pinggy.io) URI.
 
@@ -146,14 +145,6 @@ If you like the tool, [kudo the devs](https://github.com/lintingzhen/commitizen-
 
 Just run `composer commit` from the repository's root folder instead of the traditional `git commit` and follow the CLI interactive steps :)
 
-### Sample App
-
-For those who want to test and/or contribute to this package, we included a sample fresh laravel application with the package already locally loaded, so you can emulate a real Laravel application that uses the package :)
-
-#### How to run the Sample App
-
-Just run `composer serve` from the repository's root folder. The script will `cd` into the sample folder and run the Laravel artisan command `php artisan serve` from there.
-
 ### Pinggy
 
 This service allows routing external requests to your local environment. You can use it to test your Watsapp webooks locally while developing.
@@ -162,7 +153,7 @@ If you like the tool, [kudos the devs](https://pinggy.io) ;)
 
 #### How to use Pinggy
 
-Just run `composer connect` from the repository's root folder. You will need to have our sample application running so you can receive webhook requests locally.
+Just run `composer connect` from the repository's root folder. You will need to have our sample application running so you can receive webhook requests locally. After running the composer command
 
 ## Contributors
 
