@@ -45,7 +45,7 @@ trait HandleTextMessage {
      * @return \The42dx\Whatsapp\Models\WhatsappMessage The populated WhatsappMessage model
      */
     protected function handleReaction(WhatsappMessage $messageModel, MessageEntity $message): WhatsappMessage {
-        $messageModel->whatsapp_message_id = $message->reaction->message_id;
+        $messageModel->whatsapp_message_id = $message->reaction->messageId;
 
         $reaction = is_null($messageModel->reaction) ? [] : $messageModel->reaction;
 

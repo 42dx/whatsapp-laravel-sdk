@@ -76,7 +76,7 @@ trait HandleWhatsappMessage {
                 $messageModel = $this->handleText($messageModel, $message);
                 break;
             case MessageType::REACTION:
-                $existingMsg = WhatsappMessage::where('whatsapp_message_id', $message->reaction->message_id)->first();
+                $existingMsg = WhatsappMessage::where('whatsapp_message_id', $message->reaction->messageId)->first();
                 $messageModel = $this->handleReaction($existingMsg ?? $messageModel, $message);
                 break;
             case MessageType::AUDIO:
