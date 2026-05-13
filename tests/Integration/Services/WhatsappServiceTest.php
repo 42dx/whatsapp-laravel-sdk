@@ -3,7 +3,8 @@
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\{Config, Log};
 use PHPUnit\Framework\Attributes\DataProvider;
-use The42dx\Whatsapp\Enums\MessageType;
+use The42dx\Whatsapp\Enums\{ContextType, MessageType, MessageWay};
+use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Services\WhatsappService;
 use The42dx\Whatsapp\Tests\Fixtures\Models\User;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
@@ -125,7 +126,34 @@ class WhatsappServiceTest extends IntegrationTestCase {
             'type' => MessageType::TEXT,
             'whatsapp_message_id' => 'some-whatsapp-msd-id',
             'text' => 'Some text message',
-            'way' => 'outbound',
+            'way' => MessageWay::OUTBOUND->value,
+        ]);
+    }
+
+    public function test__send__it_should_create_message_record_with_reply_context_on_successful_send(): void {
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-whatsapp-msg-id']]])));
+
+        $user = User::first();
+        $result = $this->whatsappService->send(MessageType::TEXT, $user, 'Some text message');
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('messages', $result);
+        $this->assertNotEmpty($result['messages']);
+
+        $toBeRepliedTo = WhatsappMessage::first();
+
+        $this->mock->append(new Response(200, [], json_encode(['messages' => [['id' => 'some-reply-msg-id', 'context' => ['id' => $toBeRepliedTo->whatsapp_message_id, 'from' => '2222222222222']]]])));
+
+        $result = $this->whatsappService->send(MessageType::TEXT, $user, 'Some reply message', $toBeRepliedTo);
+
+        $this->assertDatabaseHas('whatsapp_messages', [
+            'user_id' => $user->id,
+            'type' => MessageType::TEXT,
+            'whatsapp_message_id' => 'some-reply-msg-id',
+            'text' => 'Some reply message',
+            'way' => MessageWay::OUTBOUND->value,
+            'ctx_type' => ContextType::REPLY->value,
+            'ctx' => $toBeRepliedTo->whatsapp_message_id,
         ]);
     }
 }
