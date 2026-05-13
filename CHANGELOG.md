@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.0-beta.5](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2026-05-13)
+
+### ⚙️ New Features
+
+* **react-msg**: added support for reaction messages [[#12](https://github.com/42dx/whatsapp-laravel-sdk/issues/12)] ([12b0d93](https://github.com/42dx/whatsapp-laravel-sdk/commit/12b0d9394037cd9bc86bed685c17cf43360e88cc))
+
 ## [1.0.0-beta.4](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2026-05-13)
 
 ### ⚙️ New Features
