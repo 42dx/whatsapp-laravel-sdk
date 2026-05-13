@@ -52,6 +52,8 @@ trait HandleMessageMetadata {
             case MessageStatus::SENT:
                 $message->sent_at = $now;
                 break;
+            default:
+                Log::warning('Unhandled message status: ' . $statusEntity->status->value);
         }
 
         $message->save();

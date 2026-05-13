@@ -41,7 +41,7 @@
             "ssh -p 443 -R0:localhost:80 free.pinggy.io"
         ],
         "test": "XDEBUG_MODE=off phpunit --colors=always --testdox",
-        "lint": "./vendor/bin/pint --test"
+        "lint": "./vendor/bin/pint --test --config=./pint.json"
     },
     "require-dev": {
         "orchestra/testbench": "^9.1",

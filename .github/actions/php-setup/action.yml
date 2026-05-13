@@ -55,4 +55,7 @@ runs:
 
     - name: Install Project Dependencies
       shell: bash
-      run: composer install --no-progress --prefer-dist --no-interaction
+      run: |
+        pwd
+        ls -la
+        composer install --no-progress --prefer-dist --no-interaction

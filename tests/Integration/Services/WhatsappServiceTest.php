@@ -39,7 +39,7 @@ class WhatsappServiceTest extends IntegrationTestCase {
     }
 
     public function test__construct__if_throws_exception_on_invalid_config(): void {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         Config::set('whatsapp.business_phone_id', null);
 
