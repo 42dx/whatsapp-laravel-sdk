@@ -109,26 +109,10 @@ class WhatsappService {
             Log::info('Message sent to WhatsApp API', ['response' => $body]);
 
             if ($apiMessage['type'] === MessageType::REACTION->value) {
-                $reactedToMsg = WhatsappMessage::where('whatsapp_message_id', $apiMessage['reaction']['message_id'])
-                    ->first();
-
-                $reaction = is_null($reactedToMsg->reaction) ? [] : $reactedToMsg->reaction;
-
-                if ($apiMessage['reaction']['emoji']) {
-                    $reaction[] = [
-                        'emoji' => $apiMessage['reaction']['emoji'],
-                        'from' => $this->businessPhoneNumber,
-                    ];
-                } else {
-                    $reaction = array_filter($reaction, fn ($reaction) => $reaction['from'] !== $this->businessPhoneNumber);
-                }
-
-                $reactedToMsg->update(['reaction' => $reaction]);
-
-                return $body;
+                $this->updateMessageRecordWithReaction($apiMessage);
+            } else {
+                $this->createMessageRecord($body, $messageable, $type, $apiMessage);
             }
-
-            $this->createMessageRecord($body, $messageable, $type, $apiMessage);
         } catch (RequestException $th) {
             Log::error('Error sending whatsapp message', [
                 'body' => $th->getResponse()->getBody()->getContents(),
@@ -259,5 +243,23 @@ class WhatsappService {
         $msg['reaction']['emoji'] = $data['emoji'] ?? '';
 
         return $msg;
+    }
+
+    private function updateMessageRecordWithReaction(array $apiMessage): void {
+        $reactedToMsg = WhatsappMessage::where('whatsapp_message_id', $apiMessage['reaction']['message_id'])
+            ->first();
+
+        $reaction = is_null($reactedToMsg->reaction) ? [] : $reactedToMsg->reaction;
+
+        if ($apiMessage['reaction']['emoji']) {
+            $reaction[] = [
+                'emoji' => $apiMessage['reaction']['emoji'],
+                'from' => $this->businessPhoneNumber,
+            ];
+        } else {
+            $reaction = array_filter($reaction, fn ($reaction) => $reaction['from'] !== $this->businessPhoneNumber);
+        }
+
+        $reactedToMsg->update(['reaction' => $reaction]);
     }
 }
