@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
+use The42dx\Whatsapp\Enums\{ContextType, MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
 /**
@@ -167,6 +167,8 @@ class WhatsappService {
                 'type' => $type,
                 'whatsapp_message_id' => $body['messages'][0]['id'],
                 'way' => MessageWay::OUTBOUND,
+                'ctx_type' => isset($apiMessage['context']['message_id']) ? ContextType::REPLY : null,
+                'ctx' => $apiMessage['context']['message_id'] ?? null,
             ]);
 
             Log::info('Message record created', Arr::only($record->toArray(), ['id', 'whatsapp_message_id']));

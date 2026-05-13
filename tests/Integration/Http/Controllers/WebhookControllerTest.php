@@ -3,7 +3,7 @@
 namespace The42dx\Whatsapp\Tests\Integration\Http\Controllers;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use The42dx\Whatsapp\Enums\{ApiEvent, MessageStatus, MessageType};
+use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Tests\Fixtures\Models\User;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
@@ -151,6 +151,20 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->assertDatabaseCount($this->wppTable, 1);
 
         $this->assertEquals(WhatsappMessage::first()->text, 'Some message');
+    }
+
+    public function test__handle__it_should_handle_reply_context_messages(): void {
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reply-context'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertEquals($msg->text, 'Some reply');
+        $this->assertEquals($msg->ctx, 'some-message-id');
+        $this->assertEquals($msg->ctx_type, ContextType::REPLY->value);
     }
 
     public function test__handle__todo_it_should_handle_audio_messages(): void {

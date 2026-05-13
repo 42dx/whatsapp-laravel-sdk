@@ -38,6 +38,24 @@ class HandleMessageMetadataTest extends IntegrationTestCase {
         $this->assertDatabaseCount('whatsapp_messages', 1);
     }
 
+    public function test__handle_status__it_warns_if_message_status_was_not_recognized(): void {
+        Log::spy();
+
+        $this->assertDatabaseCount('whatsapp_messages', 0);
+        $message = WhatsappMessage::factory()->withStatus(MessageStatus::PENDING)->create();
+
+        $this->assertDatabaseCount('whatsapp_messages', 1);
+
+        $statusEntity = new StatusEntity(['id' => $message->whatsapp_message_id, 'status' => MessageStatus::FAILED->value]);
+
+        Log::shouldReceive()
+            ->once()
+            ->with('Unhandled message status: ' . $statusEntity->status->value);
+
+        $this->handleStatus($statusEntity);
+        $this->assertDatabaseCount('whatsapp_messages', 1);
+    }
+
     public function test__handle_status__it_does_nothing_if_message_not_found(): void {
         Log::spy();
         $this->assertDatabaseCount('whatsapp_messages', 0);
