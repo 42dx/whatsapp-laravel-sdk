@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'api_version' => env('WPP_API_VERSION', 'v20.0'),
-    'business_id' => env('WPP_BUSINESS_ID'),
-    'business_phone_id' => env('WPP_BUSINESS_PHONE_ID'),
-    'business_phone_number' => env('WPP_BUSINESS_PHONE_NUMBER'),
-    'server_url' => env('WPP_SERVER_URL', 'https://graph.facebook.com'),
-    'token' => env('WPP_TOKEN'),
-    'webhook_verify' => env('WPP_WEBHOOK_VERIFY'),
-    'webhook_route' => env('WPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
-    'template_lang' => env('WPP_template_lang', 'en_US'),
+    'api_version' => env('WHATSAPP_API_VERSION', 'v20.0'),
+    'business_id' => env('WHATSAPP_BUSINESS_ID'),
+    'business_phone_id' => env('WHATSAPP_BUSINESS_PHONE_ID'),
+    'business_phone_number' => env('WHATSAPP_BUSINESS_PHONE_NUMBER'),
+    'server_url' => env('WHATSAPP_SERVER_URL', 'https://graph.facebook.com'),
+    'token' => env('WHATSAPP_TOKEN'),
+    'webhook_verify' => env('WHATSAPP_WEBHOOK_VERIFY'),
+    'webhook_route' => env('WHATSAPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
+    'template_lang' => env('WHATSAPP_DEFAULT_TEMPLATE_LANGUAGE', 'en_US'),
     'database' => [
         'messageable_id_column' => 'user_id',
         'skip_migrations' => false,

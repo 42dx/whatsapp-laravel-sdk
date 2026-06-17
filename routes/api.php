@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\{Route};
+use Illuminate\Support\Facades\Route;
 use The42dx\Whatsapp\Http\Controllers\WebhookController;
 
 $webhookRoute = config('whatsapp.webhook_route');
