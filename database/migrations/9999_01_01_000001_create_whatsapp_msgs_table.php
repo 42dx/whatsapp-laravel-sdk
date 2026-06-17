@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use The42dx\Whatsapp\Enums\{ContextType, MessageStatus, MessageType, MessageWay};
+use The42dx\Whatsapp\Enums\{MessageStatus, MessageType, MessageWay};
 
 return new class extends Migration {
     /**
@@ -54,16 +54,7 @@ return new class extends Migration {
 
             $table->text('text')
                 ->nullable();
-            $table->enum('ctx_type', [
-                ContextType::F_FWD->value,
-                ContextType::FWD->value,
-                ContextType::REPLY->value,
-                ContextType::STD->value,
-            ])
-                ->nullable();
-            $table->json('ctx')
-                ->nullable();
-            $table->json('reaction')
+            $table->json('payload')
                 ->nullable();
 
             $table->timestamps();

@@ -26,8 +26,8 @@
         },
         "explicit_string_variable": true,
         "function_declaration": {
-            "closure_function_spacing": "one",
-            "closure_fn_spacing": "one"
+            "closure_function_spacing": "none",
+            "closure_fn_spacing": "none"
         },
         "function_to_constant": true,
         "function_typehint_space": true,
@@ -53,6 +53,7 @@
         "fully_qualified_strict_types": {
             "phpdoc_tags": []
         },
+        "no_spaces_after_function_name": true,
         "no_empty_phpdoc": true,
         "no_empty_statement": true,
         "no_extra_blank_lines": {

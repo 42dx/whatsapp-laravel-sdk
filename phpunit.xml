@@ -44,6 +44,7 @@
         <exclude>
             <file>src/RouteServiceProvider.php</file>
             <file>src/WhatsappServiceProvider.php</file>
+            <directory>src/Database</directory>
         </exclude>
     </source>
 </phpunit>
