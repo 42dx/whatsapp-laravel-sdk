@@ -5,6 +5,7 @@
             "id": "238793539323649",
             "changes": [
                 {
+                    "field": "messages",
                     "value": {
                         "messaging_product": "whatsapp",
                         "metadata": {
@@ -34,8 +35,7 @@
                                 "type": "text"
                             }
                         ]
-                    },
-                    "field": "messages"
+                    }
                 }
             ]
         }

@@ -1,0 +1,84 @@
+{
+    "data": [
+        {
+            "name": "teste_utility_msg_number_variable",
+            "previous_category": "UTILITY",
+            "parameter_format": "POSITIONAL",
+            "components": [
+                {
+                    "type": "HEADER",
+                    "format": "TEXT",
+                    "text": "Hello {{1}}",
+                    "example": {
+                        "header_text": [
+                            "Rafael"
+                        ]
+                    }
+                },
+                {
+                    "type": "BODY",
+                    "text": "Hi {{1}}, you are a very nice person. We want to do this test of {{2}}, using positional variables. What do you think?",
+                    "example": {
+                        "body_text": [
+                            [
+                                "Whatever",
+                                "Something nice"
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "type": "FOOTER",
+                    "text": "See ya!"
+                },
+                {
+                    "type": "BUTTONS",
+                    "buttons": [
+                        {
+                            "type": "QUICK_REPLY",
+                            "text": "YEAS!"
+                        }
+                    ]
+                }
+            ],
+            "language": "pt_BR",
+            "status": "PENDING",
+            "category": "MARKETING",
+            "sub_category": "CUSTOM",
+            "disable_ios_autofill": false,
+            "is_primary_device_delivery_only": false,
+            "id": "1779349346807858"
+        },
+        {
+            "name": "hello_world",
+            "parameter_format": "POSITIONAL",
+            "components": [
+                {
+                    "type": "HEADER",
+                    "format": "TEXT",
+                    "text": "Hello World"
+                },
+                {
+                    "type": "BODY",
+                    "text": "Welcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us."
+                },
+                {
+                    "type": "FOOTER",
+                    "text": "WhatsApp Business Platform sample message"
+                }
+            ],
+            "language": "en_US",
+            "status": "APPROVED",
+            "category": "UTILITY",
+            "disable_ios_autofill": false,
+            "is_primary_device_delivery_only": false,
+            "id": "803382648643232"
+        }
+    ],
+    "paging": {
+        "cursors": {
+            "before": "QVFIUzVIejNkXzdIbEEzOHJTaU1NUEhhVWlJSWFteGwybmNTcE4wdDYtckdCdlRyTjhlbFBSdFNBUnlhaFc0ZA0h4SG9KNE9WRk15U2NwbDJ3clFwX29La2pR",
+            "after": "QVFIUzhCdlh6cmRLNmkzMnVvVFg1VEdUTXpwdVM5ZAVpXNEd1d2R6QzRBbTc4WF9FVkpPRXc5WWpQcHNwZADZAMcnlZAMkcySUFrdjE0eTVkeTJmcWJtNW1MMW9B"
+        }
+    }
+}
