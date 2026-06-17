@@ -186,6 +186,13 @@ class WhatsappService {
      */
     private function updateMessageRecordWithReaction(WhatsappApiMessage $apiMessage): void {
         $reactedToMsg = WhatsappMessage::where('whatsapp_message_id', $apiMessage->reaction['message_id'])->first();
+
+        if (!$reactedToMsg) {
+            Log::warning('Message not found on the database: ' . $apiMessage->reaction['message_id']);
+
+            return;
+        }
+
         $reactionsModelPayload = array_filter($reactedToMsg->getPayloadType(MessageType::REACTION), fn($reaction) => $reaction['from'] !== $this->businessPhoneNumber);
         $noReactionsModelPayload = $reactedToMsg->getPayloadWithoutType(MessageType::REACTION);
 

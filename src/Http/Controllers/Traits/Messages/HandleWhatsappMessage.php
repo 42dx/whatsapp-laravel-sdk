@@ -84,7 +84,7 @@ trait HandleWhatsappMessage {
             ->first();
 
         if (isset($user) && !is_null($user) && !empty($user)) {
-            $messageModel->user_id = $user->id;
+            $messageModel->{config('whatsapp.database.messageable_id_column')} = $user->id;
         }
 
         switch ($message->type) {

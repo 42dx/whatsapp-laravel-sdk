@@ -10,5 +10,5 @@ use The42dx\Whatsapp\Contracts\Enum;
  * Represents the type of object on facebook graph API
  */
 enum ObjectType: string implements Enum {
-    case WPP_BUSINESS_API_ACC = 'whatsapp_business_account';
+    case WHATSAPP_BUSINESS_API_ACC = 'whatsapp_business_account';
 }

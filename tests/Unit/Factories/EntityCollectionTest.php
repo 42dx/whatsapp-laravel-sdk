@@ -30,5 +30,8 @@ class EntityCollectionTest extends UnitTestCase {
         $this->assertCount(2, $collection);
         $this->assertInstanceOf(UrlEntity::class, $collection->first());
         $this->assertInstanceOf(UrlEntity::class, $collection->last());
+        $this->assertNotSame($collection->first(), $collection->last());
+        $this->assertEquals('https://some.url', $collection->first()->url);
+        $this->assertEquals('https://another.url', $collection->last()->url);
     }
 }

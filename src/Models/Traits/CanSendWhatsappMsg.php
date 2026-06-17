@@ -36,7 +36,7 @@ trait CanSendWhatsappMsg {
                 $apiMsg->reactTo(msg: $replyToId, with: $data);
                 break;
             case MessageType::TEMPLATE:
-                $apiMsg->usingTemplate(name: $data['template'], langCode: isset($data['lang']) ?? null);
+                $apiMsg->usingTemplate(name: $data['template'], langCode: $data['lang'] ?? null);
                 $this->handleTemplateComponents($apiMsg, $data['components'] ?? []);
                 break;
             case MessageType::AUDIO:
