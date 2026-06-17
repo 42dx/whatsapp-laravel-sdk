@@ -20,21 +20,21 @@ abstract class TestCase extends TestbenchTestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        Config::set('whatsapp.api_version', env('WPP_API_VERSION'));
-        Config::set('whatsapp.business_id', env('WPP_BUSINESS_ID'));
-        Config::set('whatsapp.business_phone_id', env('WPP_BUSINESS_PHONE_ID'));
-        Config::set('whatsapp.business_phone_number', env('WPP_BUSINESS_PHONE_NUMBER'));
+        Config::set('whatsapp.api_version', env('WHATSAPP_API_VERSION'));
+        Config::set('whatsapp.business_id', env('WHATSAPP_BUSINESS_ID'));
+        Config::set('whatsapp.business_phone_id', env('WHATSAPP_BUSINESS_PHONE_ID'));
+        Config::set('whatsapp.business_phone_number', env('WHATSAPP_BUSINESS_PHONE_NUMBER'));
         Config::set('whatsapp.database.messageable_id_column', 'user_id');
         Config::set('whatsapp.database.messageable_phone_column', 'phone');
         Config::set('whatsapp.database.table_name', 'whatsapp_messages');
         Config::set('whatsapp.database.user_model', User::class);
         Config::set('whatsapp.database.users_table_pk', 'id');
         Config::set('whatsapp.database.users_table', 'users');
-        Config::set('whatsapp.server_url', env('WPP_SERVER_URL'));
-        Config::set('whatsapp.token', env('WPP_TOKEN'));
-        Config::set('whatsapp.webhook_route', env('WPP_WEBHOOK_ROUTE'));
+        Config::set('whatsapp.server_url', env('WHATSAPP_SERVER_URL'));
+        Config::set('whatsapp.token', env('WHATSAPP_TOKEN'));
+        Config::set('whatsapp.webhook_route', env('WHATSAPP_WEBHOOK_ROUTE'));
         Config::set('whatsapp.template_lang', 'en_US');
-        Config::set('whatsapp.webhook_verify', env('WPP_WEBHOOK_VERIFY'));
+        Config::set('whatsapp.webhook_verify', env('WHATSAPP_WEBHOOK_VERIFY'));
 
         $this->mock = new MockHandler([]);
         $this->http = new Client(['handler' => HandlerStack::create($this->mock)]);

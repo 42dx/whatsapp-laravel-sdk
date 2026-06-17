@@ -22,7 +22,7 @@ class EventEntityTest extends UnitTestCase {
 
         $this->assertIsObject($event);
 
-        $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
+        $this->assertEquals(ObjectType::WHATSAPP_BUSINESS_API_ACC, $event->object);
 
         $this->assertInstanceOf(Collection::class, $event->entries);
         $this->assertEquals(1, $event->entries->count());
@@ -36,11 +36,11 @@ class EventEntityTest extends UnitTestCase {
         $this->assertNull($event->entries);
 
         $event->setAttributes([
-            'object' => ObjectType::WPP_BUSINESS_API_ACC->value,
+            'object' => ObjectType::WHATSAPP_BUSINESS_API_ACC->value,
             'entry' => [[]],
         ]);
 
-        $this->assertEquals(ObjectType::WPP_BUSINESS_API_ACC, $event->object);
+        $this->assertEquals(ObjectType::WHATSAPP_BUSINESS_API_ACC, $event->object);
 
         $this->assertInstanceOf(Collection::class, $event->entries);
         $this->assertEquals(1, $event->entries->count());

@@ -1,8 +1,9 @@
 <?php
 
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Response as Res;
-use Illuminate\Support\Facades\{Config, Log};
+use Illuminate\Support\Facades\{Config, Log, Schema};
 use The42dx\Whatsapp\Enums\{ContextType, MessageComponent, MessageType, MessageWay};
 use The42dx\Whatsapp\Factories\WhatsappApiMessage;
 use The42dx\Whatsapp\Models\WhatsappMessage;
@@ -80,6 +81,27 @@ class WhatsappServiceTest extends IntegrationTestCase {
         ]);
     }
 
+    public function test__send__it_should_use_configured_messageable_id_column_on_message_record(): void {
+        Config::set('whatsapp.database.messageable_id_column', 'customer_id');
+
+        Schema::table('whatsapp_messages', function(Blueprint $table): void {
+            $table->unsignedBigInteger('customer_id')->nullable();
+        });
+
+        $this->mock->append(new Response(Res::HTTP_OK, [], json_encode(['messages' => [['id' => 'some-whatsapp-msd-id']]])));
+
+        $user = User::first();
+        $apiMsg = WhatsappApiMessage::compose(to: $user->phone)->with(text: 'Some text message');
+        $result = $this->whatsappService->send($apiMsg, $user);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('messages', $result);
+        $this->assertDatabaseHas('whatsapp_messages', [
+            'customer_id' => $user->id,
+            'whatsapp_message_id' => 'some-whatsapp-msd-id',
+        ]);
+    }
+
     public function test__send__it_should_create_message_record_with_reply_context_on_successful_send(): void {
         $this->mock->append(new Response(Res::HTTP_OK, [], json_encode(['messages' => [['id' => 'some-whatsapp-msg-id']]])));
 
@@ -132,6 +154,26 @@ class WhatsappServiceTest extends IntegrationTestCase {
             'whatsapp_message_id' => 'some-whatsapp-msg-id',
             'payload' => json_encode([['type' => MessageType::REACTION, 'emoji' => '👍', 'from' => config('whatsapp.business_phone_number')]]),
         ]);
+    }
+
+    public function test__send__it_should_warn_if_reacted_to_message_record_was_not_found(): void {
+        Log::spy();
+
+        $this->mock->append(new Response(Res::HTTP_OK, [], json_encode(['messages' => [['id' => 'some-reply-msg-id']]])));
+
+        $user = User::first();
+        $reactMsg = WhatsappApiMessage::compose(to: $user->phone)->reactTo(msg: 'missing-whatsapp-msg-id', with: '👍');
+
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Message not found on the database: missing-whatsapp-msg-id');
+
+        $result = $this->whatsappService->send($reactMsg, $user);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('messages', $result);
+        $this->assertNotEmpty($result['messages']);
+        $this->assertDatabaseCount('whatsapp_messages', 0);
     }
 
     public function test__send__it_should_create_message_record_with_template_data_on_successful_send(): void {

@@ -2,7 +2,8 @@
 
 namespace The42dx\Whatsapp\Tests\Integration\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\{Config, Log, Schema};
 use PHPUnit\Framework\Attributes\DataProvider;
 use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
@@ -126,6 +127,23 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->assertDatabaseCount('users', 1);
 
         $this->assertEquals(WhatsappMessage::first()->{config('whatsapp.database.messageable_id_column')}, $user->id);
+    }
+
+    public function test__handle__it_should_use_configured_messageable_id_column(): void {
+        Config::set('whatsapp.database.messageable_id_column', 'customer_id');
+
+        Schema::table($this->wppTable, function(Blueprint $table): void {
+            $table->unsignedBigInteger('customer_id')->nullable();
+        });
+
+        $user = User::create(['phone' => '16315551181']);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
+            ->assertOk();
+
+        $this->assertDatabaseHas($this->wppTable, [
+            'customer_id' => $user->id,
+        ]);
     }
 
     public function test__handle__it_should_handle_messages_status(): void {

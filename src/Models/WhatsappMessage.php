@@ -33,10 +33,19 @@ class WhatsappMessage extends Model {
         'status',
         'text',
         'type',
-        'user_id',
         'way',
         'whatsapp_message_id',
     ];
+
+    /**
+     * Get the fillable attributes for the model.
+     */
+    public function getFillable(): array {
+        return array_values(array_unique([
+            ...parent::getFillable(),
+            config('whatsapp.database.messageable_id_column', 'user_id'),
+        ]));
+    }
 
     /**
      * Get the attributes that should be cast.

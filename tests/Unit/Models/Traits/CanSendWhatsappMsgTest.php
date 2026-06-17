@@ -84,4 +84,29 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
 
         $this->addToAssertionCount(1);
     }
+
+    public function test__send_whatsapp_msg__it_should_use_the_provided_template_language(): void {
+        $data = [
+            'template' => 'test_template',
+            'lang' => 'en_US',
+            'components' => [
+                [
+                    'type' => MessageComponent::BODY,
+                    'parameters' => [['text' => 'some text']],
+                ],
+            ],
+        ];
+
+        $this->whatsappServiceMock
+            ->shouldReceive('send')
+            ->with(
+                Mockery::on(fn(WhatsappApiMessage $message): bool => $message->template['language']['code'] === 'en_US'),
+                $this->user
+            )
+            ->once();
+
+        $this->user->sendWhatsappMsg(MessageType::TEMPLATE, $data);
+
+        $this->addToAssertionCount(1);
+    }
 }

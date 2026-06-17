@@ -44,7 +44,7 @@ class EntityCollection {
         }
 
         foreach ($items as $item) {
-            $collection->add($entity->setAttributes($item));
+            $collection->add((new $entityClass)->setAttributes($item));
         }
 
         return $collection;
