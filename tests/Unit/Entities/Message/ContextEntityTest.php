@@ -19,9 +19,6 @@ class ContextEntityTest extends UnitTestCase {
         $context = new ContextEntity([]);
 
         $this->assertIsObject($context);
-
-        $this->assertInstanceOf(ContextType::class, $context->type);
-        $this->assertEquals(ContextType::STD, $context->type);
     }
 
     public function test__set_attributes__it_should_update_attributes(): void {

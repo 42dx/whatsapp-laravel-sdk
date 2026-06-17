@@ -2,8 +2,9 @@
 
 namespace The42dx\Whatsapp\Tests\Integration\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\DataProvider;
-use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType};
+use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Tests\Fixtures\Models\User;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
@@ -139,7 +140,18 @@ class WebhookControllerTest extends IntegrationTestCase {
             ->assertOk();
 
         $this->assertDatabaseCount($this->wppTable, 1);
-        $this->assertEquals(WhatsappMessage::first()->status, MessageStatus::DELIVERED->value);
+        $this->assertEquals(MessageStatus::DELIVERED->value, WhatsappMessage::first()->status);
+    }
+
+    public function test__handle__it_should_warn_if_status_to_be_updated_msg_was_not_found_on_the_database(): void {
+        Log::spy();
+
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Message not found on the database: wamid.HBgMNTU0MTg0MTEyNjc5FQIAERgSQzEwNjgwQzQ0OTIxQjk2Qjk3AA==');
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/status-change'))
+            ->assertOk();
     }
 
     public function test__handle__it_should_handle_text_messages(): void {
@@ -147,9 +159,10 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
             ->assertOk();
 
+        $msg = WhatsappMessage::first();
         $this->assertDatabaseCount($this->wppTable, 1);
-
-        $this->assertEquals(WhatsappMessage::first()->text, 'Some message');
+        $this->assertEquals('Some message', $msg->text);
+        $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
     }
 
     public function test__handle__it_should_handle_reply_context_messages(): void {
@@ -161,38 +174,39 @@ class WebhookControllerTest extends IntegrationTestCase {
 
         $msg = WhatsappMessage::first();
 
-        $this->assertEquals($msg->text, 'Some reply');
-        $this->assertEquals($msg->ctx, 'some-message-id');
-        $this->assertEquals($msg->ctx_type, ContextType::REPLY->value);
+        $this->assertEquals('Some reply', $msg->text);
+        $this->assertEquals('some-message-id', $msg->payload[0]['context']);
+        $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
+        $this->assertEquals(ContextType::REPLY->value, $msg->payload[0]['type']);
     }
 
-    public function test__handle__todo_it_should_handle_forwarded_messages(): void {
+    public function test__handle__it_should_handle_forwarded_messages(): void {
         $this->assertDatabaseCount($this->wppTable, 0);
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-forwarded-context'))
             ->assertOk();
 
-        $this->assertDatabaseCount($this->wppTable, 1);
-
         $msg = WhatsappMessage::first();
 
-        $this->assertNull($msg->ctx);
-        $this->assertEquals($msg->ctx_type, ContextType::FWD->value);
+        $this->assertDatabaseCount($this->wppTable, 1);
+        $this->assertNull($msg->payload[0]['context']);
+        $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
+        $this->assertEquals(ContextType::FWD->value, $msg->payload[0]['type']);
     }
 
-    public function test__handle__todo_it_should_handle_frequently_forwarded_messages(): void {
+    public function test__handle__it_should_handle_frequently_forwarded_messages(): void {
         $this->assertDatabaseCount($this->wppTable, 0);
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-frequently-forwarded-context'))
             ->assertOk();
 
-        $this->assertDatabaseCount($this->wppTable, 1);
-
         $msg = WhatsappMessage::first();
 
-        $this->assertNull($msg->ctx);
-        $this->assertEquals($msg->ctx_type, ContextType::F_FWD->value);
+        $this->assertDatabaseCount($this->wppTable, 1);
+        $this->assertNull($msg->payload[0]['context']);
+        $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
+        $this->assertEquals(ContextType::F_FWD->value, $msg->payload[0]['type']);
     }
 
-    public function test__handle__todo_it_should_handle_add_reaction_to_messages(): void {
+    public function test__handle__it_should_handle_add_reaction_to_messages(): void {
         $this->assertDatabaseCount($this->wppTable, 0);
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
             ->assertOk();
@@ -208,11 +222,13 @@ class WebhookControllerTest extends IntegrationTestCase {
 
         $msg = $msg->refresh();
 
-        $this->assertCount(1, $msg->reaction);
-        $this->assertArrayHasKey('from', $msg->reaction[0]);
-        $this->assertArrayHasKey('emoji', $msg->reaction[0]);
-        $this->assertEquals($msg->reaction[0]['from'], '111111111111');
-        $this->assertEquals($msg->reaction[0]['emoji'], '❤️');
+        $this->assertCount(1, $msg->payload);
+        $this->assertArrayHasKey('from', $msg->payload[0]);
+        $this->assertArrayHasKey('emoji', $msg->payload[0]);
+        $this->assertArrayHasKey('type', $msg->payload[0]);
+        $this->assertEquals(MessageType::REACTION->value, $msg->payload[0]['type']);
+        $this->assertEquals('111111111111', $msg->payload[0]['from']);
+        $this->assertEquals('❤️', $msg->payload[0]['emoji']);
 
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-2'))
             ->assertOk();
@@ -221,14 +237,16 @@ class WebhookControllerTest extends IntegrationTestCase {
 
         $msg = $msg->refresh();
 
-        $this->assertCount(2, $msg->reaction);
-        $this->assertArrayHasKey('from', $msg->reaction[1]);
-        $this->assertArrayHasKey('emoji', $msg->reaction[1]);
-        $this->assertEquals($msg->reaction[1]['from'], '333333333333');
-        $this->assertEquals($msg->reaction[1]['emoji'], '❤️');
+        $this->assertCount(2, $msg->payload);
+        $this->assertArrayHasKey('from', $msg->payload[1]);
+        $this->assertArrayHasKey('emoji', $msg->payload[1]);
+        $this->assertArrayHasKey('type', $msg->payload[1]);
+        $this->assertEquals(MessageType::REACTION->value, $msg->payload[1]['type']);
+        $this->assertEquals('333333333333', $msg->payload[1]['from']);
+        $this->assertEquals('❤️', $msg->payload[1]['emoji']);
     }
 
-    public function test__handle__todo_it_should_handle_remove_reaction_to_messages(): void {
+    public function test__handle__it_should_handle_remove_reaction_to_messages(): void {
         $this->assertDatabaseCount($this->wppTable, 0);
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-text'))
             ->assertOk();
@@ -240,15 +258,31 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction'))
             ->assertOk();
 
+        $msg = $msg->refresh();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+        $this->assertCount(1, $msg->payload);
+        $this->assertArrayHasKey('from', $msg->payload[0]);
+        $this->assertArrayHasKey('emoji', $msg->payload[0]);
+        $this->assertArrayHasKey('type', $msg->payload[0]);
+        $this->assertEquals(MessageType::REACTION->value, $msg->payload[0]['type']);
+        $this->assertEquals('111111111111', $msg->payload[0]['from']);
+        $this->assertEquals('❤️', $msg->payload[0]['emoji']);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-2'))
+            ->assertOk();
+
         $this->assertDatabaseCount($this->wppTable, 1);
 
         $msg = $msg->refresh();
 
-        $this->assertCount(1, $msg->reaction);
-        $this->assertArrayHasKey('from', $msg->reaction[0]);
-        $this->assertArrayHasKey('emoji', $msg->reaction[0]);
-        $this->assertEquals($msg->reaction[0]['from'], '111111111111');
-        $this->assertEquals($msg->reaction[0]['emoji'], '❤️');
+        $this->assertCount(2, $msg->payload);
+        $this->assertArrayHasKey('from', $msg->payload[1]);
+        $this->assertArrayHasKey('emoji', $msg->payload[1]);
+        $this->assertArrayHasKey('type', $msg->payload[1]);
+        $this->assertEquals(MessageType::REACTION->value, $msg->payload[1]['type']);
+        $this->assertEquals('333333333333', $msg->payload[1]['from']);
+        $this->assertEquals('❤️', $msg->payload[1]['emoji']);
 
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-remove'))
             ->assertOk();
@@ -257,7 +291,33 @@ class WebhookControllerTest extends IntegrationTestCase {
 
         $msg = $msg->refresh();
 
-        $this->assertCount(0, $msg->reaction);
+        $this->assertCount(1, $msg->payload);
+        $this->assertCount(1, $msg->payload);
+        $this->assertArrayHasKey('from', $msg->payload[0]);
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction-2-remove'))
+            ->assertOk();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+
+        $msg = $msg->refresh();
+
+        $this->assertCount(0, $msg->payload);
+    }
+
+    public function test__handle__it_should_warn_if_reacted_to_msg_was_not_found_on_the_database(): void {
+        Log::spy();
+
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Message not found on the database: ABGGFlA5Fpa');
+
+        $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction'))
+            ->assertOk();
+    }
+
+    public function test__handle__todo_it_should_handle_clicked_button_on_template_messages(): void {
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     public function test__handle__todo_it_should_handle_audio_messages(): void {
