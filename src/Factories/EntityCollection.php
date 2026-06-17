@@ -7,12 +7,12 @@ use InvalidArgumentException;
 use The42dx\Whatsapp\Contracts\Entity;
 
 /**
- * EntityCollectionFactory
+ * EntityCollection
  *
  * Factory class to create a collection of
  * Whatsapp Business API entities.
  */
-class EntityCollectionFactory {
+class EntityCollection {
     /**
      * make
      *

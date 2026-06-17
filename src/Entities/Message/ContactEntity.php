@@ -21,8 +21,6 @@ class ContactEntity extends Entity implements ContractsEntity {
      * addresses
      *
      * The contact's addresses
-     *
-     * @var Illuminate\Support\Collection|null
      */
     protected ?Collection $addresses;
 
@@ -38,7 +36,6 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's email addresses
      *
-     * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\EmailEntity|null
      */
@@ -56,7 +53,6 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact's phone numbers
      *
-     * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\PhoneEntity
      */
@@ -74,7 +70,6 @@ class ContactEntity extends Entity implements ContractsEntity {
      *
      * The contact URLs.
      *
-     * @var Illuminate\Support\Collection|null
      *
      * @see \The42dx\Whatsapp\Entities\Message\UrlEntity|null
      */

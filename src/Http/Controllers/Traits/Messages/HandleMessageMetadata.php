@@ -3,8 +3,8 @@
 namespace The42dx\Whatsapp\Http\Controllers\Traits\Messages;
 
 use Illuminate\Support\Facades\Log;
-use The42dx\Whatsapp\Entities\Message\{ContextEntity, StatusEntity};
-use The42dx\Whatsapp\Enums\MessageStatus;
+use The42dx\Whatsapp\Entities\Message\{ContextEntity, MessageEntity, StatusEntity};
+use The42dx\Whatsapp\Enums\{ContextType, MessageStatus, MessageType};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
 /**
@@ -26,39 +26,30 @@ trait HandleMessageMetadata {
      *
      * @param  \The42dx\Whatsapp\Entities\Message\StatusEntity  $statusEntity  The status entity containing the status update data
      */
-    protected function handleStatus(StatusEntity $statusEntity): void {
-        $message = WhatsappMessage::where('whatsapp_message_id', $statusEntity->id)
-            ->first();
-
-        if (!$message) {
-            Log::debug('Message not found on the database: ' . $statusEntity->id);
-
-            return;
-        }
-
+    protected function handleStatus(WhatsappMessage $messageModel, StatusEntity $statusEntity): ?WhatsappMessage {
         $now = now();
-        $message->status = $statusEntity->status->value;
+        $messageModel->status = $statusEntity->status->value;
 
         switch ($statusEntity->status) {
             case MessageStatus::DELETED:
-                $message->deleted_at = $now;
+                $messageModel->deleted_at = $now;
                 break;
             case MessageStatus::DELIVERED:
-                $message->delivered_at = $now;
+                $messageModel->delivered_at = $now;
                 break;
             case MessageStatus::READ:
-                $message->read_at = $now;
+                $messageModel->read_at = $now;
                 break;
             case MessageStatus::SENT:
-                $message->sent_at = $now;
+                $messageModel->sent_at = $now;
                 break;
             default:
                 Log::warning('Unhandled message status: ' . $statusEntity->status->value);
+
+                return null;
         }
 
-        $message->save();
-
-        Log::info('Message status update handled ');
+        return $messageModel;
     }
 
     /**
@@ -71,10 +62,53 @@ trait HandleMessageMetadata {
      * @return \The42dx\Whatsapp\Models\WhatsappMessage The updated message model
      */
     protected function handleContext(WhatsappMessage $messageModel, ContextEntity $ctx): WhatsappMessage {
-        $messageModel->ctx = $ctx->id ?? null;
-        $messageModel->ctx_type = $ctx->type;
+        if (count($messageModel->getPayloadType([ContextType::REPLY, ContextType::FWD, ContextType::F_FWD]))) {
+            Log::info('Message already has context, skipping context handling');
+
+            return $messageModel;
+        }
+
+        if ($ctx->type) {
+            $messageModel->payload = array_merge(
+                $messageModel->payload ?? [],
+                [
+                    ['type' => $ctx->type, 'context' => $ctx->id, 'sender' => $ctx->from],
+                ]
+            );
+        }
 
         Log::info('Message context handled');
+
+        return $messageModel;
+    }
+
+    /**
+     * handleReaction
+     *
+     * Handles the processing of reaction messages received from Whatsapp.
+     * It populates the WhatsappMessage model with reaction data, or removes the reaction if the emoji is not set (indicating a reaction removal).
+     *
+     * @param  \The42dx\Whatsapp\Models\WhatsappMessage  $messageModel  The WhatsappMessage model instance to populate
+     * @param  \The42dx\Whatsapp\Entities\Message\MessageEntity  $message  The message entity containing the reaction data
+     * @return \The42dx\Whatsapp\Models\WhatsappMessage The populated WhatsappMessage model
+     */
+    protected function handleReaction(WhatsappMessage $messageModel, MessageEntity $message): WhatsappMessage {
+        $reactionsModelPayload = $messageModel->getPayloadType(MessageType::REACTION);
+        $noReactionsModelPayload = $messageModel->getPayloadWithoutType(MessageType::REACTION);
+
+        if ($message->reaction->emoji) {
+            $reactionsModelPayload[] = [
+                'type' => MessageType::REACTION->value,
+                'emoji' => $message->reaction->emoji,
+                'from' => $message->from,
+            ];
+        } else {
+            $reactionsModelPayload = array_filter($reactionsModelPayload, fn($reaction) => $reaction['from'] !== $message->from);
+        }
+
+        $messageModel->payload = array_merge($noReactionsModelPayload, $reactionsModelPayload);
+
+        Log::info('Reaction message handled');
 
         return $messageModel;
     }

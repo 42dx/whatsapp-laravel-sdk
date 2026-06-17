@@ -6,7 +6,7 @@ use Illuminate\Support\{Arr, Collection};
 use InvalidArgumentException;
 use ReflectionClass;
 use The42dx\Whatsapp\Contracts\{Entity as ContractsEntity, Enum};
-use The42dx\Whatsapp\Factories\EntityCollectionFactory;
+use The42dx\Whatsapp\Factories\EntityCollection;
 
 /**
  * Entity
@@ -142,7 +142,7 @@ abstract class Entity implements ContractsEntity {
         $reflector = new ReflectionClass($class);
 
         if ($isCollection) {
-            $this->{$attrName} = EntityCollectionFactory::make($class, $value);
+            $this->{$attrName} = EntityCollection::make($class, $value);
         }
 
         if ($reflector->isEnum()) {
