@@ -1,7 +1,10 @@
 {
     "preset": "laravel",
     "exclude": [
-        "vendor"
+        "vendor",
+        "**/vendor",
+        "samples/**/vendor",
+        "**/samples/**/vendor"
     ],
     "rules": {
         "array_indentation": true,

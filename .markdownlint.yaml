@@ -1,0 +1,8 @@
+MD033:
+  allowed_elements:
+    - p
+    - em
+    - a
+MD013:
+  tables: false
+  line_length: 350

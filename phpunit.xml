@@ -18,16 +18,16 @@
         </testsuite>
     </testsuites>
     <php>
-        <env name="WPP_API_VERSION" value="v25.0"/>
-        <env name="WPP_BUSINESS_ID" value="some-id"/>
+        <env name="WHATSAPP_API_VERSION" value="v25.0"/>
+        <env name="WHATSAPP_BUSINESS_ID" value="some-id"/>
         <env name="APP_DEBUG" value="false"/>
         <env name="LOG_LEVEL" value="error"/>
-        <env name="WPP_BUSINESS_PHONE_ID" value="000000"/>
-        <env name="WPP_BUSINESS_PHONE_NUMBER" value="999999999999"/>
-        <env name="WPP_SERVER_URL" value="http://some-server.com"/>
-        <env name="WPP_TOKEN" value="some-token"/>
-        <env name="WPP_WEBHOOK_VERIFY" value="some-verify"/>
-        <env name="WPP_WEBHOOK_ROUTE" value="/webhooks/whatsapp"/>
+        <env name="WHATSAPP_BUSINESS_PHONE_ID" value="000000"/>
+        <env name="WHATSAPP_BUSINESS_PHONE_NUMBER" value="999999999999"/>
+        <env name="WHATSAPP_SERVER_URL" value="http://some-server.com"/>
+        <env name="WHATSAPP_TOKEN" value="some-token"/>
+        <env name="WHATSAPP_WEBHOOK_VERIFY" value="some-verify"/>
+        <env name="WHATSAPP_WEBHOOK_ROUTE" value="/webhooks/whatsapp"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
     </php>
