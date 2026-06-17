@@ -4,6 +4,7 @@ namespace The42dx\Whatsapp\Models\Traits;
 
 use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Enums\MessageType;
+use The42dx\Whatsapp\Factories\WhatsappApiMessage;
 use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Services\WhatsappService;
 
@@ -23,12 +24,20 @@ trait CanSendWhatsappMsg {
      * @param  WhatsappMessage|null  $replyTo  The message to which this message is a reply.
      */
     public function sendWhatsappMsg(MessageType $type, array|string $data, ?WhatsappMessage $replyTo = null): void {
+        $replyToId = $replyTo ? $replyTo->whatsapp_message_id : null;
+        $apiMsg = WhatsappApiMessage::compose($this->{config('whatsapp.database.messageable_phone_column')})
+            ->replyTo(msg: $replyToId);
+
         switch ($type) {
             case MessageType::TEXT:
-                $this->sendTextMessage($data, $replyTo);
+                $apiMsg->with(text: $data);
                 break;
             case MessageType::REACTION:
-                $this->sendReactionMessage($data);
+                $apiMsg->reactTo(msg: $replyToId, with: $data);
+                break;
+            case MessageType::TEMPLATE:
+                $apiMsg->usingTemplate(name: $data['template'], langCode: isset($data['lang']) ?? null);
+                $this->handleTemplateComponents($apiMsg, $data['components'] ?? []);
                 break;
             case MessageType::AUDIO:
             case MessageType::BUTTON:
@@ -38,40 +47,35 @@ trait CanSendWhatsappMsg {
             case MessageType::INTERACTIVE:
             case MessageType::LOCATION:
             case MessageType::STICKER:
-            case MessageType::TEMPLATE:
-            case MessageType::UNSUPPORTED:
             case MessageType::VIDEO:
             default:
                 Log::warning('Unsupported message type: ' . $type->value);
+                Log::debug('Unsupported message type:', ['type' => $type->value, 'data' => $data]);
+
+                return;
         }
+
+        app(WhatsappService::class)->send($apiMsg, $this);
     }
 
     /**
-     * sendTextMessage
+     * handleTemplateComponents
      *
-     * Helper method to send a text WhatsApp message.
+     * Validates and process template message components.
      *
-     * @param  string  $text  The text content of the message.
-     * @param  WhatsappMessage  $replyTo  The message to which this message is a reply.
+     * @param  WhatsappApiMessage  $msg  Whatsapp API message instance.
+     * @param  array|string  $components  The template message components.
      */
-    private function sendTextMessage(string $text, ?WhatsappMessage $replyTo): void {
-        $whatsappService = app(WhatsappService::class);
-
-        $whatsappService->send(
-            MessageType::TEXT,
-            $this,
-            $text,
-            $replyTo
-        );
-    }
-
-    private function sendReactionMessage(array $data): void {
-        $whatsappService = app(WhatsappService::class);
-
-        $whatsappService->send(
-            MessageType::REACTION,
-            $this,
-            $data
-        );
+    private function handleTemplateComponents(WhatsappApiMessage $msg, ?array $components = []): void {
+        if (isset($components) && !is_null($components) && is_array($components)) {
+            foreach ($components as $component) {
+                $msg->withComponent(
+                    type: $component['type'],
+                    subType: $component['subType'] ?? null,
+                    index: $component['index'] ?? null,
+                    params: $component['parameters']
+                );
+            }
+        }
     }
 }

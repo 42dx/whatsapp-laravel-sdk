@@ -47,9 +47,7 @@ class ContextEntity extends Entity implements ContractsEntity {
         $this->setOrUpdateAttribute('id', 'id', $attributes);
         $this->setOrUpdateAttribute('from', 'from', $attributes);
 
-        if (empty($attributes)) {
-            $this->type = ContextType::STD;
-        } elseif (isset($attributes['id'])) {
+        if (isset($attributes['id'])) {
             $this->type = ContextType::REPLY;
         } else {
             $this->type = $this->getContextType($attributes);
@@ -63,15 +61,13 @@ class ContextEntity extends Entity implements ContractsEntity {
      *
      * Get the context type from the attributes
      *
-     *
-     *
      * @see \The42dx\Whatsapp\Enums\ContextType
      */
-    private function getContextType(?array $attributes = []): ContextType {
+    private function getContextType(?array $attributes = []): ?ContextType {
         $isForwarded = isset($attributes['forwarded']) && $attributes['forwarded'] ? ContextType::FWD : null;
         $isFrequentlyForwarded = isset($attributes['frequently_forwarded']) && $attributes['frequently_forwarded'] ? ContextType::F_FWD : null;
         $isAlreadySet = isset($this->type) && !is_null($this->type) ? $this->type : null;
 
-        return $isForwarded ?? ($isFrequentlyForwarded ?? ($isAlreadySet ?? ContextType::REPLY));
+        return $isForwarded ?? ($isFrequentlyForwarded ?? ($isAlreadySet ?? null));
     }
 }

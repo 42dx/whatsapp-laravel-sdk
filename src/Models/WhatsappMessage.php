@@ -2,15 +2,19 @@
 
 namespace The42dx\Whatsapp\Models;
 
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use The42dx\Whatsapp\Database\Factories\WhatsappMessageFactory;
+use The42dx\Whatsapp\Enums\{ContextType, MessageType};
 
 /**
  * WhatsappMessage
  *
  * Represents a Whatsapp message data on the database.
  */
+#[UseFactory(WhatsappMessageFactory::class)]
 class WhatsappMessage extends Model {
     use HasFactory;
 
@@ -21,11 +25,9 @@ class WhatsappMessage extends Model {
      */
     protected $fillable = [
         'contact_phone_number',
-        'ctx_type',
-        'ctx',
         'deleted_at',
         'delivered_at',
-        'reaction',
+        'payload',
         'read_at',
         'sent_at',
         'status',
@@ -37,22 +39,39 @@ class WhatsappMessage extends Model {
     ];
 
     /**
-     * newFactory
-     *
-     * Create a new factory instance for the model.
-     */
-    public static function newFactory(): WhatsappMessageFactory {
-        return WhatsappMessageFactory::new();
-    }
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
     protected function casts(): array {
-        return [
-            'reaction' => 'array',
-        ];
+        return ['payload' => 'array'];
+    }
+
+    /**
+     * getPayloadType
+     *
+     * Get the payload items of the message that match the given type.
+     *
+     * @param  array|ContextType|MessageType  $type  The type or types to filter the payload items by.
+     * @return array The payload items that match the given type.
+     */
+    public function getPayloadType(array|ContextType|MessageType $type): array {
+        $haystack = $type instanceof MessageType || $type instanceof ContextType ? [$type->value] : Arr::map($type, fn($tp) => $tp->value);
+
+        return array_filter($this->payload ?? [], fn($item) => in_array($item['type'], $haystack));
+    }
+
+    /**
+     * getPayloadWithoutType
+     *
+     * Get the payload items of the message that do not match the given type.
+     *
+     * @param  array|ContextType|MessageType  $type  The type or types to filter the payload items by.
+     * @return array The payload items that do not match the given type.
+     */
+    public function getPayloadWithoutType(array|ContextType|MessageType $type): array {
+        $haystack = $type instanceof MessageType || $type instanceof ContextType ? [$type->value] : Arr::map($type, fn($tp) => $tp->value);
+
+        return array_filter($this->payload ?? [], fn($item) => !in_array($item['type'], $haystack));
     }
 }

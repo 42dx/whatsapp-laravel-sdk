@@ -10,8 +10,7 @@ use The42dx\Whatsapp\Contracts\Enum;
  * Represents the context of the message
  */
 enum ContextType: string implements Enum {
-    case F_FWD = 'FREQUENTLY_FORWARDED_MESSAGE';
-    case FWD = 'FORWARDED_MESSAGE';
-    case REPLY = 'REPLY';
-    case STD = 'STANDARD_MESSAGE';
+    case F_FWD = 'frequently_forwarded_message';
+    case FWD = 'forwarded_message';
+    case REPLY = 'reply';
 }

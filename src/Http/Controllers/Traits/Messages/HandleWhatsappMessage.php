@@ -21,7 +21,9 @@ use The42dx\Whatsapp\Models\WhatsappMessage;
  * @see \The42dx\Whatsapp\Http\Controllers\Traits\Messages\HandleMessageMetadata
  */
 trait HandleWhatsappMessage {
-    use HandleMessageMetadata, HandleTextMessage;
+    use HandleMessageMetadata, HandleTemplateMessage, HandleTextMessage;
+
+    public const MSG_NOT_FOUND_ERROR_MSG = 'Message not found on the database: ';
 
     /**
      * handleMessages
@@ -33,14 +35,28 @@ trait HandleWhatsappMessage {
      */
     protected function handleMessages(MessagesEntity $messagesValue): void {
         if (!is_null($messagesValue->messages)) {
-            $messagesValue->messages->each(function ($message): void {
+            $messagesValue->messages->each(function($message): void {
                 $this->handleMessage($message);
             });
         }
 
         if (!is_null($messagesValue->statuses)) {
-            $messagesValue->statuses->each(function ($status): void {
-                $this->handleStatus($status);
+            $messagesValue->statuses->each(function($newStatus): void {
+                $message = WhatsappMessage::where('whatsapp_message_id', $newStatus->id)->first();
+
+                if (!$message) {
+                    Log::warning(self::MSG_NOT_FOUND_ERROR_MSG . $newStatus->id);
+
+                    return;
+                }
+
+                $newStatusMsg = $this->handleStatus($message, $newStatus);
+
+                if ($newStatusMsg) {
+                    $newStatusMsg->save();
+
+                    Log::info('Message status update handled: ' . $newStatus->id);
+                }
             });
         }
     }
@@ -77,10 +93,20 @@ trait HandleWhatsappMessage {
                 break;
             case MessageType::REACTION:
                 $existingMsg = WhatsappMessage::where('whatsapp_message_id', $message->reaction->messageId)->first();
-                $messageModel = $this->handleReaction($existingMsg ?? $messageModel, $message);
+
+                if (!$existingMsg) {
+                    Log::warning(self::MSG_NOT_FOUND_ERROR_MSG . $message->reaction->messageId);
+
+                    return;
+                }
+
+                $messageModel = $this->handleReaction($existingMsg, $message);
+
+                break;
+            case MessageType::BUTTON:
+                $messageModel = $this->handleButton($messageModel, $message);
                 break;
             case MessageType::AUDIO:
-            case MessageType::BUTTON:
             case MessageType::CONTACTS:
             case MessageType::DOCUMENT:
             case MessageType::IMAGE:

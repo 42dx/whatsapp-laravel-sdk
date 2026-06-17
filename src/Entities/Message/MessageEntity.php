@@ -67,8 +67,6 @@ class MessageEntity extends Entity implements ContractsEntity {
      * location
      *
      * The location sent to the Whatsapp contact
-     *
-     * @var The42dx\Whatsapp\Entities\Message\LocationEntity|null
      */
     protected ?LocationEntity $location;
 
@@ -121,6 +119,13 @@ class MessageEntity extends Entity implements ContractsEntity {
      */
     protected ?VideoEntity $video;
 
+    /**
+     * button
+     *
+     * The button sent to the Whatsapp contact
+     */
+    protected ?ButtonEntity $button;
+
     protected null $template; // TODO: implement
 
     protected null $interactive; // TODO: implement
@@ -132,6 +137,7 @@ class MessageEntity extends Entity implements ContractsEntity {
      */
     public function setAttributes(?array $attributes = []): self {
         $this->setOrUpdateAttribute('audio', 'audio', $attributes, AudioEntity::class);
+        $this->setOrUpdateAttribute('button', 'button', $attributes, ButtonEntity::class);
         $this->setOrUpdateAttribute('contacts', 'contacts', $attributes, ContactEntity::class, true);
         $this->setOrUpdateAttribute('document', 'document', $attributes, DocumentEntity::class);
         $this->setOrUpdateAttribute('from', 'from', $attributes);

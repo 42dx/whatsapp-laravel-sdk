@@ -13,4 +13,16 @@ enum MessageComponent: string implements Enum {
     case BODY = 'body';
     case FOOTER = 'footer';
     case HEADER = 'header';
+    case BUTTON = 'button';
+
+    /**
+     * General subtypes
+     */
+    case TEXT = 'text';
+
+    /**
+     * BUTTON subtypes
+     */
+    case COPY_CODE = 'copy_code';
+    case COUPON_CODE = 'coupon_code';
 }
