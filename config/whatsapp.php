@@ -9,6 +9,7 @@ return [
     'token' => env('WPP_TOKEN'),
     'webhook_verify' => env('WPP_WEBHOOK_VERIFY'),
     'webhook_route' => env('WPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
+    'template_lang' => env('WPP_template_lang', 'en_US'),
     'database' => [
         'messageable_id_column' => 'user_id',
         'skip_migrations' => false,

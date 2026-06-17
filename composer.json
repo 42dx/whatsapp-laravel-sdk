@@ -36,9 +36,10 @@
             "cd samples/laravel-12 && XDEBUG_MODE=develop,debug,trace SAIL_XDEBUG_MODE=develop,debug,trace composer run dev && cd ../.."
         ],
         "setup": "cd samples/laravel-12 && composer run setup && cd ../..",
+        "stop": "cd samples/laravel-12 && ./vendor/bin/sail down && cd ../..",
         "connect": [
             "Composer\\Config::disableProcessTimeout",
-            "ssh -p 443 -R0:localhost:80 free.pinggy.io"
+            "ssh -p 443 -R0:localhost:80 force@free.pinggy.io"
         ],
         "test": "XDEBUG_MODE=off phpunit --colors=always --testdox",
         "lint": "./vendor/bin/pint --test --config=./pint.json"
