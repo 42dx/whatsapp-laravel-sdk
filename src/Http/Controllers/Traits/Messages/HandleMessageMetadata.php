@@ -40,6 +40,9 @@ trait HandleMessageMetadata {
             case MessageStatus::READ:
                 $messageModel->read_at = $now;
                 break;
+            case MessageStatus::FAILED:
+                $messageModel->failed_at = $now;
+                break;
             case MessageStatus::SENT:
                 $messageModel->sent_at = $now;
                 break;

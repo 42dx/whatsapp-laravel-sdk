@@ -19,6 +19,7 @@ class HandleMessageMetadataTest extends UnitTestCase {
             MessageStatus::DELIVERED->value . ' status' => [MessageStatus::DELIVERED, 'delivered_at'],
             MessageStatus::READ->value . ' status' => [MessageStatus::READ, 'read_at'],
             MessageStatus::SENT->value . ' status' => [MessageStatus::SENT, 'sent_at'],
+            MessageStatus::FAILED->value . ' status' => [MessageStatus::FAILED, 'failed_at'],
         ];
     }
 
@@ -46,7 +47,7 @@ class HandleMessageMetadataTest extends UnitTestCase {
         Log::spy();
 
         $messageModel = WhatsappMessage::factory()->withStatus(MessageStatus::PENDING)->make();
-        $statusEntity = new StatusEntity(['id' => $messageModel->whatsapp_message_id, 'status' => MessageStatus::FAILED->value]);
+        $statusEntity = new StatusEntity(['id' => $messageModel->whatsapp_message_id, 'status' => MessageStatus::WARNING->value]);
 
         Log::shouldReceive('warning')
             ->once()

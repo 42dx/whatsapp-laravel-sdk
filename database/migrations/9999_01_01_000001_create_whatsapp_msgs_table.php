@@ -65,6 +65,8 @@ return new class extends Migration {
                 ->nullable();
             $table->dateTime('sent_at')
                 ->nullable();
+            $table->dateTime('failed_at')
+                ->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
