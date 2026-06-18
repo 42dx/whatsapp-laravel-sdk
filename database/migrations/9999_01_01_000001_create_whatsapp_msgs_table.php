@@ -10,7 +10,7 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create(config('whatsapp.database.table_name'), function (Blueprint $table): void {
+        Schema::create(config('whatsapp.database.table_name'), function(Blueprint $table): void {
             $table->id();
 
             $table->string('whatsapp_message_id')
@@ -57,8 +57,7 @@ return new class extends Migration {
             $table->json('payload')
                 ->nullable();
 
-            $table->timestamps();
-            $table->dateTime('deleted_at')
+            $table->dateTime('whatsapp_deleted_at')
                 ->nullable();
             $table->dateTime('delivered_at')
                 ->nullable();
@@ -66,6 +65,8 @@ return new class extends Migration {
                 ->nullable();
             $table->dateTime('sent_at')
                 ->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

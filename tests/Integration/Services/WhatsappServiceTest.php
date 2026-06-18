@@ -182,7 +182,7 @@ class WhatsappServiceTest extends IntegrationTestCase {
         $user = User::first();
         $apiMsg = WhatsappApiMessage::compose(to: $user->phone)
             ->usingTemplate('some_template_name', 'pt_BR')
-            ->withComponent(MessageComponent::BODY, [['text' => 'Rafa']]);
+            ->withComponent(MessageComponent::BODY, [['text' => 'Whatever']]);
 
         $result = $this->whatsappService->send($apiMsg, $user);
 
@@ -203,7 +203,7 @@ class WhatsappServiceTest extends IntegrationTestCase {
                         'type' => MessageComponent::BODY->value,
                         'sub_type' => null,
                         'index' => null,
-                        'parameters' => [['type' => MessageComponent::TEXT->value, 'parameter_name' => null, 'coupon_code' => null, 'text' => 'Rafa']],
+                        'parameters' => [['type' => MessageComponent::TEXT->value, 'parameter_name' => null, 'coupon_code' => null, 'text' => 'Whatever']],
                     ],
                 ],
                 'type' => MessageType::TEMPLATE->value,

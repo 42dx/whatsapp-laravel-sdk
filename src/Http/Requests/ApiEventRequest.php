@@ -17,7 +17,7 @@ class ApiEventRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'object' => Rule::enum(ObjectType::class),
+            'object' => ['required', Rule::enum(ObjectType::class)],
             'entry' => 'required|array|min:1',
             'entry.*.changes' => 'required|array|min:1',
         ];

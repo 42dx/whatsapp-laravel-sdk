@@ -4,7 +4,7 @@ namespace The42dx\Whatsapp\Models;
 
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Arr;
 use The42dx\Whatsapp\Database\Factories\WhatsappMessageFactory;
 use The42dx\Whatsapp\Enums\{ContextType, MessageType};
@@ -16,7 +16,7 @@ use The42dx\Whatsapp\Enums\{ContextType, MessageType};
  */
 #[UseFactory(WhatsappMessageFactory::class)]
 class WhatsappMessage extends Model {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

@@ -13,13 +13,13 @@ class WhatsappApiMessageTest extends UnitTestCase {
     public static function templatesDataset(): array {
         return [
             'simple' => ['some_template', 'pt_BR'],
-            'with 1 comp, 1 named param' => ['some_template', 'en_US', [['type' => MessageComponent::HEADER, 'params' => [['name' => 'some_name', 'text' => 'Rafa']]]]],
+            'with 1 comp, 1 named param' => ['some_template', 'en_US', [['type' => MessageComponent::HEADER, 'params' => [['name' => 'some_name', 'text' => 'Whatever']]]]],
             'with 2 comp, multiple named params' => ['some_template', 'en_US', [
-                ['type' => MessageComponent::HEADER, 'params' => [['name' => 'some_name', 'text' => 'Rafa']]],
+                ['type' => MessageComponent::HEADER, 'params' => [['name' => 'some_name', 'text' => 'Whatever']]],
                 ['type' => MessageComponent::BODY, 'params' => [['name' => 'another_name', 'text' => 'pa'], ['name' => 'one_more_name', 'text' => 'pum']]],
             ]],
             'with 2 comp, multiple positional params' => ['some_template', 'en_US', [
-                ['type' => MessageComponent::HEADER, 'params' => [['text' => 'Rafa']]],
+                ['type' => MessageComponent::HEADER, 'params' => [['text' => 'Whatever']]],
                 ['type' => MessageComponent::BODY, 'params' => [['text' => 'pa'], ['text' => 'pum']]],
             ]],
             'with indexed and subtyped param' => ['some_template', 'en_US', [
