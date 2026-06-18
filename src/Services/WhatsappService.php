@@ -98,11 +98,10 @@ class WhatsappService {
             $response = $this->http->post("{$this->businessPhoneId}/messages", ['json' => $wppApiMsg->toArray()]);
             $responseBody = json_decode($response->getBody()->getContents(), true);
 
-            Log::info('Message sent to WhatsApp API', ['apiResponse' => $responseBody]);
-
             if ($wppApiMsg->type === MessageType::REACTION) {
                 $this->updateMessageRecordWithReaction($wppApiMsg);
             } else {
+                Log::debug('response body', $responseBody);
                 $this->createMessageRecord($responseBody, $wppApiMsg, $messageable);
             }
         } catch (RequestException $th) {
