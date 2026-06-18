@@ -15,7 +15,7 @@ abstract class IntegrationTestCase extends TestCase {
     protected function setUp(): void {
         parent::setUp();
 
-        Schema::create('users', function (Blueprint $table): void {
+        Schema::create('users', function(Blueprint $table): void {
             $table->id();
             $table->timestamps();
         });

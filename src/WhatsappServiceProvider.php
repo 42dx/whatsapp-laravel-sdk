@@ -19,7 +19,7 @@ class WhatsappServiceProvider extends ServiceProvider {
     public function register(): void {
         $this->mergeConfigFrom(self::CONFIG_PATH, self::SERVICE_NAME);
 
-        $this->app->singleton(WhatsappService::class, fn () => new WhatsappService);
+        $this->app->singleton(WhatsappService::class, fn() => new WhatsappService);
     }
 
     public function boot(): void {

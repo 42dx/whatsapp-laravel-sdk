@@ -12,13 +12,13 @@ class HubModeTest extends UnitTestCase {
         $this->expectExceptionMessage('Invalid hub mode');
 
         $rule = new HubMode;
-        $rule->validate('hub_mode', 'invalid_mode', fn ($message) => throw new Exception($message));
+        $rule->validate('hub_mode', 'invalid_mode', fn($message) => throw new Exception($message));
     }
 
     public function test_it_should_pass_if_provided_hub_mode_is_subscribe(): void {
         $this->expectNotToPerformAssertions();
 
         $rule = new HubMode;
-        $rule->validate('hub_mode', 'subscribe', fn ($message) => throw new Exception($message));
+        $rule->validate('hub_mode', 'subscribe', fn($message) => throw new Exception($message));
     }
 }

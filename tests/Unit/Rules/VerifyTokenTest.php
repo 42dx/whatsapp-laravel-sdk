@@ -16,13 +16,13 @@ class VerifyTokenTest extends UnitTestCase {
         $this->expectExceptionMessage('Invalid verify token');
 
         $rule = new VerifyToken;
-        $rule->validate('hub_verify_token', 'invalid_token', fn ($message) => throw new Exception($message));
+        $rule->validate('hub_verify_token', 'invalid_token', fn($message) => throw new Exception($message));
     }
 
     public function test_it_should_pass_if_provided_token_is_valid(): void {
         $this->expectNotToPerformAssertions();
 
         $rule = new VerifyToken;
-        $rule->validate('hub_verify_token', 'some-verify', fn ($message) => throw new Exception($message));
+        $rule->validate('hub_verify_token', 'some-verify', fn($message) => throw new Exception($message));
     }
 }

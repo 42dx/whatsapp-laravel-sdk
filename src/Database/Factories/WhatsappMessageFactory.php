@@ -40,6 +40,6 @@ class WhatsappMessageFactory extends Factory {
      * Indicate that the model's status is a specific status.
      */
     public function withStatus(MessageStatus $status): static {
-        return $this->state(fn (): array => ['status' => $status]);
+        return $this->state(fn(): array => ['status' => $status]);
     }
 }
