@@ -12,14 +12,14 @@ class WhatsappApiMessage {
      *
      * The messaging product (e.g., "whatsapp")
      */
-    private $messaging_product = 'whatsapp';
+    private string $messaging_product = 'whatsapp';
 
     /**
      * recipient_type
      *
      * The type of recipient (e.g., "individual, group")
      */
-    private $recipient_type = 'individual';
+    private string $recipient_type = 'individual';
 
     /**
      * to
@@ -386,10 +386,7 @@ class WhatsappApiMessage {
                 : null,
             'index' => isset($index) && is_int($index)
                 ? $index : null,
-            'parameters' => array_merge(
-                $hasComponentType['parameters'] ?? [],
-                $this->generateComponentParameter($params)
-            ),
+            'parameters' => $this->generateComponentParameter($params),
         ];
     }
 
