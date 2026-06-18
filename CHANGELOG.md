@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.0-beta.6](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2026-06-18)
+
+### ⚙️ New Features
+
+* **template-msg**: implemented support for template messages [[#14](https://github.com/42dx/whatsapp-laravel-sdk/issues/14)] ([bf5adca](https://github.com/42dx/whatsapp-laravel-sdk/commit/bf5adca2f6932b0d96c66f92948a6dc6b74756bc))
+
 ## [1.0.0-beta.5](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2026-05-13)
 
 ### ⚙️ New Features
