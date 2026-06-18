@@ -15,7 +15,7 @@ class HandleMessageMetadataTest extends UnitTestCase {
 
     public static function msgStatusDataset(): array {
         return [
-            MessageStatus::DELETED->value . ' status' => [MessageStatus::DELETED, 'deleted_at'],
+            MessageStatus::DELETED->value . ' status' => [MessageStatus::DELETED, 'whatsapp_deleted_at'],
             MessageStatus::DELIVERED->value . ' status' => [MessageStatus::DELIVERED, 'delivered_at'],
             MessageStatus::READ->value . ' status' => [MessageStatus::READ, 'read_at'],
             MessageStatus::SENT->value . ' status' => [MessageStatus::SENT, 'sent_at'],

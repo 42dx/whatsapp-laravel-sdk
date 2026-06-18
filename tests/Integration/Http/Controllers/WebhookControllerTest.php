@@ -5,7 +5,7 @@ namespace The42dx\Whatsapp\Tests\Integration\Http\Controllers;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\{Config, Log, Schema};
 use PHPUnit\Framework\Attributes\DataProvider;
-use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType, MessageWay};
+use The42dx\Whatsapp\Enums\{ApiEvent, ContextType, MessageStatus, MessageType, MessageWay, ObjectType};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 use The42dx\Whatsapp\Tests\Fixtures\Models\User;
 use The42dx\Whatsapp\Tests\Integration\IntegrationTestCase;
@@ -18,7 +18,10 @@ class WebhookControllerTest extends IntegrationTestCase {
     protected string $wppTable;
 
     private static function getApiEventPlaceholder(ApiEvent $event): array {
-        return ['entry' => [['id' => 'placeholder', 'changes' => [['field' => $event]]]]];
+        return [
+            'object' => ObjectType::WHATSAPP_BUSINESS_API_ACC->value,
+            'entry' => [['id' => 'placeholder', 'changes' => [['field' => $event]]]],
+        ];
     }
 
     public static function apiEventDataset(): array {
@@ -44,15 +47,14 @@ class WebhookControllerTest extends IntegrationTestCase {
 
     public static function msgTypesDataset(): array {
         return [
-            MessageType::AUDIO->value => ['Api/Events/message-audio'],
-            MessageType::CONTACTS->value => ['Api/Events/message-contact'],
-            MessageType::DOCUMENT->value => ['Api/Events/message-document'],
-            MessageType::IMAGE->value => ['Api/Events/message-image'],
-            MessageType::INTERACTIVE->value => ['Api/Events/message-interactive'],
-            MessageType::BUTTON->value => ['Api/Events/message-button'],
-            MessageType::LOCATION->value => ['Api/Events/message-location'],
-            MessageType::STICKER->value => ['Api/Events/message-sticker'],
-            MessageType::VIDEO->value => ['Api/Events/message-video'],
+            MessageType::AUDIO->value => ['Api/Events/message-audio', MessageType::AUDIO],
+            MessageType::CONTACTS->value => ['Api/Events/message-contact', MessageType::CONTACTS],
+            MessageType::DOCUMENT->value => ['Api/Events/message-document', MessageType::DOCUMENT],
+            MessageType::IMAGE->value => ['Api/Events/message-image', MessageType::IMAGE],
+            MessageType::INTERACTIVE->value => ['Api/Events/message-interactive', MessageType::INTERACTIVE],
+            MessageType::LOCATION->value => ['Api/Events/message-location', MessageType::LOCATION],
+            MessageType::STICKER->value => ['Api/Events/message-sticker', MessageType::STICKER],
+            MessageType::VIDEO->value => ['Api/Events/message-video', MessageType::VIDEO],
         ];
     }
 
@@ -111,10 +113,19 @@ class WebhookControllerTest extends IntegrationTestCase {
     }
 
     #[DataProvider('msgTypesDataset')]
-    public function test__handle__unhandled_msg_types(string $jsonFixture): void {
-        // This is here just to greenlight code coverage on the switch/cases
+    public function test__handle__unhandled_msg_types(string $jsonFixture, MessageType $messageType): void {
+        Log::spy();
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Unsupported message type: ' . $messageType->value);
+
         $this->postJson($this->webhookRoute, self::getJsonFixture($jsonFixture))
             ->assertOk();
+
+        $this->assertDatabaseHas($this->wppTable, [
+            'type' => $messageType->value,
+            'way' => MessageWay::INBOUND->value,
+        ]);
     }
 
     public function test__handle__it_should_add_the_messageable_id_to_message_record_when_messageable_exists_in_the_system(): void {
@@ -181,6 +192,25 @@ class WebhookControllerTest extends IntegrationTestCase {
         $this->assertDatabaseCount($this->wppTable, 1);
         $this->assertEquals('Some message', $msg->text);
         $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
+    }
+
+    public function test__handle__it_should_handle_button_messages(): void {
+        $fixture = self::getJsonFixture('Api/Events/message-button');
+        $button = $fixture['entry'][0]['changes'][0]['value']['messages'][0]['button'];
+
+        $this->assertDatabaseCount($this->wppTable, 0);
+        $this->postJson($this->webhookRoute, $fixture)
+            ->assertOk();
+
+        $msg = WhatsappMessage::first();
+
+        $this->assertDatabaseCount($this->wppTable, 1);
+        $this->assertEquals($button['text'], $msg->text);
+        $this->assertEquals(MessageWay::INBOUND->value, $msg->way);
+        $this->assertEquals(MessageType::BUTTON->value, $msg->type);
+        $this->assertEquals(MessageType::BUTTON->value, $msg->payload[0]['type']);
+        $this->assertEquals($button['payload'], $msg->payload[0]['data']);
+        $this->assertEquals(ContextType::REPLY->value, $msg->payload[1]['type']);
     }
 
     public function test__handle__it_should_handle_reply_context_messages(): void {
@@ -332,37 +362,5 @@ class WebhookControllerTest extends IntegrationTestCase {
 
         $this->postJson($this->webhookRoute, self::getJsonFixture('Api/Events/message-reaction'))
             ->assertOk();
-    }
-
-    public function test__handle__todo_it_should_handle_clicked_button_on_template_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_audio_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_contact_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_document_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_image_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_location_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_sticker_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    public function test__handle__todo_it_should_handle_video_messages(): void {
-        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

@@ -6,3 +6,4 @@ www/
 .phpunit.cache/
 coverage/
 graphify-out
+plans

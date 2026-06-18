@@ -1,18 +1,18 @@
 # Whatsapp Laravel SDK
 
-This Laravel package's goal is to abstract and simplify the integration with the Facebook's Whatsapp Business API through services, facades and methods, as well properly documenting how to work with it, since it is sometimes hard to find the info you need to correctly implement the API.
+This Laravel package's goal is to abstract and simplify integration with Facebook's Whatsapp Business API through services, models, traits, and message builders, while documenting how to work with it correctly.
 
 Check our package on [Packagist](https://packagist.org/packages/42dx/whatsapp-laravel-sdk).
 
 ## Project Meta Data
 
-[![All Contributors](https://img.shields.io/github/all-contributors/42dx/whatsapp-laravel-sdk?color=ee8449&flat&label=Contributors)](https://github.com/42dx/whatsapp-laravel-sdk/blob/beta/README.md#contributors)
+[![All Contributors](https://img.shields.io/github/all-contributors/42dx/whatsapp-laravel-sdk?color=ee8449&flat&label=Contributors)](https://github.com/42dx/whatsapp-laravel-sdk/blob/main/README.md#contributors)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
 
-## Project Status (`beta` branch)
+## Project Status (`v1.0`, `main` branch)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=42dx_whatsapp-laravel-sdk&metric=bugs)](https://sonarcloud.io/summary/new_code?id=42dx_whatsapp-laravel-sdk)
@@ -23,6 +23,8 @@ Check our package on [Packagist](https://packagist.org/packages/42dx/whatsapp-la
 ## Table of Contents
 
 - [Composer Scripts](#composer-scripts)
+- [Installation](#installation)
+  - [Requirements](#requirements)
 - [Configure Whatsapp Webhook](#configure-whatsapp-webhook)
 - [Using the Package](#using-the-package)
   - [Migrations](#migrations)
@@ -30,6 +32,9 @@ Check our package on [Packagist](https://packagist.org/packages/42dx/whatsapp-la
     - [Messageable Migration](#messageable-migration)
   - [General Concepts](#general-concepts)
     - [Sending Messages](#sending-messages)
+    - [Message Templates](#message-templates)
+    - [Available Templates](#available-templates)
+    - [Message Support](#message-support)
     - [Whatsapp API Entities](#whatsapp-api-entities)
   - [Meta Webhook Validation](#meta-webhook-validation)
   - [Receiving Messages](#receiving-messages)
@@ -48,9 +53,44 @@ We tried to automate as much boring tasks and CLI commands as we could on short 
 
 - `composer commit`: Runs the [`comitzen` binary](https://github.com/lintingzhen/commitizen-go) which opens an interactive CLI to keep commits in a standard that our pipeline can use to generate the package changelog automatically.
 - `composer coverage`: Run the tests and generates code coverage. If you are contributing, please make sure you do not lower the current coverage. ;)
-- `composer start`: Serves the sample application (through `php artisan serve`) with the package already loaded. It will run the Sample App on port `8000`.
-- `composer connect`:  Connects to Pinggy service and expose your local environment to the web. It assumes that the local app is running on port `8000`.
+- `composer start`: Starts the sample application through Laravel Sail with the package already loaded.
+- `composer connect`:  Connects to Pinggy service and exposes local port `80` to the web. It assumes the sample app is running through Sail.
+- `composer setup`: Prepares the sample application: installs dependencies, creates `.env` when missing, generates the app key, starts Sail, waits for MySQL, and runs migrations.
+- `composer stop`: Stops the sample application containers.
 - `composer test`: Run the tests (do not generate coverage report)
+- `composer lint`: Checks PHP code style with Laravel Pint.
+
+## Installation
+
+### Requirements
+
+- A Laravel application with Composer package auto-discovery enabled, or manual service provider registration.
+- A configured WhatsApp Business Account, phone number ID, business account ID, and API token from Meta.
+- The examples use the Laravel 11/12 `bootstrap/providers.php` provider registration style.
+
+Install the package through Composer:
+
+```bash
+composer require 42dx/whatsapp-laravel-sdk
+```
+
+The package supports Laravel package auto-discovery and registers both service providers through `composer.json`. If auto-discovery is disabled in your application, register the providers manually in `bootstrap/providers.php`:
+
+```php
+return [
+    // [...]
+    The42dx\Whatsapp\RouteServiceProvider::class,
+    The42dx\Whatsapp\WhatsappServiceProvider::class,
+];
+```
+
+Publish the configuration file before running migrations so you can adjust table names, messageable columns, and the user model:
+
+```bash
+php artisan vendor:publish --tag=whatsapp-business-api-config
+```
+
+<p align="right"><em><a href="#table-of-contents">back to top</a></em></p>
 
 ## Configure Whatsapp Webhook
 
@@ -109,29 +149,15 @@ WHATSAPP_DEFAULT_TEMPLATE_LANGUAGE=en_US
 
 ## Using the Package
 
-After installing, if the auto discovery did not pick it up right away, just add those 2 lines in your `bootstrap/providers.php` file:
-
-```php
-return [
-  // [...]
-  The42dx\Whatsapp\RouteServiceProvider::class,
-  The42dx\Whatsapp\WhatsappServiceProvider::class,
-];
-```
-
-After making sure the Service Providers are loaded, you will need to adjust the package configs according to your Facebook/Meta application, and run the migrations to create tables and columns the package needs.
-
-Publish the configuration file and adjust it to suit your needs:
-
-```bash
-php artisan vendor:publish --tag=whatsapp-business-api-config
-```
+After installing, adjust the package configuration according to your Meta application, then run the migrations to create the tables and columns the package needs.
 
 ### Migrations
 
-The package will create a `whatsapp_messages` table to store the messages (both inbound and outbound) handled by the package. It will also create a unique `phone` column on your messageable entity (usually, and by default on the `users` table).
+The package will create a `whatsapp_messages` table to store the messages (both inbound and outbound) handled by the package. It will also create a unique messageable phone column on your messageable entity (default: `phone` on the `users` table).
 
 If you need to customize this, adjust the `database.*` keys in your `/config/whatsapp.php` file **before running the migrations**.
+
+If your application owns its migrations manually, set `database.skip_migrations` to `true` in `config/whatsapp.php` and create equivalent application migrations.
 
 To keep everything nice and tidy in your project, it is recommended (but not necessary) to publish the default migrations. You can do so by running the following command:
 
@@ -139,62 +165,71 @@ To keep everything nice and tidy in your project, it is recommended (but not nec
 php artisan vendor:publish --tag=whatsapp-business-api-migrations
 ```
 
+Then run your application migrations:
+
+```bash
+php artisan migrate
+```
+
 #### `whatsapp_messages` Table
 
-This table stores every message the package handles — both inbound (received from contacts) and outbound (sent by your application). Below is the schema:
+This table stores persisted WhatsApp message records — both inbound messages received from contacts and outbound messages sent by your application. Reactions are stored as payload metadata on the referenced message instead of being stored as independent message rows. Below is the schema:
 
 | Column | Type | Nullable | Default | Description |
 | ------ | ---- | -------- | ------- | ----------- |
 | `id` | bigint (auto-increment) | No | — | Primary key |
 | `whatsapp_message_id` | varchar | No | — | WhatsApp message ID (unique) |
 | `contact_phone_number` | varchar | No | — | Phone number of the contact |
-| `{messageable_id_column}` | foreignId | Yes | — | FK to your messageable table (default: `user_id` → `users.id`) |
+| `{messageable_id_column}` | foreignId | Yes | — | FK to your messageable table (default: `user_id` → `users.id`), with cascade delete |
 | `way` | enum (`inbound`, `outbound`) | No | — | Message direction |
-| `status` | enum (`PENDING`, `SENT`, `DELIVERED`, `READ`, `FAILED`, `DELETED`, `WARNING`) | No | `PENDING` | Delivery status |
-| `type` | enum (`AUDIO`, `BUTTON`, `CONTACTS`, `DOCUMENT`, `IMAGE`, `INTERACTIVE`, `LOCATION`, `REACTION`, `STICKER`, `TEMPLATE`, `TEXT`, `UNSUPPORTED`, `VIDEO`) | No | — | Message type |
+| `status` | enum (`pending`, `sent`, `delivered`, `read`, `failed`, `deleted`, `warning`) | No | `pending` | Delivery status |
+| `type` | enum (`audio`, `button`, `contacts`, `document`, `image`, `interactive`, `location`, `reaction`, `sticker`, `template`, `text`, `unsupported`, `video`) | No | — | Message type |
 | `text` | text | Yes | — | Text body (for text/button messages) |
 | `payload` | json | Yes | — | Full message data including context, reactions, and template components |
+| `whatsapp_deleted_at` | timestamp | Yes | — | When Meta reported the message as deleted |
 | `created_at` | timestamp | Yes | — | Laravel managed |
 | `updated_at` | timestamp | Yes | — | Laravel managed |
-| `deleted_at` | timestamp | Yes | — | Soft delete timestamp |
+| `deleted_at` | timestamp | Yes | — | Laravel soft delete timestamp |
 | `delivered_at` | timestamp | Yes | — | When Meta confirmed delivery |
 | `read_at` | timestamp | Yes | — | When the contact read the message |
 | `sent_at` | timestamp | Yes | — | When Meta confirmed the message was sent |
 
 **Indexes:** `whatsapp_message_id` (unique), `contact_phone_number`, `way`, `status`, `type`.
 
-The table name defaults to `whatsapp_messages` but can be changed via `config('whatsapp.database.table_name')`. The `payload` column is automatically cast to an array on the `WhatsappMessage` model, so you can access it as an associative array:
+The table name defaults to `whatsapp_messages` but can be changed via `config('whatsapp.database.table_name')`. The `payload` column is automatically cast to a PHP array of payload entries on the `WhatsappMessage` model:
 
 ```php
 $message = WhatsappMessage::first();
-$context = $message->payload['context'] ?? null;
+$firstPayloadItem = $message->payload[0] ?? null;
 ```
 
 You can also filter the payload by type using the model's helper methods:
 
 ```php
-// Get only items matching a given type
-$message->getPayloadType(ContextType::REPLY);
+// Get only context payload items for reply messages
+$replyContext = $message->getPayloadType(ContextType::REPLY);
 
-// Get all items except a given type
-$message->getPayloadWithoutType(ContextType::FWD);
+// Get all payload items except reaction data
+$withoutReactions = $message->getPayloadWithoutType(MessageType::REACTION);
 ```
 
 #### Messageable Migration
 
-The package also adds a `phone` column to your messageable table (default: `users`) so you can associate WhatsApp messages with your application's users. The migration adds:
+The package also adds the configured messageable phone column to your messageable table (default: `phone` on `users`) so you can associate WhatsApp messages with your application's users. The migration adds:
 
 | Column | Type | Nullable | Unique | Description |
 | ------ | ---- | -------- | ------ | ----------- |
 | `{messageable_phone_column}` | varchar | Yes | Yes | Contact's WhatsApp phone number (default: `phone`) |
-| `{messageable_phone_column}_verified_at` | timestamp | Yes | Yes | Phone verification timestamp (default: `phone_verified_at`) |
+| `{messageable_phone_column}_verified_at` | timestamp | Yes | No | Phone verification timestamp (default: `phone_verified_at`) |
 
-Both column names are configurable via `config('whatsapp.database')` before running the migrations:
+The phone column name is configurable via `config('whatsapp.database.messageable_phone_column')` before running the migrations. The verification timestamp column is derived from it by appending `_verified_at`:
 
 ```php
 // config/whatsapp.php
 'database' => [
     'messageable_phone_column' => 'phone',       // column name for the phone number
+    'skip_migrations'          => false,          // set true to disable package-loaded migrations
+    'table_name'               => 'whatsapp_messages',
     'users_table'              => 'users',        // table to alter
     'users_table_pk'           => 'id',            // primary key of the users table
     'messageable_id_column'    => 'user_id',       // FK column on whatsapp_messages
@@ -203,6 +238,8 @@ Both column names are configurable via `config('whatsapp.database')` before runn
 ```
 
 > **Note:** If your application already has a `phone` column on the `users` table, change `messageable_phone_column` to a different name **before** running the migrations to avoid conflicts.
+
+> **Note:** If you publish and customize the messageable migration, keep the `down()` method aligned with both columns. Only `{messageable_phone_column}` has a unique index by default.
 
 ### General Concepts
 
@@ -217,17 +254,18 @@ Every message stored in the `whatsapp_messages` table has a `way` column that in
 
 #### Message Lifecycle
 
-When Meta processes a message, it sends status updates via the webhook. The package tracks these through the `status` column and corresponding timestamps:
+When Meta processes a message, it sends status updates via the webhook. The schema supports all statuses below, but the webhook handler currently updates timestamps only for `sent`, `delivered`, `read`, and `deleted`.
+Unhandled statuses, such as `failed` and `warning`, are valid column values but are logged instead of timestamped by the current handler.
 
 | Status | Timestamp Column | Meaning |
 | ------ | ---------------- | ------- |
-| `PENDING` | — | Message created but not yet confirmed by Meta |
-| `SENT` | `sent_at` | Meta confirmed the message was sent |
-| `DELIVERED` | `delivered_at` | Meta confirmed delivery to the contact's device |
-| `READ` | `read_at` | The contact read the message |
-| `FAILED` | — | Meta could not deliver the message |
-| `DELETED` | `deleted_at` | The message was deleted |
-| `WARNING` | — | A non-critical issue was flagged |
+| `pending` | — | Message created but not yet confirmed by Meta |
+| `sent` | `sent_at` | Meta confirmed the message was sent |
+| `delivered` | `delivered_at` | Meta confirmed delivery to the contact's device |
+| `read` | `read_at` | The contact read the message |
+| `deleted` | `whatsapp_deleted_at` | Meta reported the message as deleted |
+| `failed` | Not handled | Meta could not deliver the message |
+| `warning` | Not handled | A non-critical issue was flagged |
 
 #### The `payload` Column
 
@@ -235,9 +273,10 @@ The `payload` JSON column stores structured data that varies by message type —
 
 #### Sending Messages
 
-To send messages, add the `CanSendWhatsappMsg` trait to any Eloquent model (typically your `User` model). The model must have a `phone` attribute matching the contact's WhatsApp number:
+To send messages, add the `CanSendWhatsappMsg` trait to any Eloquent model (typically your `User` model). The model must expose the configured `messageable_phone_column` attribute, which defaults to `phone`, matching the contact's WhatsApp number:
 
 ```php
+use The42dx\Whatsapp\Enums\{MessageComponent, MessageType};
 use The42dx\Whatsapp\Models\Traits\CanSendWhatsappMsg;
 
 class User extends Authenticatable
@@ -249,7 +288,8 @@ class User extends Authenticatable
 Then you can send messages through the model:
 
 ```php
-$user = User::where('phone', '+1234567890')->first();
+$phoneColumn = config('whatsapp.database.messageable_phone_column', 'phone');
+$user = User::where($phoneColumn, '+1234567890')->first();
 
 // Send a text message
 $user->sendWhatsappMsg(MessageType::TEXT, 'Hello from the SDK!');
@@ -263,6 +303,8 @@ $user->sendWhatsappMsg(MessageType::TEMPLATE, [
 // React to a message
 $user->sendWhatsappMsg(MessageType::REACTION, '👍', $originalMessage);
 ```
+
+For template messages, `name` is required and must match the template name approved in Meta. `lang` is optional and falls back to `WHATSAPP_DEFAULT_TEMPLATE_LANGUAGE`.
 
 You can also use the `WhatsappService` directly via dependency injection:
 
@@ -293,6 +335,83 @@ $message = WhatsappApiMessage::make('+1234567890')
 
 $response = $whatsapp->send($message, $user);
 ```
+
+#### Message Templates
+
+Template components are passed in the same structure used by `WhatsappApiMessage::withComponent()`. The `CanSendWhatsappMsg` trait expects each component to include a `type` and a `parameters` array. Use at most one component for each `MessageComponent` type, matching WhatsApp API expectations.
+
+```php
+$user->sendWhatsappMsg(MessageType::TEMPLATE, [
+    'name' => 'order_update',
+    'lang' => 'en_US',
+    'components' => [
+        [
+            'type' => MessageComponent::BODY,
+            'parameters' => [
+                ['name' => 'customer_name', 'text' => 'Rafael'],
+                ['name' => 'order_code', 'text' => 'DX-123'],
+            ],
+        ],
+        [
+            'type' => MessageComponent::BUTTON,
+            'subType' => MessageComponent::COPY_CODE,
+            'index' => 0,
+            'parameters' => [
+                [
+                    'type' => MessageComponent::COUPON_CODE,
+                    'couponCode' => 'SAVE10',
+                ],
+            ],
+        ],
+    ],
+]);
+```
+
+When using the builder directly, call `usingTemplate()` and add components with `withComponent()`:
+
+```php
+$message = WhatsappApiMessage::compose('+1234567890')
+    ->usingTemplate('order_update', 'en_US')
+    ->withComponent(MessageComponent::BODY, [
+        ['name' => 'customer_name', 'text' => 'Rafael'],
+        ['name' => 'order_code', 'text' => 'DX-123'],
+    ]);
+
+$response = app(WhatsappService::class)->send($message, $user);
+```
+
+#### Available Templates
+
+Use `WhatsappService::getMessageTemplates()` to retrieve templates available for the configured WhatsApp Business Account:
+
+```php
+use The42dx\Whatsapp\Services\WhatsappService;
+
+$templates = app(WhatsappService::class)->getMessageTemplates();
+```
+
+The method returns the decoded API response as an array. If Meta returns an error, the package logs it and returns an empty array.
+
+#### Message Support
+
+Outbound support through `CanSendWhatsappMsg`:
+
+| `MessageType` | Supported | Behavior |
+| ------------- | --------- | -------- |
+| `TEXT` | Yes | Sends text and stores an outbound `WhatsappMessage` |
+| `TEMPLATE` | Yes | Sends template data and stores the template payload |
+| `REACTION` | Yes | Adds or removes reaction payload on an existing stored message |
+| `AUDIO`, `BUTTON`, `CONTACTS`, `DOCUMENT`, `IMAGE`, `INTERACTIVE`, `LOCATION`, `STICKER`, `VIDEO`, `UNSUPPORTED` | No | Logs a warning and does not call the API |
+
+Inbound support through the webhook:
+
+| Inbound data | Supported | Behavior |
+| ------------ | --------- | -------- |
+| Text messages | Yes | Stores text and base message data |
+| Button replies | Yes | Stores button text and payload |
+| Reactions | Yes | Adds or removes reaction payload on the referenced stored message without creating a separate row |
+| Context and status updates | Yes | Stores reply/forward metadata and delivery timestamps |
+| Audio, contacts, document, image, interactive, location, sticker, video | Partial | Stores the generic message row, logs unsupported type, and does not persist type-specific payload fields |
 
 #### Whatsapp API Entities
 
@@ -377,31 +496,29 @@ The controller's `hookRouter` dispatches each `ChangesEntity` based on its `$fie
 | `ApiEvent` field | Handler | Behavior |
 | ---------------- | ------- | -------- |
 | `MSGS` | `handleMessages()` | Processes inbound messages and status updates |
-| All other fields | `handleDefault()` | Logs a warning (not yet implemented) |
+| All other fields | `handleDefault()` | Logs a warning and ignores the event |
 
 **Message processing (`MSGS` field):**
 
 1. **Inbound messages** — Each `MessageEntity` is processed by `handleMessage()`:
-   - Creates a `WhatsappMessage` model with `way = INBOUND`, the contact's phone number, type, and WhatsApp message ID
+   - Creates or updates a `WhatsappMessage` model with `way = INBOUND`, the contact's phone number, type, and WhatsApp message ID
    - Attempts to associate the message with a user by matching `from` against the configurable `messageable_phone_column`
    - Dispatches to a type-specific handler:
 
    | `MessageType` | Handler | Behavior |
    | ------------- | ------- | -------- |
    | `TEXT` | `handleText()` | Stores the text body |
-   | `REACTION` | `handleReaction()` | Adds or removes a reaction emoji on the referenced message |
+   | `REACTION` | `handleReaction()` | Adds or removes reaction payload on the referenced stored message without creating a separate row |
    | `BUTTON` | `handleButton()` | Stores the button text/payload |
-   | Other types | — | Logs a warning (not yet implemented) |
+   | `AUDIO`, `CONTACTS`, `DOCUMENT`, `IMAGE`, `INTERACTIVE`, `LOCATION`, `STICKER`, `VIDEO` | — | Stores generic message data and logs an unsupported-type warning |
 
    - Processes context (reply/forward) via `handleContext()`, storing it in the `payload` column
    - Persists via `updateOrCreate` using `whatsapp_message_id` + `contact_phone_number` as the unique key
 
 2. **Status updates** — Each `StatusEntity` is processed by `handleStatus()`:
    - Looks up the existing `WhatsappMessage` by `whatsapp_message_id`
-   - Updates the status and sets the corresponding timestamp (`sent_at`, `delivered_at`, `read_at`, `deleted_at`)
+   - Updates the status and sets the corresponding timestamp (`sent_at`, `delivered_at`, `read_at`, `whatsapp_deleted_at`)
    - Logs a warning if the message is not found in the database
-
-<p align="right"><em><a href="#table-of-contents">back to top</a></em></p>
 
 <p align="right"><em><a href="#table-of-contents">back to top</a></em></p>
 
@@ -410,7 +527,7 @@ The controller's `hookRouter` dispatches each `ChangesEntity` based on its `$fie
 We included a sample fresh Laravel app to help those who want to contribute to the package. To start it just go through the following steps:
 
 1. Clone this repository.
-2. Run `composer setup` from the repository root. It will `cd` on sample app's folder, install the dependencies and `cd` back to the root folder.
+2. Run `composer setup` from the repository root. It enters the sample app, installs dependencies, creates `.env` when missing, generates the app key, starts Sail, waits for MySQL, runs migrations, and returns to the root folder.
 3. Run `composer start` from the repository root. It will run the sample app through `laravel sail`.
 4. With the local server running, from another terminal run `composer connect` from the repository. It will connect to [pinggy](https://pinggy.io) service and expose your local application to the web.
 5. Adjust your webhook configuration on the Meta/Facebook dashboard with the generated [pinggy](https://pinggy.io) URI.
@@ -437,7 +554,8 @@ If you like the tool, [kudos the devs](https://pinggy.io) ;)
 
 #### How to use Pinggy
 
-Just run `composer connect` from the repository's root folder. You will need to have our sample application running so you can receive webhook requests locally. After running the composer command
+Just run `composer connect` from the repository's root folder. You will need to have our sample application running so you can receive webhook requests locally.
+After running the composer command, update your [Meta Developer Dashboard](https://developers.facebook.com/). Follow the process on [Meta Dashboard Setup](#meta-dashboard-setup) section of this README.
 
 ## Contributors
 

@@ -31,11 +31,6 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
     </php>
-    <coverage>
-        <report>
-            <html outputDirectory="build/coverage" lowUpperBound="50" highLowerBound="80"/>
-        </report>
-    </coverage>
     <source>
         <include>
             <directory suffix=".php">./src</directory>

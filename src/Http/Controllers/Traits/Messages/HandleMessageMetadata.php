@@ -32,7 +32,7 @@ trait HandleMessageMetadata {
 
         switch ($statusEntity->status) {
             case MessageStatus::DELETED:
-                $messageModel->deleted_at = $now;
+                $messageModel->whatsapp_deleted_at = $now;
                 break;
             case MessageStatus::DELIVERED:
                 $messageModel->delivered_at = $now;

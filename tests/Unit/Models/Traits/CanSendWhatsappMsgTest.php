@@ -4,6 +4,7 @@ namespace The42dx\Whatsapp\Tests\Unit\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -37,10 +38,10 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
         return [
             MessageType::TEXT->value => [MessageType::TEXT, 'Test text message'],
             MessageType::REACTION->value => [MessageType::REACTION, '👍'],
-            MessageType::TEMPLATE->value => [MessageType::TEMPLATE, ['template' => 'test_template', 'components' => [['type' => MessageComponent::BODY, 'parameters' => ['text' => 'some text']]]]],
+            MessageType::TEMPLATE->value => [MessageType::TEMPLATE, ['name' => 'test_template', 'components' => [['type' => MessageComponent::BODY, 'parameters' => [['text' => 'some text']]]]]],
 
             MessageType::AUDIO->value => [MessageType::AUDIO, ''],
-            MessageType::BUTTON->value => [MessageType::CONTACTS, ''],
+            MessageType::BUTTON->value => [MessageType::BUTTON, ''],
             MessageType::CONTACTS->value => [MessageType::CONTACTS, ''],
             MessageType::DOCUMENT->value => [MessageType::DOCUMENT, ''],
             MessageType::IMAGE->value => [MessageType::IMAGE, ''],
@@ -87,7 +88,7 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
 
     public function test__send_whatsapp_msg__it_should_use_the_provided_template_language(): void {
         $data = [
-            'template' => 'test_template',
+            'name' => 'test_template',
             'lang' => 'en_US',
             'components' => [
                 [
@@ -100,7 +101,7 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
         $this->whatsappServiceMock
             ->shouldReceive('send')
             ->with(
-                Mockery::on(fn(WhatsappApiMessage $message): bool => $message->template['language']['code'] === 'en_US'),
+                Mockery::on(fn(WhatsappApiMessage $message): bool => $message->template['name'] === 'test_template' && $message->template['language']['code'] === 'en_US'),
                 $this->user
             )
             ->once();
@@ -108,5 +109,12 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
         $this->user->sendWhatsappMsg(MessageType::TEMPLATE, $data);
 
         $this->addToAssertionCount(1);
+    }
+
+    public function test__send_whatsapp_msg__it_should_require_template_name(): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Template message data must include a name.');
+
+        $this->user->sendWhatsappMsg(MessageType::TEMPLATE, ['template' => 'test_template']);
     }
 }

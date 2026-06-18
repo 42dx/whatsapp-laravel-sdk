@@ -3,6 +3,7 @@
 namespace The42dx\Whatsapp\Models\Traits;
 
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 use The42dx\Whatsapp\Enums\MessageType;
 use The42dx\Whatsapp\Factories\WhatsappApiMessage;
 use The42dx\Whatsapp\Models\WhatsappMessage;
@@ -36,7 +37,11 @@ trait CanSendWhatsappMsg {
                 $apiMsg->reactTo(msg: $replyToId, with: $data);
                 break;
             case MessageType::TEMPLATE:
-                $apiMsg->usingTemplate(name: $data['template'], langCode: $data['lang'] ?? null);
+                if (!is_array($data) || empty($data['name'])) {
+                    throw new InvalidArgumentException('Template message data must include a name.');
+                }
+
+                $apiMsg->usingTemplate(name: $data['name'], langCode: $data['lang'] ?? null);
                 $this->handleTemplateComponents($apiMsg, $data['components'] ?? []);
                 break;
             case MessageType::AUDIO:

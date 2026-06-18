@@ -11,7 +11,7 @@
                     "text": "Hello {{1}}",
                     "example": {
                         "header_text": [
-                            "Rafael"
+                            "Whatever"
                         ]
                     }
                 },
