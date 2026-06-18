@@ -3,8 +3,7 @@
     "exclude": [
         "vendor",
         "**/vendor",
-        "samples/**/vendor",
-        "**/samples/**/vendor"
+        "samples"
     ],
     "rules": {
         "array_indentation": true,

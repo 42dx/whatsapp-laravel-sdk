@@ -47,7 +47,7 @@ abstract class Entity implements ContractsEntity {
             }
 
             if ($value instanceof Collection) {
-                $array[$key] = $value->map(fn ($item) => $item->toArray())->toArray();
+                $array[$key] = $value->map(fn($item) => $item->toArray())->toArray();
 
                 continue;
             }
@@ -84,7 +84,7 @@ abstract class Entity implements ContractsEntity {
      * @param  string  $attrName  The entity attribute name
      * @param  string  $dataKey  The key of the attribute in the data array
      * @param  mixed  $data  The attribute value
-     * @param  class-string<\The42dx\Whatsapp\Contracts\Entity|The42dx\Whatsapp\Contracts\Enum>|null  $class  The class of the object or collection
+     * @param  class-string<\The42dx\Whatsapp\Contracts\Entity|\The42dx\Whatsapp\Contracts\Enum>|null  $class  The class of the object or collection
      * @param  bool  $isCollection  Whether the attribute is a collection
      *
      * @throws InvalidArgumentException If the attribute does not exist on the entity

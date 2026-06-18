@@ -54,8 +54,8 @@ class WebhookController extends Controller {
 
         $event = new EventEntity($request->all());
 
-        $event->entries->each(function ($entry): void {
-            $entry->changes->each(function ($change): void {
+        $event->entries->each(function($entry): void {
+            $entry->changes->each(function($change): void {
                 $this->hookRouter($change);
             });
         });

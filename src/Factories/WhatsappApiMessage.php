@@ -352,7 +352,7 @@ class WhatsappApiMessage {
                 ? $this->template['components']
                 : [];
 
-            $hasComponentType = Arr::first($this->template['components'], fn ($component) => $component['type'] === $type->value, []);
+            $hasComponentType = Arr::first($this->template['components'], fn($component) => $component['type'] === $type->value, []);
 
             $newComponent = array_merge(
                 $hasComponentType,
@@ -401,7 +401,7 @@ class WhatsappApiMessage {
      * @param  array  $params  Collection of params for the component.
      */
     private function generateComponentParameter(array $params): array {
-        return Arr::map($params, fn ($param) => [
+        return Arr::map($params, fn($param) => [
             'type' => isset($param['type']) && $param['type'] instanceof MessageComponent
                 ? $param['type']->value
                 : MessageComponent::TEXT->value,
