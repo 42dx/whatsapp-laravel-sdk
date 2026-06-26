@@ -28,6 +28,7 @@ class WhatsappMessage extends Model {
         'deleted_at',
         'delivered_at',
         'payload',
+        'profile_name',
         'read_at',
         'sent_at',
         'status',

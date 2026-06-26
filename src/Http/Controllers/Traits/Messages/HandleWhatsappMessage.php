@@ -5,6 +5,7 @@ namespace The42dx\Whatsapp\Http\Controllers\Traits\Messages;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use The42dx\Whatsapp\Entities\{Changes\MessagesEntity, Message\MessageEntity};
+use The42dx\Whatsapp\Entities\Message\ContactEntity;
 use The42dx\Whatsapp\Enums\{MessageType, MessageWay};
 use The42dx\Whatsapp\Models\WhatsappMessage;
 
@@ -35,8 +36,9 @@ trait HandleWhatsappMessage {
      */
     protected function handleMessages(MessagesEntity $messagesValue): void {
         if (!is_null($messagesValue->messages)) {
-            $messagesValue->messages->each(function($message): void {
-                $this->handleMessage($message);
+            $contact = $messagesValue->contact[0];
+            $messagesValue->messages->each(function($message) use ($contact): void {
+                $this->handleMessage($message, $contact);
             });
         }
 
@@ -71,8 +73,9 @@ trait HandleWhatsappMessage {
      * After processing, it updates or creates the message record in the database.
      *
      * @param  \The42dx\Whatsapp\Entities\Message\MessageEntity  $message  The whatsapp API message entity
+     * @param  \The42dx\Whatsapp\Entities\Message\ContactEntity  $contact  The Whatsapp API contact entity
      */
-    protected function handleMessage(MessageEntity $message): void {
+    protected function handleMessage(MessageEntity $message, ?ContactEntity $contact): void {
         $messageModel = new WhatsappMessage;
         $messageModel->contact_phone_number = $message->from;
         $messageModel->type = $message->type;
@@ -125,6 +128,7 @@ trait HandleWhatsappMessage {
             [
                 'whatsapp_message_id' => $messageModel->whatsapp_message_id,
                 'contact_phone_number' => $messageModel->contact_phone_number,
+                'profile_name' => $contact->name ?? null,
             ],
             Arr::except($messageModel->toArray(), ['whatsapp_message_id', 'contact_phone_number'])
         );
