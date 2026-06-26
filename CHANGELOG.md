@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0...v1.1.0) (2026-06-26)
+
+### ⚙️ New Features
+
+* **message-model**: now saving whatsapp profile name [[#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)] ([0ce2699](https://github.com/42dx/whatsapp-laravel-sdk/commit/0ce2699dc49456268f0b652785c0754ced74004f))
+
 ## 1.0.0 (2026-06-18)
 
 ### ⚙️ New Features
