@@ -1,0 +1,10 @@
+{
+    "servers": {
+        "laravel-boost": {
+            "type": "stdio",
+            "command": "${workspaceFolder}/artisan",
+            "args": ["boost:mcp"],
+            "cwd": "${workspaceFolder}"
+        }
+    }
+}
