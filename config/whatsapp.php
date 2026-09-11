@@ -10,6 +10,8 @@ return [
     'webhook_verify' => env('WHATSAPP_WEBHOOK_VERIFY'),
     'webhook_route' => env('WHATSAPP_WEBHOOK_ROUTE', 'webhook/whatsapp'),
     'template_lang' => env('WHATSAPP_DEFAULT_TEMPLATE_LANGUAGE', 'en_US'),
+    'flow_mode' => env('WHATSAPP_FLOW_MODE', 'draft'),
+    'flow_msg_version' => env('WHATSAPP_FLOW_MSG_VERSION', '3'),
     'database' => [
         'messageable_id_column' => 'user_id',
         'skip_migrations' => false,
