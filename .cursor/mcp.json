@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "${workspaceFolder}/artisan",
+            "args": ["boost:mcp"]
+        }
+    }
+}
