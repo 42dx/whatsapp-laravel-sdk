@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+// Force cache to array so it never looks for a database connection during MCP boot
+putenv('CACHE_STORE=array');
+$_ENV['CACHE_STORE'] = 'array';
+
+// If you used Orchestra Workbench (`vendor/bin/testbench workbench:install`)
+$workbenchArtisan = __DIR__ . '/workbench/artisan';
+
+// Fallback to core Testbench binary if Workbench isn't initialized
+$testbenchBinary = __DIR__ . '/vendor/bin/testbench';
+
+if (file_exists($workbenchArtisan)) {
+    $targetPath = $workbenchArtisan;
+} elseif (file_exists($testbenchBinary)) {
+    $targetPath = $testbenchBinary;
+} else {
+    fwrite(STDERR, "Error: Orchestra Testbench or Workbench not found. Run 'composer install' first.\n");
+    exit(1);
+}
+
+// Gather all arguments passed to this script (e.g., "boost:mcp")
+$args = array_slice($argv, 1);
+
+// Execute the command inside the local context
+passthru(PHP_BINARY . ' ' . escapeshellarg($targetPath) . ' ' . implode(' ', array_map('escapeshellarg', $args)), $status);
+exit($status);

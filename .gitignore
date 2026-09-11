@@ -7,3 +7,8 @@ www/
 coverage/
 graphify-out
 plans
+
+# Orchestra Workbench temporary files
+/workbench/
+
+*.toml

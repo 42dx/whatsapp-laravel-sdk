@@ -72,8 +72,6 @@ This is a [Laravel Package](https://laravel.com/docs/13.x/packages).
 - **graphify** - For any input that demands knowledge graph, use the Graphify skill if available. Suggest installing it if it is not.
   - When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else
 
-===
-
 <laravel-boost-guidelines>
 === foundation rules ===
 
