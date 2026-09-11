@@ -25,4 +25,5 @@ enum MessageComponent: string implements Enum {
      */
     case COPY_CODE = 'copy_code';
     case COUPON_CODE = 'coupon_code';
+    case URL = 'url';
 }
