@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.1](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.2.0...v1.2.1) (2026-09-11)
+
+### 🐛 Bugfixes
+
+* **msg-component**: added missing url button subtype to enum [[#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)] ([b6a73a6](https://github.com/42dx/whatsapp-laravel-sdk/commit/b6a73a6cf3e3a77c52acfeb6f75372334bc954ff))
+
+### 🔁 Continuous Integration
+
+*  bumping semantic release plugin versions [skip ci] ([b15dd3d](https://github.com/42dx/whatsapp-laravel-sdk/commit/b15dd3d1224a2d7fcfa4e00318ec113e436f4529))
+
 ## [1.2.0](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.1.0...v1.2.0) (2026-09-11)
 
 ### ⚙️ New Features
