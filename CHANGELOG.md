@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.2.0](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.1.0...v1.2.0) (2026-09-11)
+
+*  chore(): bumping node and semantic release versions [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/24e28aa)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+
+### chore
+
+* **ai**: configured laravel boost [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/32b1ff2)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **ai**: standardized mcp configs [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/dda7377)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **deps-dev**: bump guzzlehttp/guzzle [skip ci] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/621ecb1))
+* **deps**: bump the npm_and_yarn group [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/afb9889)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **deps**: bump the npm_and_yarn grout [skip ci] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/16bfb8c))
+* **deps**: refreshed sample dependencies [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/1d6cf5a)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **sample**: added notification example [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/30a556d)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **sample**: added package mount [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/71fd281)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+
+### test
+
+* **flow-msg**: added flow message tests [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/ff635d1)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **notification**: added notification tests [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/c666a67)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+
+### feat
+
+* **flow-msg**: added flow message support [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/b9e7fc6)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+* **notification**: added whatsapp channel [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/21f4571)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+
+### fix
+
+* **message-model**: corrected profile type [#0] ([](https://github.com/42dx/whatsapp-laravel-sdk/commit/ca970d0)), closes [#0](https://github.com/42dx/whatsapp-laravel-sdk/issues/0)
+
 ## [1.1.0](https://github.com/42dx/whatsapp-laravel-sdk/compare/v1.0.0...v1.1.0) (2026-06-26)
 
 ### ⚙️ New Features
