@@ -1,0 +1,12 @@
+# Copy this file to 'config.toml' and update the paths for your local environment
+
+[mcp_servers.laravel-boost]
+# For Native Linux/macOS users:
+# command = "php"
+# args = ["/path/to/your/package/artisan", "boost:mcp"]
+
+# For Windows WSL users (uncomment and update path):
+# command = "wsl.exe"
+# args = ["env", "CACHE_STORE=array", "php", "/home/USERNAME/path/to/your/package/artisan", "boost:mcp"]
+
+transport = "stdio"
