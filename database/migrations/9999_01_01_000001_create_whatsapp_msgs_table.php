@@ -56,7 +56,7 @@ return new class extends Migration {
                 ->nullable();
             $table->json('payload')
                 ->nullable();
-            $table->json('profile_name')
+            $table->string('profile_name')
                 ->nullable();
 
             $table->dateTime('whatsapp_deleted_at')
