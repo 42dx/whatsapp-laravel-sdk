@@ -53,12 +53,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.15'
+          node-version: 24
 
       - name: Install node dependencies
         run: |
           npm i -g \
-            semantic-release@23 \
+            semantic-release@25 \
             conventional-changelog-conventionalcommits@^7 \
             @semantic-release/commit-analyzer \
             @semantic-release/release-notes-generator \
