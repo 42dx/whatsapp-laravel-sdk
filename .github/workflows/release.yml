@@ -58,8 +58,8 @@ jobs:
       - name: Install node dependencies
         run: |
           npm i -g \
-            semantic-release@25 \
-            conventional-changelog-conventionalcommits@^7 \
+            semantic-release \
+            conventional-changelog-conventionalcommits \
             @semantic-release/commit-analyzer \
             @semantic-release/release-notes-generator \
             @semantic-release/changelog \
