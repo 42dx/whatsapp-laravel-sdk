@@ -41,15 +41,21 @@ trait CanSendWhatsappMsg {
                     throw new InvalidArgumentException('Template message data must include a name.');
                 }
 
-                $apiMsg->usingTemplate(name: $data['name'], langCode: $data['lang'] ?? null);
-                $this->handleTemplateComponents($apiMsg, $data['components'] ?? []);
+                $apiMsg->usingTemplate(name: $data['name'], langCode: $data['lang'] ?? null)
+                    ->handleComponents($data['components'] ?? []);
+                break;
+            case MessageType::INTERACTIVE:
+                if (!is_array($data) || empty($data['flow'])) {
+                    throw new InvalidArgumentException('Interactive message data must include a flow name.');
+                }
+
+                $apiMsg->usingFlow(name: $data['flow']);
                 break;
             case MessageType::AUDIO:
             case MessageType::BUTTON:
             case MessageType::CONTACTS:
             case MessageType::DOCUMENT:
             case MessageType::IMAGE:
-            case MessageType::INTERACTIVE:
             case MessageType::LOCATION:
             case MessageType::STICKER:
             case MessageType::VIDEO:
@@ -61,26 +67,5 @@ trait CanSendWhatsappMsg {
         }
 
         app(WhatsappService::class)->send($apiMsg, $this);
-    }
-
-    /**
-     * handleTemplateComponents
-     *
-     * Validates and process template message components.
-     *
-     * @param  WhatsappApiMessage  $msg  Whatsapp API message instance.
-     * @param  array|string  $components  The template message components.
-     */
-    private function handleTemplateComponents(WhatsappApiMessage $msg, ?array $components = []): void {
-        if (isset($components) && !is_null($components) && is_array($components)) {
-            foreach ($components as $component) {
-                $msg->withComponent(
-                    type: $component['type'],
-                    subType: $component['subType'] ?? null,
-                    index: $component['index'] ?? null,
-                    params: $component['parameters']
-                );
-            }
-        }
     }
 }

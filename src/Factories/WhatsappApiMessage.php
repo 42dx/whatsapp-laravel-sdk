@@ -64,6 +64,13 @@ class WhatsappApiMessage {
      */
     private array $template;
 
+    /**
+     * interactive
+     *
+     * Whatsapp message flow data
+     */
+    private array $interactive;
+
     public function __construct(null|int|string $to = null) {
         $this->setRecipient($to);
     }
@@ -225,6 +232,34 @@ class WhatsappApiMessage {
         return $this;
     }
 
+    public function usingFlow(string $name): self {
+        $this->setFlow(name: $name);
+
+        return $this;
+    }
+
+    /**
+     * handleTemplateComponents
+     *
+     * Validates and process template message components.
+     *
+     * @param  array|string  $components  The template message components.
+     */
+    public function handleComponents(?array $components = []): self {
+        if (isset($components) && !is_null($components) && is_array($components)) {
+            foreach ($components as $component) {
+                $this->withComponent(
+                    type: $component['type'],
+                    subType: $component['subType'] ?? null,
+                    index: $component['index'] ?? null,
+                    params: $component['parameters']
+                );
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * withComponent
      *
@@ -335,7 +370,7 @@ class WhatsappApiMessage {
     }
 
     /**
-     * generateNewTemplateComponent
+     * setTemplateComponent
      *
      * Creates the template message component structure following whatsapp api specs
      *
@@ -411,4 +446,64 @@ class WhatsappApiMessage {
             'text' => $param['text'] ?? '',
         ]);
     }
+
+    private function setFlow(string $name): void {
+        $this->setType(MessageType::INTERACTIVE);
+        $this->interactive = $this->interactive ?? [
+            'type' => 'flow',
+            'body' => [
+                'text' => 'Not shown in draft mode',
+            ],
+            'action' => [
+                'name' => 'flow',
+                'parameters' => [
+                    'flow_message_version' => config('whatsapp.flow_msg_version'),
+                    'flow_action' => 'navigate',
+                    'mode' => config('whatsapp.flow_mode'),
+                    'flow_cta' => 'Not shown in draft mode',
+                    'flow_action_payload' => [
+                        'screen' => 'WELCOME_SCREEN',
+                    ],
+                ],
+            ],
+        ];
+
+        $this->interactive['action']['parameters']['flow_name'] = $name;
+    }
 }
+
+// {
+// "messaging_product": "whatsapp",
+// "to": "{{customer-phone-number}}",
+// "recipient_type": "individual",
+// "type": "interactive",
+// "interactive": {
+//     "type": "flow",
+//     "header": {
+//         "type": "text",
+//         "text": "Not shown in draft mode"
+//     },
+//     "body": {
+//         "text": "Not shown in draft mode"
+//     },
+//     "footer": {
+//         "text": "Not shown in draft mode"
+//     },
+//     "action": {
+//         "name": "flow",
+//         "parameters": {
+//             "flow_message_version": "3",
+//             "flow_action": "navigate",
+//             "flow_token": "<FLOW_TOKEN>",
+//             "flow_name": "",
+//             "flow_cta": "Not shown in draft mode",
+//             "mode": "draft",
+//             "flow_action_payload": {
+//                 "screen": "<SCREEN_ID>",
+//                 "data": {
+//                     "<CUSTOM_KEY>": "<CUSTOM_VALUE>"
+//                 }
+//             }
+//         }
+//     }
+// }
