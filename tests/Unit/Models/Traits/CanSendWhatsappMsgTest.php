@@ -39,13 +39,13 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
             MessageType::TEXT->value => [MessageType::TEXT, 'Test text message'],
             MessageType::REACTION->value => [MessageType::REACTION, '👍'],
             MessageType::TEMPLATE->value => [MessageType::TEMPLATE, ['name' => 'test_template', 'components' => [['type' => MessageComponent::BODY, 'parameters' => [['text' => 'some text']]]]]],
+            MessageType::INTERACTIVE->value => [MessageType::INTERACTIVE, ['flow' => 'test_flow']],
 
             MessageType::AUDIO->value => [MessageType::AUDIO, ''],
             MessageType::BUTTON->value => [MessageType::BUTTON, ''],
             MessageType::CONTACTS->value => [MessageType::CONTACTS, ''],
             MessageType::DOCUMENT->value => [MessageType::DOCUMENT, ''],
             MessageType::IMAGE->value => [MessageType::IMAGE, ''],
-            MessageType::INTERACTIVE->value => [MessageType::INTERACTIVE, ''],
             MessageType::LOCATION->value => [MessageType::LOCATION, ''],
             MessageType::STICKER->value => [MessageType::STICKER, ''],
             MessageType::UNSUPPORTED->value => [MessageType::UNSUPPORTED, ''],
@@ -56,29 +56,42 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
     #[DataProvider('msgTypeDataset')]
     public function test__send_whatsapp_msg__it_should_call_the_correct_send_message_method_based_on_message_type(MessageType $messageType, array|string $data): void {
         $replyTo = null;
-        // remove the condition when all other message types are implemented
-        if ($messageType === MessageType::TEXT) {
-            $this->whatsappServiceMock
-                ->shouldReceive('send')
-                ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
-                ->once();
-        } elseif ($messageType === MessageType::REACTION) {
-            $replyTo = new WhatsappMessage;
-            $replyTo->whatsapp_message_id = '123456';
 
-            $this->whatsappServiceMock
-                ->shouldReceive('send')
-                ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
-                ->once();
-        } elseif ($messageType === MessageType::TEMPLATE) {
-            $this->whatsappServiceMock
-                ->shouldReceive('send')
-                ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
-                ->once();
-        } else {
-            Log::shouldReceive('warning')
-                ->with('Unsupported message type: ' . $messageType->value)
-                ->once();
+        // remove the condition when all other message types are implemented
+        switch ($messageType) {
+            case MessageType::TEXT:
+                $this->whatsappServiceMock
+                    ->shouldReceive('send')
+                    ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
+                    ->once();
+
+                break;
+            case MessageType::REACTION:
+                $replyTo = new WhatsappMessage;
+                $replyTo->whatsapp_message_id = '123456';
+
+                $this->whatsappServiceMock
+                    ->shouldReceive('send')
+                    ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
+                    ->once();
+                break;
+            case MessageType::TEMPLATE:
+                $this->whatsappServiceMock
+                    ->shouldReceive('send')
+                    ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
+                    ->once();
+                break;
+            case MessageType::INTERACTIVE:
+                $this->whatsappServiceMock
+                    ->shouldReceive('send')
+                    ->with(Mockery::type(WhatsappApiMessage::class), $this->user)
+                    ->once();
+                break;
+            default:
+                Log::shouldReceive('warning')
+                    ->with('Unsupported message type: ' . $messageType->value)
+                    ->once();
+                break;
         }
 
         $this->user->sendWhatsappMsg($messageType, $data, $replyTo);
@@ -115,6 +128,13 @@ class CanSendWhatsappMsgTest extends UnitTestCase {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Template message data must include a name.');
 
-        $this->user->sendWhatsappMsg(MessageType::TEMPLATE, ['template' => 'test_template']);
+        $this->user->sendWhatsappMsg(MessageType::TEMPLATE, []);
+    }
+
+    public function test__send_whatsapp_msg__it_should_require_flow_name(): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Interactive message data must include a flow name.');
+
+        $this->user->sendWhatsappMsg(MessageType::INTERACTIVE, []);
     }
 }
