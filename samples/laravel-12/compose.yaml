@@ -20,6 +20,7 @@ services:
         volumes:
             - .:/var/www/html
             - ../../:/opt/42dx/whatsapp-laravel-sdk
+            - ../../../:/var/www/42dx/whatsapp-laravel-sdk
         entrypoint: /bin/bash
         command: -c "ln -sfn /opt/42dx/whatsapp-laravel-sdk /var/www/html/vendor/42dx/whatsapp-laravel-sdk && exec /usr/local/bin/start-container"
         networks:
